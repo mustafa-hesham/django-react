@@ -13,13 +13,13 @@ class Category(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=50, unique=True)
-    price = models.DecimalField(decimal_places=2)
+    price = models.DecimalField(decimal_places=2, max_digits=10)
     quantity = models.PositiveIntegerField(default=0)
     SKU = models.CharField(max_length=15, unique=True)
-    weight = models.DecimalField(decimal_places=2)
+    weight = models.DecimalField(decimal_places=2, max_digits=10)
     is_available = models.BooleanField(default=True)
     description = models.TextField(max_length=500, blank=True)
-    color = models.CharField()
+    color = models.CharField(max_length=15)
     images = models.ImageField(upload_to="products")
     createdAt = models.DateTimeField(default=now, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
