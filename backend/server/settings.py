@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 secret_key_file = os.path.join(BASE_DIR, "server/secret_key.txt")
 
-with open(secret_key_file, "rb") as f:
+with open(secret_key_file) as f:
     SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!

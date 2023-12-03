@@ -1,8 +1,6 @@
 from django.db import models
 from django.utils.timezone import now
 
-# Create your models here.
-
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -20,7 +18,7 @@ class Product(models.Model):
     is_available = models.BooleanField(default=True)
     description = models.TextField(max_length=500, blank=True)
     color = models.CharField(max_length=15)
-    images = models.ImageField(upload_to="products")
+    images = models.ImageField(upload_to="images/products/")
     createdAt = models.DateTimeField(default=now, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
