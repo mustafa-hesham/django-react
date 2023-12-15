@@ -34,6 +34,10 @@ class AccountOverlayContainer extends PureComponent {
     document.addEventListener('mousedown', (e) => this.handleClickOutside(e));
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', (e) => this.handleClickOutside(e));
+  }
+
   handleClickOutside(e) {
     const {
       isOverlayToggled,
@@ -71,7 +75,7 @@ class AccountOverlayContainer extends PureComponent {
     return (
       <AccountOverlayComponent
         { ...this.containerProps() }
-        {...this.containerFunctions }
+        { ...this.containerFunctions }
       />
     );
   }
