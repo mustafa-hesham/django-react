@@ -49,8 +49,6 @@ class AccountOverlayContainer extends PureComponent {
       target,
     } = e;
 
-    console.log('HHH', accountRef.current);
-
     if (current && !current.contains(target) && isOverlayToggled && !accountRef.current.contains(target)) {
       toggleAccountOverlay(!isOverlayToggled);
     }
