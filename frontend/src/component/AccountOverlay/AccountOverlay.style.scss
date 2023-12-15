@@ -1,0 +1,25 @@
+.AccountOverlay {
+    height: 99%;
+    width: 100%;
+    position: absolute;
+    inset-inline-end: -550px;
+    inset-block-start: 0;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: whitesmoke;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    overflow: hidden;
+    transition-property: inset-inline-end;
+    transition-duration: 500ms;
+    transition-timing-function: ease-in-out;
+
+    @include desktop {
+        width: 500px;
+    }
+
+    &_Clicked {
+        inset-inline-end: 0;
+    }
+}

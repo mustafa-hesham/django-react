@@ -3,11 +3,18 @@ import ReactDOM from 'react-dom/client';
 import App from 'Component/App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import { getStore } from 'Store';
+import { Provider } from 'react-redux';
+
+const store = getStore();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
     <React.StrictMode>
-      <App />
+      <Provider store={ store }>
+        <App />
+      </Provider>
     </React.StrictMode>,
 );
 
