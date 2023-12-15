@@ -2,11 +2,12 @@ import './AccountOverlay.style.scss';
 
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
+import { RefType } from 'Type/Common.type';
 
 class AccountOverlayComponent extends PureComponent {
   static propTypes = {
     isOverlayToggled: PropTypes.bool.isRequired,
-    overlayRef: PropTypes.any.isRequired,
+    overlayRef: RefType.isRequired,
   };
 
   render() {

@@ -11,6 +11,9 @@
           ],
           "Style": [
             "./src/style/*"
+          ],
+          "Type": [
+            "./src/type/*"
           ]
       }
   }

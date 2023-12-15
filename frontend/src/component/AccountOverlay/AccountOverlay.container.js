@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlay.reducer';
+import { RefType } from 'Type/Common.type';
 
 import AccountOverlayComponent from './AccountOverlay.component';
 
@@ -17,7 +18,7 @@ class AccountOverlayContainer extends PureComponent {
   static propTypes = {
     isOverlayToggled: PropTypes.bool.isRequired,
     toggleAccountOverlay: PropTypes.func.isRequired,
-    accountRef: PropTypes.any.isRequired,
+    accountRef: RefType.isRequired,
   };
 
   state = {

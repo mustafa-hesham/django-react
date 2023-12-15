@@ -10,6 +10,7 @@ module.exports = override(
               'Component': './src/component',
               'Store': './src/store',
               'Style': './src/style',
+              'Type': './src/type',
             },
           },
         ],
