@@ -21,10 +21,6 @@ class AccountOverlayContainer extends PureComponent {
     accountRef: RefType.isRequired,
   };
 
-  state = {
-    isOverlayClicked: false,
-  };
-
   containerFunctions = {
     handleClickOutside: this.handleClickOutside.bind(this),
   };
