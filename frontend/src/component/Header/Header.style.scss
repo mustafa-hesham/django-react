@@ -1,0 +1,11 @@
+.Header {
+    height: 10vh;
+    background-color: $primary-background-color;
+    display: grid;
+    grid-template-columns: 70% 30%;
+
+    &-Right {
+        display: flex;
+        margin-block: auto;
+    }
+}

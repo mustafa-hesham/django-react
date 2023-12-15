@@ -1,0 +1,9 @@
+.Account {
+    &-Text {
+        font-size: $large-font-size;
+        color: $primary-font-color;
+        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        cursor: pointer;
+        margin-block: auto;
+    }
+}

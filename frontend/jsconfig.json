@@ -5,6 +5,12 @@
       "paths": {
           "Component/*": [
               "./src/component/*"
+          ],
+          "Store": [
+            "./src/store/*"
+          ],
+          "Style": [
+            "./src/style/*"
           ]
       }
   }
