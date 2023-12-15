@@ -1,9 +1,9 @@
-import React from 'react';
-import { PureComponent, createRef } from 'react';
-import AccountComponent from './Account.component';
 import PropTypes from 'prop-types';
+import React, { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlay.reducer';
+
+import AccountComponent from './Account.component';
 
 export const mapDispatchToProps = (dispatch) => ({
   toggleAccountOverlay: (isOverlayToggled) => dispatch(updateToggleAccountOverlay(isOverlayToggled)),

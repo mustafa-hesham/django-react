@@ -1,10 +1,11 @@
+import App from 'Component/App';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from 'Component/App';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import reportWebVitals from './reportWebVitals';
-import { getStore } from 'Store';
 import { Provider } from 'react-redux';
+import { getStore } from 'Store';
+
+import reportWebVitals from './reportWebVitals';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 const store = getStore();
 

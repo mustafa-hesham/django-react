@@ -1,8 +1,8 @@
-import React from 'react';
 import './Account.style.scss';
-import { PureComponent } from 'react';
+
 import AccountOverlay from 'Component/AccountOverlay';
 import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
 
 class AccountComponent extends PureComponent {
   static propTypes = {

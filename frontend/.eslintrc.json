@@ -12,7 +12,9 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "simple-import-sort",
+        "import"
     ],
     "rules": {
         "require-jsdoc" : 0,
@@ -25,6 +27,56 @@
                 "allowMultiline": false,
                 "children": true
             }
+        ],
+        "react/boolean-prop-naming": ["error", { "rule": "^is[A-Z]([A-Za-z0-9]?)+" }],
+        "react/state-in-constructor": "off",
+        "react/jsx-filename-extension": 0,
+        "react/prefer-stateless-function": 0,
+        "react/button-has-type": 0,
+        "no-magic-numbers": [
+            "error",
+            {
+                "ignore": [
+                    1,
+                    0,
+                    2,
+                    -1
+                ]
+            }
+        ],
+        "react/sort-comp": [
+            2,
+            {
+                "order": [
+                    "type-annotations",
+                    "static-variables",
+                    "static-methods",
+                    "instance-variables",
+                    "lifecycle",
+                    "everything-else",
+                    "render"
+                ]
+            }
+        ],
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error",
+        "import/first": "error",
+        "import/newline-after-import": "error",
+        "import/no-duplicates": "error",
+        "no-var": "error",
+        "prefer-destructuring": [
+            "error",
+            {
+                "array": false,
+                "object": true
+            },
+            {
+                "enforceForRenamedProperties": false
+            }
+        ],
+        "lines-between-class-members": [
+            "error",
+            "always"
         ]
     }
 }

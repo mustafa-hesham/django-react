@@ -1,7 +1,7 @@
-import React from 'react';
 import './App.scss';
-import { PureComponent } from 'react';
+
 import Header from 'Component/Header';
+import React, { PureComponent } from 'react';
 
 class AppComponent extends PureComponent {
   render() {
