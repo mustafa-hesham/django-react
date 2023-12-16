@@ -11,6 +11,7 @@ module.exports = override(
               'Store': './src/store',
               'Style': './src/style',
               'Type': './src/type',
+              'Util': './src/util',
             },
           },
         ],

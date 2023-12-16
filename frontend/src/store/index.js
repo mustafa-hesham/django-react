@@ -1,8 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import AccountOverlayReducer from 'Store/AccountOverlay/AccountOverlay.reducer';
 
-export const getStore = () => configureStore({
-  reducer: {
-    AccountOverlayReducer,
-  },
-});
+export function getStore() {
+  return configureStore({
+    reducer: {
+      AccountOverlayReducer,
+    },
+    devTools: process.env.NODE_ENV !== 'production',
+  });
+}
