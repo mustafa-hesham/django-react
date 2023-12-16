@@ -8,7 +8,7 @@
     margin-right: auto;
     background-color: whitesmoke;
     border-style: solid;
-    border-color: black;
+    border-color: $black;
     border-width: 1px;
     overflow: hidden;
     transition-property: inset-inline-end;
@@ -21,5 +21,62 @@
 
     &_Clicked {
         inset-inline-end: 0;
+    }
+
+    &-Title {
+        display: flex;
+        gap: 50px;
+        justify-content: center;
+
+        h2 {
+            user-select: none;
+        }
+    }
+
+    &-Login {
+        padding-block-start: 25%;
+    }
+
+    &-LoginForm {
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+    }
+
+    &-LoginTextField {
+        width: 80%;
+        height: 30px;
+        padding-inline-start: 10px;
+        transition-property: background-color;
+        transition-duration: 300ms;
+        transition-timing-function: ease-in-out;
+        border-radius: 5px;
+
+        &:focus {
+            background-color: $input-focus-background;
+
+            &::placeholder {
+                color: #5c7b5b;
+            }
+        }
+    }
+
+    &-LoginButton {
+        background-color: $primary-button-color;
+        width: 90px;
+        height: 40px;
+        color: $white;
+        font-size: 16px;
+        border: none;
+        transition-property: background-color;
+        transition-duration: 100ms;
+        transition-timing-function: ease-in-out;
+        border-radius: 3px;
+
+        &:hover {
+            background-color: $primary-button-color-hover;
+        }
     }
 }
