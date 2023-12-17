@@ -44,10 +44,8 @@ export function composeRequest(request, requestType) {
 
   const formattedFields = extractFields(operationFields).join(' ');
   const formattedAlias = formatAlias(operationAlias);
-  const extractedArgs = mapArgs(operationArgs).join(', ');
-  const formattedArgs = extractedArgs ? `(${extractedArgs})` : '';
 
-  return `${requestType} {${formattedAlias}${operationName} ${formattedArgs}{${formattedFields}}}`;
+  return `${requestType} {${formattedAlias}${operationName} ${mapArgs(operationArgs)}{${formattedFields}}}`;
 }
 
 export function extractFields(fields) {
@@ -59,17 +57,14 @@ export function extractFields(fields) {
       args,
     } = field;
 
-    const extractedArgs = mapArgs(args).join(', ');
-    const formattedArgs = extractedArgs ? `(${extractedArgs})` : '';
-
     return fields.length ?
-    `${formatAlias(alias)}${name} ${formattedArgs}{${mapFields(fields).join(' ')}}` :
+    `${formatAlias(alias)}${name} ${mapArgs(args)}{${mapFields(fields).join(' ')}}` :
     name;
   });
 }
 
 export function mapArgs(args) {
-  return args.map((arg) => {
+  const extractedArgs = args.map((arg) => {
     const {
       name,
       value,
@@ -77,6 +72,8 @@ export function mapArgs(args) {
 
     return `${name}: ${value}`;
   });
+
+  return extractedArgs.length ? `(${extractedArgs.join(', ')})` : '';
 }
 
 export function mapFields(fields) {
