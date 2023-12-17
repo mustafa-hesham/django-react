@@ -59,8 +59,11 @@ export function extractFields(fields) {
       args,
     } = field;
 
+    const extractedArgs = mapArgs(args).join(', ');
+    const formattedArgs = extractedArgs ? `(${extractedArgs})` : '';
+
     return fields.length ?
-    `${formatAlias(alias)}${name} (${mapArgs(args).join(', ')}){${mapFields(fields).join(' ')}}` :
+    `${formatAlias(alias)}${name} ${formattedArgs}{${mapFields(fields).join(' ')}}` :
     name;
   });
 }
