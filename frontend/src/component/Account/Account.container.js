@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlay.reducer';
-import { getAllProducts } from 'Util/Request';
 
 import AccountComponent from './Account.component';
 
@@ -31,8 +30,8 @@ class AccountContainer extends PureComponent {
       toggleAccountOverlay,
       isOverlayToggled,
     } = this.props;
+
     toggleAccountOverlay(!isOverlayToggled);
-    console.log('HHH', getAllProducts());
   }
 
   containerProps() {

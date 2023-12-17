@@ -1,26 +1,93 @@
 import {
   CONTENT_TYPE,
   GRAPHQL_URI,
-  REQUEST_METHOD } from './Request.config';
+  MUTATION_TYPE, QUERY_TYPE,
+  REQUEST_METHOD_POST } from './Request.config';
 
 export function getGraphqlURI() {
   const {
     location: { origin },
   } = window;
 
-  return `${ origin }${GRAPHQL_URI}`;
+  return `${origin}${GRAPHQL_URI}`;
 }
 
-export const getAllProducts = () => {
-  const query =`{products {name SKU}}`;
+export const fetchQuery = (query) => {
+  return fetchRequest(query, QUERY_TYPE);
+};
 
-  fetch(getGraphqlURI(), {
-    method: REQUEST_METHOD,
+export const fetchMutation = (mutation) => {
+  return fetchRequest(mutation, MUTATION_TYPE);
+};
+
+export const fetchRequest = async (request, requestType) => {
+  const response = await fetch(getGraphqlURI(), {
+    method: REQUEST_METHOD_POST,
     headers: { 'Content-Type': CONTENT_TYPE },
     body: JSON.stringify({
-      query: query,
+      query: composeRequest(request, requestType),
     }),
-  })
-      .then((res) => res.json())
-      .then((res) => console.log(res.data));
+  });
+
+  const { data } = await response.json();
+
+  return data;
 };
+
+export function composeRequest(request, requestType) {
+  const {
+    name: operationName,
+    alias: operationAlias,
+    fields: operationFields,
+    args: operationArgs,
+  } = request;
+
+  const formattedFields = extractFields(operationFields).join(' ');
+  const formattedAlias = formatAlias(operationAlias);
+  const extractedArgs = mapArgs(operationArgs).join(', ');
+  const formattedArgs = extractedArgs ? `(${extractedArgs})` : '';
+
+  return `${requestType} {${formattedAlias}${operationName} ${formattedArgs}{${formattedFields}}}`;
+}
+
+export function extractFields(fields) {
+  return fields.map((field) => {
+    const {
+      name,
+      alias,
+      fields,
+      args,
+    } = field;
+
+    if (fields.length === 0) {
+      return name;
+    }
+
+    return `${formatAlias(alias)}${name} (${mapArgs(args).join(', ')}){${mapFields(fields).join(' ')}}`;
+  });
+}
+
+export function mapArgs(args) {
+  return args.map((arg) => {
+    const {
+      name,
+      value,
+    } = arg;
+
+    return `${name}: ${value}`;
+  });
+}
+
+export function mapFields(fields) {
+  return fields.map((field) => {
+    const {
+      name,
+    } = field;
+
+    return name;
+  });
+}
+
+export function formatAlias(alias) {
+  return alias?? `${alias}:`;
+}
