@@ -59,11 +59,9 @@ export function extractFields(fields) {
       args,
     } = field;
 
-    if (fields.length === 0) {
-      return name;
-    }
-
-    return `${formatAlias(alias)}${name} (${mapArgs(args).join(', ')}){${mapFields(fields).join(' ')}}`;
+    return fields.length ?
+    `${formatAlias(alias)}${name} (${mapArgs(args).join(', ')}){${mapFields(fields).join(' ')}}` :
+    name;
   });
 }
 

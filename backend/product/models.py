@@ -29,7 +29,4 @@ class Product(models.Model):
         return self.quantity > 0
 
     def setIsAvailable(self):
-        if self.quantity == 0:
-            self.is_available = False
-        else:
-            self.is_available = True
+        self.is_available = self.getIsAvailable()
