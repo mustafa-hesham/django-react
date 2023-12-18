@@ -36,29 +36,35 @@ export const fetchRequest = async (request, requestType) => {
 
 export function composeRequest(request, requestType) {
   const {
-    name: operationName,
     alias: operationAlias,
-    fields: operationFields,
+    name: operationName,
     args: operationArgs,
+    fields: operationFields,
   } = request;
 
-  const formattedFields = extractFields(operationFields).join(' ');
-  const formattedAlias = formatAlias(operationAlias);
+  return `${requestType} {${formatRequest(
+      operationAlias,
+      operationName,
+      operationArgs,
+      extractFields(operationFields).join(' '),
+  )}}`;
+}
 
-  return `${requestType} {${formattedAlias}${operationName} ${mapArgs(operationArgs)}{${formattedFields}}}`;
+export function formatRequest(alias, name, args, formattedFields) {
+  return `${formatAlias(alias)}${name} ${mapArgs(args)}{${formattedFields}}`;
 }
 
 export function extractFields(fields) {
   return fields.map((field) => {
     const {
-      name,
       alias,
-      fields,
+      name,
       args,
+      fields,
     } = field;
 
     return fields.length ?
-    `${formatAlias(alias)}${name} ${mapArgs(args)}{${mapFields(fields).join(' ')}}` :
+    formatRequest(alias, name, args, mapFields(fields).join(' ')) :
     name;
   });
 }
