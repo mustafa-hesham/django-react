@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { createRef, PureComponent } from 'react';
+import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlay.reducer';
 import { RefType } from 'Type/Common.type';

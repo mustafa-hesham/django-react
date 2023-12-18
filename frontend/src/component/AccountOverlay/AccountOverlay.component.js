@@ -1,7 +1,7 @@
 import './AccountOverlay.style.scss';
 
 import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { RefType } from 'Type/Common.type';
 
 class AccountOverlayComponent extends PureComponent {

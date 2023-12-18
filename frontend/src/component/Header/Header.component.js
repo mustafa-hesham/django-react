@@ -1,7 +1,7 @@
 import './Header.style.scss';
 
 import Account from 'Component/Account';
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 
 class HeaderComponent extends PureComponent {
   render() {

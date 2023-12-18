@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { createBrowserRouter as router, RouterProvider } from 'react-router-dom';
 
 import { ROUTES } from './Router.config';

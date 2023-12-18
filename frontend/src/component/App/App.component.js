@@ -2,7 +2,7 @@ import './App.scss';
 
 import Header from 'Component/Header';
 import Router from 'Component/Router';
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { Provider } from 'react-redux';
 import { getStore } from 'Store';
 
