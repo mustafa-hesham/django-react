@@ -17,6 +17,9 @@
           ],
           "Util": [
             "./src/util/*"
+          ],
+          "Route": [
+            "./src/route/*"
           ]
       }
   }

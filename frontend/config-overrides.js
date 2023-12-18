@@ -12,6 +12,7 @@ module.exports = override(
               'Style': './src/style',
               'Type': './src/type',
               'Util': './src/util',
+              'Route': './src/route',
             },
           },
         ],

@@ -1,14 +1,22 @@
 import './App.scss';
 
 import Header from 'Component/Header';
+import Router from 'Component/Router';
 import React, { PureComponent } from 'react';
+import { Provider } from 'react-redux';
+import { getStore } from 'Store';
 
 class AppComponent extends PureComponent {
   render() {
+    const store = getStore();
+
     return (
-      <div className="App">
-        <Header />
-      </div>
+      <Provider store={ store }>
+        <div className="App">
+          <Header />
+          <Router />
+        </div>
+      </Provider>
     );
   }
 }
