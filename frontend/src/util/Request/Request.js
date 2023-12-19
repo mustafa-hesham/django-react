@@ -6,7 +6,7 @@ import {
 
 export function getGraphqlURI() {
   const {
-    location: { origin },
+    location: { origin }
   } = window;
 
   return `${origin}${GRAPHQL_URI}`;
@@ -25,8 +25,8 @@ export const fetchRequest = async (request, requestType) => {
     method: REQUEST_METHOD_POST,
     headers: { 'Content-Type': CONTENT_TYPE },
     body: JSON.stringify({
-      query: composeRequest(request, requestType),
-    }),
+      query: composeRequest(request, requestType)
+    })
   });
 
   const { data } = await response.json();
@@ -39,14 +39,14 @@ export function composeRequest(request, requestType) {
     alias: operationAlias,
     name: operationName,
     args: operationArgs,
-    fields: operationFields,
+    fields: operationFields
   } = request;
 
   return `${requestType} {${formatRequest(
       operationAlias,
       operationName,
       operationArgs,
-      extractFields(operationFields).join(' '),
+      extractFields(operationFields).join(' ')
   )}}`;
 }
 
@@ -60,7 +60,7 @@ export function extractFields(fields) {
       alias,
       name,
       args,
-      fields,
+      fields
     } = field;
 
     return fields.length ?
@@ -73,7 +73,7 @@ export function mapArgs(args) {
   const extractedArgs = args.map((arg) => {
     const {
       name,
-      value,
+      value
     } = arg;
 
     return `${name}: ${value}`;
@@ -85,7 +85,7 @@ export function mapArgs(args) {
 export function mapFields(fields) {
   return fields.map((field) => {
     const {
-      name,
+      name
     } = field;
 
     return name;

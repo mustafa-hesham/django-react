@@ -33,7 +33,7 @@ export class Field {
   addArgument(name, value) {
     this.args.push({
       name,
-      value,
+      value
     });
 
     return this;
