@@ -7,7 +7,7 @@ import { RefType } from 'Type/Common.type';
 class AccountOverlayComponent extends PureComponent {
   static propTypes = {
     isOverlayToggled: PropTypes.bool.isRequired,
-    overlayRef: RefType.isRequired,
+    overlayRef: RefType.isRequired
   };
 
   renderTitle() {
@@ -44,7 +44,7 @@ class AccountOverlayComponent extends PureComponent {
   render() {
     const {
       isOverlayToggled,
-      overlayRef,
+      overlayRef
     } = this.props;
 
     const className = isOverlayToggled ? 'AccountOverlay AccountOverlay_Clicked' : 'AccountOverlay';

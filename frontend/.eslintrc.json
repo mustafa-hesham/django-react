@@ -79,6 +79,7 @@
             "always"
         ],
         "no-multiple-empty-lines": ["error", { "max": 1, "maxBOF": 0, "maxEOF": 0}],
-        "react/react-in-jsx-scope": "off"
+        "react/react-in-jsx-scope": "off",
+        "comma-dangle": ["error", "never"]
     }
 }

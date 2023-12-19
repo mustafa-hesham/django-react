@@ -4,8 +4,8 @@ import AccountOverlayReducer from 'Store/AccountOverlay/AccountOverlay.reducer';
 export function getStore() {
   return configureStore({
     reducer: {
-      AccountOverlayReducer,
+      AccountOverlayReducer
     },
-    devTools: process.env.NODE_ENV !== 'production',
+    devTools: process.env.NODE_ENV !== 'production'
   });
 }

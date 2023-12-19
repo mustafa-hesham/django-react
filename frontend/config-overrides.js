@@ -12,10 +12,10 @@ module.exports = override(
               'Style': './src/style',
               'Type': './src/type',
               'Util': './src/util',
-              'Route': './src/route',
-            },
-          },
-        ],
+              'Route': './src/route'
+            }
+          }
+        ]
     ),
     addWebpackModuleRule(
         {
@@ -26,10 +26,10 @@ module.exports = override(
             {
               loader: 'sass-loader',
               options: {
-                additionalData: '@import "./src/style/main.scss";',
-              },
-            },
-          ],
-        },
-    ),
+                additionalData: '@import "./src/style/main.scss";'
+              }
+            }
+          ]
+        }
+    )
 );

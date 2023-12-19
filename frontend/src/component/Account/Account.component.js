@@ -9,14 +9,14 @@ class AccountComponent extends PureComponent {
   static propTypes = {
     toggleOverlay: PropTypes.func.isRequired,
     isOverlayToggled: PropTypes.bool.isRequired,
-    accountRef: RefType.isRequired,
+    accountRef: RefType.isRequired
   };
 
   render() {
     const {
       toggleOverlay,
       isOverlayToggled,
-      accountRef,
+      accountRef
     } = this.props;
 
     return (

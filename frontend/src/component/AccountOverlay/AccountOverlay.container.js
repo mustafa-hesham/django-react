@@ -7,22 +7,22 @@ import { RefType } from 'Type/Common.type';
 import AccountOverlayComponent from './AccountOverlay.component';
 
 export const mapDispatchToProps = (dispatch) => ({
-  toggleAccountOverlay: (isOverlayToggled) => dispatch(updateToggleAccountOverlay(isOverlayToggled)),
+  toggleAccountOverlay: (isOverlayToggled) => dispatch(updateToggleAccountOverlay(isOverlayToggled))
 });
 
 export const mapStateToProps = (state) => ({
-  isOverlayToggled: state.AccountOverlayReducer?.isAccountOverlayToggled,
+  isOverlayToggled: state.AccountOverlayReducer?.isAccountOverlayToggled
 });
 
 class AccountOverlayContainer extends PureComponent {
   static propTypes = {
     isOverlayToggled: PropTypes.bool.isRequired,
     toggleAccountOverlay: PropTypes.func.isRequired,
-    accountRef: RefType.isRequired,
+    accountRef: RefType.isRequired
   };
 
   containerFunctions = {
-    handleClickOutside: this.handleClickOutside.bind(this),
+    handleClickOutside: this.handleClickOutside.bind(this)
   };
 
   ref = createRef();
@@ -39,15 +39,15 @@ class AccountOverlayContainer extends PureComponent {
     const {
       isOverlayToggled,
       toggleAccountOverlay,
-      accountRef,
+      accountRef
     } = this.props;
 
     const {
-      current,
+      current
     } = this.ref;
 
     const {
-      target,
+      target
     } = e;
 
     if (current && !current.contains(target) && isOverlayToggled && !accountRef.current.contains(target)) {
@@ -57,14 +57,14 @@ class AccountOverlayContainer extends PureComponent {
 
   containerProps() {
     const {
-      isOverlayToggled,
+      isOverlayToggled
     } = this.props;
 
     const overlayRef = this.ref;
 
     return {
       isOverlayToggled,
-      overlayRef,
+      overlayRef
     };
   }
 

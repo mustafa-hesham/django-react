@@ -6,21 +6,21 @@ import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlay.
 import AccountComponent from './Account.component';
 
 export const mapDispatchToProps = (dispatch) => ({
-  toggleAccountOverlay: (isOverlayToggled) => dispatch(updateToggleAccountOverlay(isOverlayToggled)),
+  toggleAccountOverlay: (isOverlayToggled) => dispatch(updateToggleAccountOverlay(isOverlayToggled))
 });
 
 export const mapStateToProps = (state) => ({
-  isOverlayToggled: state.AccountOverlayReducer.isAccountOverlayToggled,
+  isOverlayToggled: state.AccountOverlayReducer.isAccountOverlayToggled
 });
 
 class AccountContainer extends PureComponent {
   static propTypes = {
     toggleAccountOverlay: PropTypes.func.isRequired,
-    isOverlayToggled: PropTypes.bool.isRequired,
+    isOverlayToggled: PropTypes.bool.isRequired
   };
 
   containerFunctions = {
-    toggleOverlay: this.toggleOverlay.bind(this),
+    toggleOverlay: this.toggleOverlay.bind(this)
   };
 
   ref = createRef();
@@ -28,7 +28,7 @@ class AccountContainer extends PureComponent {
   toggleOverlay() {
     const {
       toggleAccountOverlay,
-      isOverlayToggled,
+      isOverlayToggled
     } = this.props;
 
     toggleAccountOverlay(!isOverlayToggled);
@@ -36,12 +36,12 @@ class AccountContainer extends PureComponent {
 
   containerProps() {
     const {
-      isOverlayToggled,
+      isOverlayToggled
     } = this.props;
 
     return {
       isOverlayToggled,
-      accountRef: this.ref,
+      accountRef: this.ref
     };
   }
 
