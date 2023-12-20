@@ -5,6 +5,10 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { RefType } from 'Type/Common.type';
 
+import {
+  LOGIN
+} from './Account.config';
+
 class AccountComponent extends PureComponent {
   static propTypes = {
     toggleOverlay: PropTypes.func.isRequired,
@@ -27,7 +31,7 @@ class AccountComponent extends PureComponent {
           role='Button'
           ref={ accountRef }
         >
-          Account
+          { LOGIN }
         </p>
         <AccountOverlay
           isOverlayToggled={ isOverlayToggled }

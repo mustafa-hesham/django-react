@@ -12,18 +12,21 @@ export function getGraphqlURI() {
   return `${origin}${GRAPHQL_URI}`;
 }
 
-export const fetchQuery = (query) => {
-  return fetchRequest(query, QUERY_TYPE);
+export const fetchQuery = (query, token = null) => {
+  return fetchRequest(query, QUERY_TYPE, token);
 };
 
-export const fetchMutation = (mutation) => {
-  return fetchRequest(mutation, MUTATION_TYPE);
+export const fetchMutation = (mutation, token = null) => {
+  return fetchRequest(mutation, MUTATION_TYPE, token);
 };
 
-export const fetchRequest = async (request, requestType) => {
+export const fetchRequest = async (request, requestType, token = null) => {
   const response = await fetch(getGraphqlURI(), {
     method: REQUEST_METHOD_POST,
-    headers: { 'Content-Type': CONTENT_TYPE },
+    headers: {
+      'Content-Type': CONTENT_TYPE,
+      'Authorization': `JWT ${token}`
+    },
     body: JSON.stringify({
       query: composeRequest(request, requestType)
     })

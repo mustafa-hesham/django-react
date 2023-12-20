@@ -20,6 +20,9 @@
           ],
           "Route": [
             "./src/route/*"
+          ],
+          "Query": [
+            "./src/query/*"
           ]
       }
   }

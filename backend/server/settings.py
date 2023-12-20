@@ -140,7 +140,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 
 GRAPHENE = {
-    "SCHEMA": "product.schema.schema",
+    "SCHEMA": "server.schema.schema",
     "MIDDLEWARE": [
         "graphql_jwt.middleware.JSONWebTokenMiddleware",
     ],

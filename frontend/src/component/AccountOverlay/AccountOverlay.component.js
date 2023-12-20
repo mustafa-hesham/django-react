@@ -1,5 +1,9 @@
 import './AccountOverlay.style.scss';
 
+import {
+  CREATE_ACCOUNT,
+  LOGIN } from 'Component/Account/Account.config';
+import AccountLogin from 'Component/AccountLogin';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { RefType } from 'Type/Common.type';
@@ -13,8 +17,8 @@ class AccountOverlayComponent extends PureComponent {
   renderTitle() {
     return (
       <div className='AccountOverlay-Title'>
-        <h2>Login</h2>
-        <h2>Create account</h2>
+        <h2>{ LOGIN }</h2>
+        <h2>{ CREATE_ACCOUNT }</h2>
       </div>
     );
   }
@@ -22,21 +26,7 @@ class AccountOverlayComponent extends PureComponent {
   renderLogin() {
     return (
       <div className='AccountOverlay-Login'>
-        <form className='AccountOverlay-LoginForm'>
-          <input
-            type="text"
-            name="username"
-            placeholder='Username'
-            className='AccountOverlay-LoginTextField'
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder='Password'
-            className='AccountOverlay-LoginTextField'
-          />
-          <input type="submit" value="Login" className='AccountOverlay-LoginButton'/>
-        </form>
+        <AccountLogin />
       </div>
     );
   }
