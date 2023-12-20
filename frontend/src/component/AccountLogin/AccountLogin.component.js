@@ -5,7 +5,8 @@ import { PureComponent } from 'react';
 
 class AccountLoginComponent extends PureComponent {
   static propTypes = {
-    handleSubmit: PropTypes.func.isRequired
+    handleSubmit: PropTypes.func.isRequired,
+    customerName: PropTypes.string.isRequired
   };
 
   renderLogin() {
@@ -35,6 +36,14 @@ class AccountLoginComponent extends PureComponent {
   }
 
   render() {
+    const {
+      customerName
+    } = this.props;
+
+    if (customerName) {
+      return null;
+    }
+
     return this.renderLogin();
   }
 }

@@ -30,6 +30,7 @@ export function authTokenFields() {
   return [
     'token',
     'refreshToken',
+    'payload',
     'refreshExpiresIn'
   ];
 };

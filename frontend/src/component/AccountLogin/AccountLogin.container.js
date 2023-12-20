@@ -1,18 +1,39 @@
+import PropTypes from 'prop-types';
+import { getAuthToken } from 'Query/Token.query';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlayReducer.reducer';
+import { customerSignIn } from 'Store/Customer/CustomerReducer.reducer';
+import { setTokens } from 'Util/Token';
 
 import AccountLoginComponent from './AccountLogin.component';
 
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (dispatch) => ({
+  customerSignIn: (customer)=> dispatch(customerSignIn(customer)),
+  toggleAccountOverlay: (isOverlayToggled) => dispatch(updateToggleAccountOverlay(isOverlayToggled))
+});
 
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (state) => ({
+  customerName: state.CustomerReducer.customer.username
+});
 
 class AccountLoginContainer extends PureComponent {
+  static propTypes = {
+    customerSignIn: PropTypes.func.isRequired,
+    toggleAccountOverlay: PropTypes.func.isRequired,
+    customerName: PropTypes.string.isRequired
+  };
+
   containerFunctions = {
     handleSubmit: this.handleSubmit.bind(this)
   };
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
+    const {
+      customerSignIn,
+      toggleAccountOverlay
+    } = this.props;
+
     event.preventDefault();
 
     const {
@@ -26,10 +47,30 @@ class AccountLoginContainer extends PureComponent {
       }
     } = event;
 
-    console.log(usernameValue, passwordValue);
+    const {
+      tokenAuth: {
+        token,
+        refreshToken,
+        payload: {
+          username
+        }
+      }
+    } = await getAuthToken(usernameValue, passwordValue);
+
+    setTokens(token, refreshToken);
+    toggleAccountOverlay(false);
+    customerSignIn({ username: username });
   }
 
-  containerProps() {}
+  containerProps() {
+    const {
+      customerName
+    } = this.props;
+
+    return {
+      customerName
+    };
+  }
 
   render() {
     return (

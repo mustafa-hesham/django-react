@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlay.reducer';
+import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlayReducer.reducer';
 
 import AccountComponent from './Account.component';
 
@@ -10,13 +10,15 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 export const mapStateToProps = (state) => ({
-  isOverlayToggled: state.AccountOverlayReducer.isAccountOverlayToggled
+  isOverlayToggled: state.AccountOverlayReducer.isAccountOverlayToggled,
+  customerName: state.CustomerReducer.customer.username
 });
 
 class AccountContainer extends PureComponent {
   static propTypes = {
     toggleAccountOverlay: PropTypes.func.isRequired,
-    isOverlayToggled: PropTypes.bool.isRequired
+    isOverlayToggled: PropTypes.bool.isRequired,
+    customerName: PropTypes.string.isRequired
   };
 
   containerFunctions = {
@@ -36,11 +38,13 @@ class AccountContainer extends PureComponent {
 
   containerProps() {
     const {
-      isOverlayToggled
+      isOverlayToggled,
+      customerName
     } = this.props;
 
     return {
       isOverlayToggled,
+      customerName,
       accountRef: this.ref
     };
   }

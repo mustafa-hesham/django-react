@@ -79,7 +79,9 @@ export function mapArgs(args) {
       value
     } = arg;
 
-    return `${name}: ${value}`;
+    const formattedArgs = typeof value === 'string'? `"${value}"` : value;
+
+    return `${name}: ${formattedArgs}`;
   });
 
   return extractedArgs.length ? `(${extractedArgs.join(', ')})` : '';

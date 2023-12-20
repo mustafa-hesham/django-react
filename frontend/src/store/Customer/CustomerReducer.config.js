@@ -1,0 +1,1 @@
+export const CUSTOMER_SIGN_IN = 'CUSTOMER_SIGN_IN';

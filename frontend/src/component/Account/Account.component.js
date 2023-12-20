@@ -13,14 +13,16 @@ class AccountComponent extends PureComponent {
   static propTypes = {
     toggleOverlay: PropTypes.func.isRequired,
     isOverlayToggled: PropTypes.bool.isRequired,
-    accountRef: RefType.isRequired
+    accountRef: RefType.isRequired,
+    customerName: PropTypes.string.isRequired
   };
 
   render() {
     const {
       toggleOverlay,
       isOverlayToggled,
-      accountRef
+      accountRef,
+      customerName
     } = this.props;
 
     return (
@@ -31,7 +33,7 @@ class AccountComponent extends PureComponent {
           role='Button'
           ref={ accountRef }
         >
-          { LOGIN }
+          { customerName ? `Welcome, ${customerName}` : LOGIN }
         </p>
         <AccountOverlay
           isOverlayToggled={ isOverlayToggled }
