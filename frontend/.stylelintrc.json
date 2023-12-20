@@ -35,6 +35,7 @@
         "block-no-empty": true,
         "shorthand-property-no-redundant-values": true,
         "at-rule-no-unknown": null,
-        "media-feature-range-notation": null
+        "media-feature-range-notation": null,
+        "import-notation": null
     }
 }
