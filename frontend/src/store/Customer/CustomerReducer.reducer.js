@@ -1,10 +1,11 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
+import { getCustomerData } from 'Util/Customer';
 
 import { CUSTOMER_SIGN_IN } from './CustomerReducer.config';
 
 const getInitialState = () => ({
   customer: {
-    username: ''
+    username: getCustomerData() ? getCustomerData().username : ''
   }
 });
 
