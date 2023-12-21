@@ -1,6 +1,5 @@
-import {
-  getCookie
-} from 'Util/Cookies';
+import { getCookie } from 'Util/Cookies';
+import { getAuthTokens } from 'Util/Token';
 
 import {
   CONTENT_TYPE,
@@ -16,15 +15,19 @@ export function getGraphqlURI() {
   return `${origin}${GRAPHQL_URI}`;
 }
 
-export const fetchQuery = (query, token = null) => {
-  return fetchRequest(query, QUERY_TYPE, token);
+export const fetchQuery = (query) => {
+  return fetchRequest(query, QUERY_TYPE);
 };
 
-export const fetchMutation = (mutation, token = null) => {
-  return fetchRequest(mutation, MUTATION_TYPE, token);
+export const fetchMutation = (mutation) => {
+  return fetchRequest(mutation, MUTATION_TYPE);
 };
 
-export const fetchRequest = async (request, requestType, token = null) => {
+export const fetchRequest = async (request, requestType) => {
+  const {
+    token
+  } = getAuthTokens();
+
   const response = await fetch(getGraphqlURI(), {
     method: REQUEST_METHOD_POST,
     headers: {
