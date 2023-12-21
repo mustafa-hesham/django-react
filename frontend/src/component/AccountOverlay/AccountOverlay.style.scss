@@ -1,5 +1,5 @@
 .AccountOverlay {
-    height: 99%;
+    height: 100%;
     width: 100%;
     position: absolute;
     inset-inline-end: -550px;
@@ -7,6 +7,7 @@
     margin-left: auto;
     margin-right: auto;
     background-color: whitesmoke;
+    box-sizing: border-box;
     border-style: solid;
     border-color: $black;
     border-width: 1px;
