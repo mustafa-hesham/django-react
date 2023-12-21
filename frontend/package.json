@@ -10,6 +10,7 @@
     "cookie-universal": "^2.2.2",
     "csstools": "^0.1.5",
     "customize-cra": "^1.0.0",
+    "noop-ts": "^1.0.7",
     "react": "^18.2.0",
     "react-app-rewired": "^2.2.1",
     "react-dom": "^18.2.0",

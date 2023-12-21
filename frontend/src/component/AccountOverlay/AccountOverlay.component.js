@@ -4,6 +4,7 @@ import {
   CREATE_ACCOUNT,
   LOGIN } from 'Component/Account/Account.config';
 import AccountLogin from 'Component/AccountLogin';
+import CloseButton from 'Component/CloseButton';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import { RefType } from 'Type/Common.type';
@@ -11,7 +12,8 @@ import { RefType } from 'Type/Common.type';
 class AccountOverlayComponent extends PureComponent {
   static propTypes = {
     isOverlayToggled: PropTypes.bool.isRequired,
-    overlayRef: RefType.isRequired
+    overlayRef: RefType.isRequired,
+    closeAccountOverlay: PropTypes.func.isRequired
   };
 
   renderTitle() {
@@ -19,6 +21,18 @@ class AccountOverlayComponent extends PureComponent {
       <div className='AccountOverlay-Title'>
         <h2>{ LOGIN }</h2>
         <h2>{ CREATE_ACCOUNT }</h2>
+      </div>
+    );
+  }
+
+  renderCloseButton() {
+    const {
+      closeAccountOverlay
+    } = this.props;
+
+    return (
+      <div className='AccountOverlay-CloseButton'>
+        <CloseButton Click={ closeAccountOverlay }/>
       </div>
     );
   }
@@ -44,6 +58,7 @@ class AccountOverlayComponent extends PureComponent {
         className={ className }
         ref={ overlayRef }
       >
+        { this.renderCloseButton() }
         { this.renderTitle() }
         { this.renderLogin() }
       </div>

@@ -3,6 +3,7 @@
     width: 100%;
     position: absolute;
     inset-inline-end: -100%;
+    visibility: hidden;
     inset-block-start: 0;
     margin-left: auto;
     margin-right: auto;
@@ -12,8 +13,8 @@
     border-color: $black;
     border-width: 1px;
     overflow: hidden;
-    transition-property: inset-inline-end;
-    transition-duration: 500ms;
+    transition-property: inset-inline-end, visibility;
+    transition-duration: 500ms, 1s;
     transition-timing-function: ease-out;
 
     @include desktop {
@@ -23,6 +24,7 @@
 
     &_Clicked {
         inset-inline-end: 0;
+        visibility: visible;
     }
 
     &-Title {
@@ -33,5 +35,10 @@
         h2 {
             user-select: none;
         }
+    }
+
+    &-CloseButton {
+        display: flex;
+        justify-content: end;
     }
 }

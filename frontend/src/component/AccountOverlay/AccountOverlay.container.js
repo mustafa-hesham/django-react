@@ -22,7 +22,8 @@ class AccountOverlayContainer extends PureComponent {
   };
 
   containerFunctions = {
-    handleClickOutside: this.handleClickOutside.bind(this)
+    handleClickOutside: this.handleClickOutside.bind(this),
+    closeAccountOverlay: this.closeAccountOverlay.bind(this)
   };
 
   ref = createRef();
@@ -53,6 +54,19 @@ class AccountOverlayContainer extends PureComponent {
     if (current && !current.contains(target) && isOverlayToggled && !accountRef.current.contains(target)) {
       toggleAccountOverlay(!isOverlayToggled);
     }
+  }
+
+  closeAccountOverlay() {
+    const {
+      toggleAccountOverlay,
+      isOverlayToggled
+    } = this.props;
+
+    if (!isOverlayToggled) {
+      return;
+    }
+
+    toggleAccountOverlay(false);
   }
 
   containerProps() {

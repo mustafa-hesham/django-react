@@ -1,0 +1,13 @@
+.CloseButton {
+    &-Icon {
+        height: 35px;
+        width: 35px;
+        margin-inline-end: 10px;
+        padding-block-start: 10px;
+        filter: $primary-button-color-svg-filter;
+
+        &:hover {
+            filter: $primary-button-color-hover-svg-filter;
+        }
+    }
+}
