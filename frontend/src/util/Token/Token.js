@@ -1,22 +1,23 @@
 import { AUTH_TOKEN, REFRESH_TOKEN } from 'Component/AccountLogin/AccountLogin.config';
+import { getCookie, removeCookie, setCookie } from 'Util/Cookies';
 
-export function setTokens(token, refreshToken) {
-  localStorage.setItem(AUTH_TOKEN, token);
-  localStorage.setItem(REFRESH_TOKEN, refreshToken);
+export function setAuthTokens(token, refreshToken) {
+  setCookie(AUTH_TOKEN, token);
+  setCookie(REFRESH_TOKEN, refreshToken);
 }
 
-export function getTokens() {
+export function getAuthTokens() {
   return {
-    token: localStorage.getItem(AUTH_TOKEN),
-    refreshToken: localStorage.getItem(REFRESH_TOKEN)
+    token: getCookie(AUTH_TOKEN),
+    refreshToken: getCookie(REFRESH_TOKEN)
   };
 }
 
 export function setRefreshToken(refreshToken) {
-  localStorage.setItem(REFRESH_TOKEN, refreshToken);
+  setCookie(REFRESH_TOKEN, refreshToken);
 }
 
 export function removeAuthTokens() {
-  localStorage.removeItem(AUTH_TOKEN);
-  localStorage.removeItem(REFRESH_TOKEN);
+  removeCookie(AUTH_TOKEN);
+  removeCookie(REFRESH_TOKEN);
 }

@@ -3,3 +3,4 @@ export const REQUEST_METHOD_POST = 'POST';
 export const CONTENT_TYPE = 'application/json';
 export const QUERY_TYPE = 'query';
 export const MUTATION_TYPE = 'mutation';
+export const CSRF_TOKEN = 'csrftoken';

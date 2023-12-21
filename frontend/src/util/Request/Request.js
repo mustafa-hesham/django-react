@@ -1,6 +1,10 @@
 import {
+  getCookie
+} from 'Util/Cookies';
+
+import {
   CONTENT_TYPE,
-  GRAPHQL_URI,
+  CSRF_TOKEN, GRAPHQL_URI,
   MUTATION_TYPE, QUERY_TYPE,
   REQUEST_METHOD_POST } from './Request.config';
 
@@ -25,7 +29,8 @@ export const fetchRequest = async (request, requestType, token = null) => {
     method: REQUEST_METHOD_POST,
     headers: {
       'Content-Type': CONTENT_TYPE,
-      'Authorization': `JWT ${token}`
+      'Authorization': `JWT ${token}`,
+      'X-CSRFToken': getCookie(CSRF_TOKEN)
     },
     body: JSON.stringify({
       query: composeRequest(request, requestType)

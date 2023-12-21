@@ -4,7 +4,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlayReducer.reducer';
 import { customerSignIn } from 'Store/Customer/CustomerReducer.reducer';
-import { setTokens } from 'Util/Token';
+import { setAuthTokens } from 'Util/Token';
 
 import AccountLoginComponent from './AccountLogin.component';
 
@@ -57,7 +57,7 @@ class AccountLoginContainer extends PureComponent {
       }
     } = await getAuthToken(usernameValue, passwordValue);
 
-    setTokens(token, refreshToken);
+    setAuthTokens(token, refreshToken);
     toggleAccountOverlay(false);
     customerSignIn({ username: username });
   }

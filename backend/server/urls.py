@@ -18,12 +18,10 @@ from django.contrib import admin
 from django.urls import path
 from graphene_django.views import GraphQLView
 from django.views.generic import TemplateView
-from django.views.generic.base import RedirectView
-from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True))),
+    path("graphql/", GraphQLView.as_view(graphiql=True)),
     path("", TemplateView.as_view(template_name="index.html")),
     path("service-worker.js", TemplateView.as_view(template_name="service-worker.js")),
     path(
