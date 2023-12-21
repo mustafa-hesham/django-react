@@ -9,3 +9,7 @@ export function getCustomerData() {
 
   return customer ? JSON.parse(customer) : null;
 }
+
+export function removeCustomerData() {
+  localStorage.removeItem(CUSTOMER);
+}
