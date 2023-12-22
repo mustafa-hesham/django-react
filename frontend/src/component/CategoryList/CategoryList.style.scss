@@ -1,0 +1,29 @@
+.CategoryList {
+    margin-inline-start: 10%;
+    width: 100%;
+
+    &-CategoryLinksList {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    &-CategoryLink {
+        float: inline-start;
+        margin-inline-end: 15px;
+    }
+
+    &-Link {
+        color: $primary-font-color;
+        text-decoration: none;
+        font-size: 1.5rem;
+        transition-property: color;
+        transition-duration: 200ms;
+        transition-timing-function: ease-in-out;
+
+        &:hover {
+            color: $primary-button-color-hover;
+        }
+    }
+}

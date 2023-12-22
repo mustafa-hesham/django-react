@@ -1,6 +1,7 @@
 import './Header.style.scss';
 
 import Account from 'Component/Account';
+import CategoryList from 'Component/CategoryList';
 import { PureComponent } from 'react';
 
 class HeaderComponent extends PureComponent {
@@ -8,6 +9,7 @@ class HeaderComponent extends PureComponent {
     return (
       <div className='Header'>
         <div className='Header-Left'>
+          <CategoryList />
         </div>
         <div className='Header-Right'>
           <Account />

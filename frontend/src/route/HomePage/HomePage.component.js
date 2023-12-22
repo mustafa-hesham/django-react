@@ -1,9 +1,13 @@
+import Header from 'Component/Header';
 import { PureComponent } from 'react';
 
 class HomePageComponent extends PureComponent {
   render() {
     return (
-      <h1>Home</h1>
+      <div className='HomePage'>
+        <Header />
+        <h1>Home</h1>
+      </div>
     );
   }
 }

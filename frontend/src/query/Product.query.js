@@ -20,3 +20,11 @@ export function getAllProductsFieldList() {
     'description'
   ];
 }
+
+export function getProductsByCategoryName(categoryName) {
+  const query = new Field('productsByCategory')
+      .addArgument('category', categoryName)
+      .addFieldList(getAllProductsFieldList());
+
+  return fetchQuery(query);
+}

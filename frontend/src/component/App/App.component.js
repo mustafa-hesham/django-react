@@ -13,8 +13,9 @@ class AppComponent extends PureComponent {
     return (
       <Provider store={ store }>
         <div className="App">
-          <Header />
-          <Router />
+          <Router>
+            <Header />
+          </Router>
         </div>
       </Provider>
     );

@@ -22,12 +22,14 @@ class AccountLoginComponent extends PureComponent {
             name="username"
             placeholder='Username'
             className='AccountLogin-LoginTextField'
+            required
           />
           <input
             type="password"
             name="password"
             placeholder='Password'
             className='AccountLogin-LoginTextField'
+            required
           />
           <input type="submit" value="Login" className='AccountLogin-LoginButton'/>
         </form>

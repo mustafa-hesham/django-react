@@ -1,12 +1,19 @@
 import { PureComponent } from 'react';
-import { createBrowserRouter as router, RouterProvider } from 'react-router-dom';
-
-import { ROUTES } from './Router.config';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import CategoryPage from 'Route/CategoryPage';
+import Home from 'Route/HomePage';
 
 class RouterComponent extends PureComponent {
   render() {
     return (
-      <RouterProvider router={ router(ROUTES) } />
+      <Router>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route exact path="/:category">
+          <CategoryPage />
+        </Route>
+      </Router>
     );
   }
 }

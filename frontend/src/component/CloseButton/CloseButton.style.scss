@@ -1,4 +1,7 @@
 .CloseButton {
+    display: flex;
+    justify-content: end;
+
     &-Icon {
         height: 35px;
         width: 35px;

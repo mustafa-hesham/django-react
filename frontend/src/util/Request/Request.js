@@ -12,7 +12,8 @@ export function getGraphqlURI() {
     location: { origin }
   } = window;
 
-  return `${origin}${GRAPHQL_URI}`;
+  // Replace port number during development.
+  return `${origin.replace('3', '8')}${GRAPHQL_URI}`;
 }
 
 export const fetchQuery = (query) => {
