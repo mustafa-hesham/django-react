@@ -3,16 +3,24 @@ import { getProductsByCategoryName } from 'Query/Product.query';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { updateCategoryProducts } from 'Store/Category/CategoryReducer.reducer';
+import { getCategoryLocalStorage, updateCategoryLocalStorage } from 'Util/Category';
 
 import CategoryPageComponent from './CategoryPage.component';
 
-export const mapStateToProps = () => ({});
+export const mapStateToProps = (state) => ({
+  categoryName: state.CategoryReducer.category.name
+});
 
-export const mapDispatchToProps = () => ({});
+export const mapDispatchToProps = (dispatch) => ({
+  updateCategoryData: ({ name, products }) => dispatch(updateCategoryProducts({ name, products }))
+});
 
 class CategoryPageContainer extends Component {
   static propTypes = {
-    match: PropTypes.object.isRequired
+    match: PropTypes.object.isRequired,
+    updateCategoryData: PropTypes.func.isRequired,
+    categoryName: PropTypes.string.isRequired
   };
 
   state = {
@@ -27,6 +35,7 @@ class CategoryPageContainer extends Component {
 
   componentDidUpdate(prevProps) {
     const {
+      categoryName,
       match: {
         params: {
           category
@@ -42,7 +51,7 @@ class CategoryPageContainer extends Component {
       }
     } = prevProps;
 
-    if (category !== prevCategory) {
+    if (category !== prevCategory || !categoryName) {
       this.getCategoryProducts();
     }
   }
@@ -61,12 +70,34 @@ class CategoryPageContainer extends Component {
 
   async getCategoryProducts() {
     const {
-      productsByCategory = []
-    } = await getProductsByCategoryName(this.getCategory());
+      updateCategoryData
+    } = this.props;
 
-    this.setState({
-      categoryProducts: productsByCategory
-    });
+    const category = this.getCategory();
+
+    const {
+      name: localStorageCategoryName,
+      products: localStorageProducts
+    } = getCategoryLocalStorage();
+
+    if (category === localStorageCategoryName) {
+      this.setState({
+        categoryProducts: localStorageProducts
+      });
+
+      return;
+    } else {
+      const {
+        productsByCategory = []
+      } = await getProductsByCategoryName(category);
+
+      updateCategoryData({ name: category, products: productsByCategory });
+      updateCategoryLocalStorage(category, productsByCategory);
+
+      this.setState({
+        categoryProducts: productsByCategory
+      });
+    }
   }
 
   containerProps() {

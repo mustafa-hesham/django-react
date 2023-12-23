@@ -16,6 +16,7 @@
     transition-property: inset-inline-end, visibility;
     transition-duration: 500ms, 1s;
     transition-timing-function: ease-out;
+    z-index: 1;
 
     @include desktop {
         width: 500px;
