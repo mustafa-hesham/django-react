@@ -2,9 +2,13 @@
     &-ProductList {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        grid-gap: 20px;
-        margin-inline: 60px;
+        grid-gap: 2%;
+        margin-inline: 10%;
         place-items: center center;
         margin-block-start: 35px;
+
+        @include mobile {
+            grid-template-columns: repeat(2, 1fr);
+        }
     }
 }

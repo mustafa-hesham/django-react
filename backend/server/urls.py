@@ -27,6 +27,10 @@ urlpatterns = [
         "graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True))
     ),  # exempted during development.
     path("", ensure_csrf_cookie(TemplateView.as_view(template_name="index.html"))),
+    path(
+        "<category>",
+        ensure_csrf_cookie(TemplateView.as_view(template_name="index.html")),
+    ),
     path("service-worker.js", TemplateView.as_view(template_name="service-worker.js")),
     path(
         "service-worker.js.map",

@@ -136,7 +136,7 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-MEDIA_ROOT = os.path.join(BASE_DIR.parent, "frontend/public/media")
+MEDIA_ROOT = os.path.join(BASE_DIR.parent, "frontend/public/static/media")
 MEDIA_URL = "/media/"
 
 GRAPHENE = {
@@ -165,4 +165,5 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "http://192.168.1.5:3000",
 ]
