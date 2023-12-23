@@ -21,6 +21,10 @@ class CategoryPageContainer extends Component {
 
   containerFunctions = {};
 
+  componentDidMount() {
+    this.getCategoryProducts();
+  }
+
   componentDidUpdate(prevProps) {
     const {
       match: {

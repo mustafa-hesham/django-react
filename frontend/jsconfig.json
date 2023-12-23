@@ -4,7 +4,7 @@
       "jsx": "react",
       "paths": {
           "Component/*": [
-              "./src/component/*"
+            "./src/component/*"
           ],
           "Store": [
             "./src/store/*"

@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'Crima Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Crima Regular'), url('/src/style/fonts/crima/Crima.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Lato Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: url('/src/style/fonts/lato/Lato-Regular.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Semiflora Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: url('/src/style/fonts/semiflora/Semiflora.otf') format('OpenType');
+  }
+
+  @font-face {
+    font-family: 'MRKMaston Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: url('/src/style/fonts/mrk-maston/MRKMaston-Regular.woff') format('woff');
+  }

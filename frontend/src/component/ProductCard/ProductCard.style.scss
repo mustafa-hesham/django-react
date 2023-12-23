@@ -1,0 +1,71 @@
+/* stylelint-disable number-max-precision */
+
+.ProductCard{
+    background-color: rgb(238 233 233);
+    transition-property: background-color;
+    transition-duration: 300ms;
+    transition-timing-function: ease-in-out;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+
+    &:hover {
+        background-color: rgb(240 236 230);
+    }
+
+    &-Images {
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    &-Image {
+        width: 100%;
+        height: auto;
+        transition-property: transform;
+        transition-duration: 300ms;
+        transition-timing-function: ease-in-out;
+        overflow: hidden;
+        transform: scale(1.03);
+
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
+
+    &-Name {
+        font-family: $semiflora-regular;
+        font-style: bold;
+        font-size: 22px;
+        text-align: center;
+        padding-block: 20px;
+        padding-inline: 10px;
+    }
+
+    &-Price {
+        text-align: center;
+        font-family: $MRKMaston-Regular;
+        font-size: 20px;
+        padding-block-end: 20px;
+    }
+
+    &-AddToCart {
+        font-family: $semiflora-regular;
+        font-size: 22px;
+        text-align: center;
+        background-color: $primary-button-color;
+        color: $white;
+        border-radius: 0 0 15px 15px;
+        transition-property: background-color;
+        transition-duration: 300ms;
+        transition-timing-function: ease-in-out;
+        text-transform: uppercase;
+
+        p {
+            padding-block: 5px;
+        }
+
+        &:hover {
+            background-color: $primary-button-color-hover;
+        }
+    }
+}

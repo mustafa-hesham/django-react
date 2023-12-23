@@ -1,8 +1,11 @@
 .Account {
-    &-Text {
-        font-size: $large-font-size;
+    display: flex;
+    gap: 15%;
+
+    &-Text, &-Logout {
+        font-size: $normal-font-size;
         color: $primary-font-color;
-        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-family: $crima-regular;
         cursor: pointer;
         margin-block: auto;
         user-select: none;

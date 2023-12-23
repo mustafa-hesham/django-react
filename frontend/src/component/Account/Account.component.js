@@ -14,8 +14,32 @@ class AccountComponent extends PureComponent {
     toggleOverlay: PropTypes.func.isRequired,
     isOverlayToggled: PropTypes.bool.isRequired,
     accountRef: RefType.isRequired,
-    customerName: PropTypes.string.isRequired
+    customerName: PropTypes.string.isRequired,
+    logoutCustomer: PropTypes.func.isRequired
   };
+
+  renderLogOut() {
+    const {
+      customerName,
+      logoutCustomer
+    } = this.props;
+
+    if (!customerName) {
+      return null;
+    }
+
+    return (
+      <div
+        className='Account-Logout'
+      >
+        <p
+          role='Button'
+          onClick={ logoutCustomer }
+        >Logout
+        </p>
+      </div>
+    );
+  }
 
   render() {
     const {
@@ -33,8 +57,9 @@ class AccountComponent extends PureComponent {
           role='Button'
           ref={ accountRef }
         >
-          { customerName ? `Welcome, ${customerName}` : LOGIN }
+          { customerName ? customerName : LOGIN }
         </p>
+        { this.renderLogOut() }
         <AccountOverlay
           isOverlayToggled={ isOverlayToggled }
           accountRef ={ accountRef }

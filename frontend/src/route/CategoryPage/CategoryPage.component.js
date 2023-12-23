@@ -1,30 +1,37 @@
 import './CategoryPage.style.scss';
 
 import Header from 'Component/Header';
+import ProductCard from 'Component/ProductCard';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
+import { ProductType } from 'Type/Product.type';
 
 class CategoryPageComponent extends PureComponent {
   static propTypes = {
     category: PropTypes.string.isRequired,
-    categoryProducts: PropTypes.arrayOf(PropTypes.object)
+    categoryProducts: PropTypes.arrayOf(ProductType)
   };
 
   static defaultProps = {
     categoryProducts: []
   };
 
-  renderProductListGrid() {
+  renderProductCards() {
     const {
-      category,
       categoryProducts
     } = this.props;
 
-    console.log(categoryProducts);
+    if (!categoryProducts || !categoryProducts.length) {
+      return null;
+    }
 
+    return categoryProducts.map((product, index) => <ProductCard key={ index } product={ product } />);
+  }
+
+  renderProductListGrid() {
     return (
       <div className='CategoryPage-ProductList'>
-        { category }
+        { this.renderProductCards() }
       </div>
     );
   }

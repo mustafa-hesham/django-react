@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { createRef, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlayReducer.reducer';
+import { logOut } from 'Util/Customer';
 
 import AccountComponent from './Account.component';
 
@@ -22,7 +23,8 @@ class AccountContainer extends PureComponent {
   };
 
   containerFunctions = {
-    toggleOverlay: this.toggleOverlay.bind(this)
+    toggleOverlay: this.toggleOverlay.bind(this),
+    logoutCustomer: this.logoutCustomer.bind(this)
   };
 
   ref = createRef();
@@ -34,6 +36,11 @@ class AccountContainer extends PureComponent {
     } = this.props;
 
     toggleAccountOverlay(!isOverlayToggled);
+  }
+
+  logoutCustomer() {
+    logOut();
+    location.reload();
   }
 
   containerProps() {

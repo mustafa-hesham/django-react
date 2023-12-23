@@ -1,3 +1,7 @@
+import { removeCookie } from 'Util/Cookies';
+import { CSRF_TOKEN } from 'Util/Request';
+import { removeAuthTokens } from 'Util/Token';
+
 import { CUSTOMER } from './Customer.config';
 
 export function setCustomerData(customer) {
@@ -12,4 +16,10 @@ export function getCustomerData() {
 
 export function removeCustomerData() {
   localStorage.removeItem(CUSTOMER);
+}
+
+export function logOut() {
+  removeAuthTokens();
+  removeCustomerData();
+  removeCookie(CSRF_TOKEN);
 }
