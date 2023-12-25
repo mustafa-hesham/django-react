@@ -14,7 +14,7 @@ class AppContainer extends PureComponent {
     if (getCategoryLocalStorage()) {
       return;
     } else {
-      updateCategoryLocalStorage({ name: '', products: [] });
+      updateCategoryLocalStorage('', []);
     }
   }
 
