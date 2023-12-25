@@ -33,6 +33,10 @@ class CategoryPageContainer extends Component {
 
   containerFunctions = {};
 
+  componentDidMount() {
+    this.getCategoryProductsQuery();
+  }
+
   componentDidUpdate(prevProps) {
     const {
       categoryName,
@@ -75,22 +79,32 @@ class CategoryPageContainer extends Component {
 
     const category = this.getCategory();
     const {
-      name: localStorageCategoryName,
-      products: localStorageProducts
+      name: localStorageCategoryName = '',
+      products: localStorageProducts = []
     } = getCategoryLocalStorage();
 
     if (localStorageCategoryName === category && Array.isArray(localStorageProducts)) {
       updateCategoryData({ name: category, products: localStorageProducts });
     } else {
-      const {
-        productsByCategory = [],
-        message: errorMessage
-      } = await getProductsByCategoryName(category);
+      this.getCategoryProductsQuery();
+    }
+  }
 
-      if (!errorMessage) {
-        updateCategoryData({ name: category, products: productsByCategory });
-        updateCategoryLocalStorage(category, productsByCategory);
-      }
+  async getCategoryProductsQuery() {
+    const {
+      updateCategoryData
+    } = this.props;
+
+    const category= this.getCategory();
+
+    const {
+      productsByCategory = [],
+      message: errorMessage
+    } = await getProductsByCategoryName(category);
+
+    if (!errorMessage) {
+      updateCategoryData({ name: category, products: productsByCategory });
+      updateCategoryLocalStorage(category, productsByCategory);
     }
   }
 
