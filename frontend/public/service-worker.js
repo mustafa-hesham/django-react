@@ -36,7 +36,11 @@ self.addEventListener('fetch', async (event) => {
       const id = CryptoJS.MD5(body.query).toString();
       return cache.match(id).then((cachedResponse) => {
         const fetchedResponse = fetch(event.request).then(async (networkResponse) => {
-          cache.put(id, networkResponse.clone());
+          const networkResponseClone = networkResponse.clone();
+          const { errors } = await networkResponseClone.json();
+          if (!errors) {
+            cache.put(id, networkResponse.clone());
+          }
 
           return networkResponse;
         });

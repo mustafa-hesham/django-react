@@ -41,9 +41,9 @@ export const fetchRequest = async (request, requestType) => {
     })
   });
 
-  const { data } = await response.json();
+  const { data, errors } = await response.json();
 
-  return data;
+  return errors? errors[0] : data;
 };
 
 export function composeRequest(request, requestType) {
