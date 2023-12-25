@@ -4,12 +4,14 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { updateCategoryProducts } from 'Store/Category/CategoryReducer.reducer';
+import { ProductType } from 'Type/Product.type';
 import { getCategoryLocalStorage, updateCategoryLocalStorage } from 'Util/Category';
 
 import CategoryPageComponent from './CategoryPage.component';
 
 export const mapStateToProps = (state) => ({
-  categoryName: state.CategoryReducer.category.name
+  categoryName: state.CategoryReducer?.category.name,
+  categoryProducts: state.CategoryReducer?.category.products
 });
 
 export const mapDispatchToProps = (dispatch) => ({
@@ -20,18 +22,16 @@ class CategoryPageContainer extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     updateCategoryData: PropTypes.func.isRequired,
-    categoryName: PropTypes.string.isRequired
+    categoryName: PropTypes.string,
+    categoryProducts: PropTypes.arrayOf(ProductType)
   };
 
-  state = {
+  static defaultProps = {
+    categoryName: '',
     categoryProducts: []
   };
 
   containerFunctions = {};
-
-  componentDidMount() {
-    this.getCategoryProducts();
-  }
 
   componentDidUpdate(prevProps) {
     const {
@@ -74,18 +74,13 @@ class CategoryPageContainer extends Component {
     } = this.props;
 
     const category = this.getCategory();
-
     const {
       name: localStorageCategoryName,
       products: localStorageProducts
     } = getCategoryLocalStorage();
 
-    if (category === localStorageCategoryName) {
-      this.setState({
-        categoryProducts: localStorageProducts
-      });
-
-      return;
+    if (localStorageCategoryName === category && localStorageProducts !== null) {
+      updateCategoryData({ name: category, products: localStorageProducts });
     } else {
       const {
         productsByCategory = []
@@ -93,17 +88,13 @@ class CategoryPageContainer extends Component {
 
       updateCategoryData({ name: category, products: productsByCategory });
       updateCategoryLocalStorage(category, productsByCategory);
-
-      this.setState({
-        categoryProducts: productsByCategory
-      });
     }
   }
 
   containerProps() {
     const {
       categoryProducts
-    } = this.state;
+    } = this.props;
 
     return {
       category: this.getCategory(),

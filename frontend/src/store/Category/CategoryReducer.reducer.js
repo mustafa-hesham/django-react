@@ -3,12 +3,29 @@ import { getCategoryLocalStorage } from 'Util/Category';
 
 import { UPDATE_CATEGORY_PRODUCTS } from './CategoryReducer.config';
 
-const getInitialState = () => ({
-  category: {
-    name: getCategoryLocalStorage().name ? getCategoryLocalStorage().name : '',
-    products: getCategoryLocalStorage().products ? getCategoryLocalStorage().products : []
+const getInitialState = () => {
+  if (!getCategoryLocalStorage()) {
+    return {
+      category: {
+        name: '',
+        products: []
+      }
+    };
   }
-});
+
+  const {
+    name = '',
+    products = []
+  } = getCategoryLocalStorage();
+
+  return {
+    category: {
+      name: name,
+      products: products
+    }
+
+  };
+};
 
 export const updateCategoryProducts = createAction(UPDATE_CATEGORY_PRODUCTS);
 

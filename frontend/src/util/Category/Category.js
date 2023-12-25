@@ -14,3 +14,7 @@ export function getCategoryLocalStorage() {
 
   return category ? JSON.parse(category) : null;
 }
+
+export function removeCategoryLocalStorage() {
+  localStorage.removeItem(CATEGORY);
+}

@@ -19,7 +19,7 @@ const isLocalhost = Boolean(
 );
 
 export function register(config) {
-  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
@@ -104,12 +104,13 @@ function checkValidServiceWorker(swUrl, config) {
       .then((response) => {
       // Ensure service worker exists, and that we really are getting a JS file.
         const contentType = response.headers.get('content-type');
+
         if (
           // eslint-disable-next-line no-magic-numbers
           response.status === 404 ||
         (contentType != null && contentType.indexOf('javascript') === -1)
         ) {
-        // No service worker found. Probably a different app. Reload the page.
+          // No service worker found. Probably a different app. Reload the page.
           navigator.serviceWorker.ready.then((registration) => {
             registration.unregister().then(() => {
               window.location.reload();
@@ -117,6 +118,7 @@ function checkValidServiceWorker(swUrl, config) {
           });
         } else {
         // Service worker found. Proceed as normal.
+          console.log('Service worker registered', config);
           registerValidSW(swUrl, config);
         }
       })
