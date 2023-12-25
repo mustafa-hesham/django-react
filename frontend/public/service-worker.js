@@ -1,16 +1,13 @@
 /* eslint-disable no-magic-numbers */
 /* eslint-disable new-cap */
-importScripts(
-    'https://storage.googleapis.com/workbox-cdn/releases/6.4.1/workbox-sw.js'
-);
-importScripts('https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js');
-importScripts('https://cdn.jsdelivr.net/npm/idb-keyval@3/dist/idb-keyval-iife.min.js');
+importScripts('./sw-dependencies/workbox-sw.js');
+importScripts('./sw-dependencies/md5.js');
 
 workbox.core.clientsClaim();
 
 workbox.routing.registerRoute(
     /(jpe?g|png|gif|svg)/,
-    new workbox.strategies.StaleWhileRevalidate({
+    new workbox.strategies.CacheFirst({
       cacheName: 'images',
       plugins: [
         new workbox.expiration.ExpirationPlugin({ maxEntries: 50, maxAge: 3600 * 60 })

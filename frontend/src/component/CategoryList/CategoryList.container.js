@@ -33,7 +33,8 @@ class CategoryListContainer extends PureComponent {
 
   async getAllCategoriesNames() {
     const {
-      categories
+      categories,
+      message: errorMessage
     } = await getAllCategories();
 
     const fetchedCategoriesNames = [];
@@ -43,9 +44,11 @@ class CategoryListContainer extends PureComponent {
         fetchedCategoriesNames.push(category.name);
       });
 
-      this.setState({
-        categoriesNames: fetchedCategoriesNames
-      });
+      if (!errorMessage) {
+        this.setState({
+          categoriesNames: fetchedCategoriesNames
+        });
+      }
     }
   }
 

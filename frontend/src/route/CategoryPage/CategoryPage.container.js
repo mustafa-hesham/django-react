@@ -83,10 +83,14 @@ class CategoryPageContainer extends Component {
       updateCategoryData({ name: category, products: localStorageProducts });
     } else {
       const {
-        productsByCategory = []
+        productsByCategory = [],
+        message: errorMessage
       } = await getProductsByCategoryName(category);
-      updateCategoryData({ name: category, products: productsByCategory });
-      updateCategoryLocalStorage(category, productsByCategory);
+
+      if (!errorMessage) {
+        updateCategoryData({ name: category, products: productsByCategory });
+        updateCategoryLocalStorage(category, productsByCategory);
+      }
     }
   }
 
