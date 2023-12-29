@@ -2,21 +2,16 @@ import './Header.style.scss';
 
 import Account from 'Component/Account';
 import CategoryList from 'Component/CategoryList';
-import { PureComponent } from 'react';
 
-class HeaderComponent extends PureComponent {
-  render() {
-    return (
-      <div className='Header'>
-        <div className='Header-Left'>
-          <CategoryList />
-        </div>
-        <div className='Header-Right'>
-          <Account />
-        </div>
+export default function Header() {
+  return (
+    <div className='Header'>
+      <div className='Header-Left'>
+        <CategoryList />
       </div>
-    );
-  }
-}
-
-export default HeaderComponent;
+      <div className='Header-Right'>
+        <Account />
+      </div>
+    </div>
+  );
+};

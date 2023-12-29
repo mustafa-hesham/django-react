@@ -1,46 +1,54 @@
 import './CategoryList.style.scss';
 
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { getAllCategories } from 'Query/Category.query';
+import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
-class CategoryListComponent extends PureComponent {
-  static propTypes = {
-    categoriesNames: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
-  };
+export default function CategoryList() {
+  const [fetchedCategoriesNames, updateFetchedCategoriesNames] = useState([]);
 
-  renderCategoryLink(categoryName, index) {
-    return (
-      <li className='CategoryList-CategoryLink' key={ categoryName + '_' + index }>
-        <NavLink to={ '/' + categoryName } className='CategoryList-Link'>{ categoryName }</NavLink>
-      </li>
-    );
+  useEffect(() => {
+    getAllCategoriesNames().then((categories) => {
+      updateFetchedCategoriesNames(categories);
+    });
+  }, []);
+
+  if (!fetchedCategoriesNames) {
+    return null;
   }
 
-  renderCategoryLinks() {
-    const {
-      categoriesNames
-    } = this.props;
-
-    if (!categoriesNames) {
-      return null;
-    }
-    return (
+  return (
+    <div className='CategoryList'>
       <div className='CategoryList-CategoryLinks'>
         <ul className='CategoryList-CategoryLinksList'>
-          { categoriesNames.map(this.renderCategoryLink) }
+          { fetchedCategoriesNames.map(renderCategoryLink) }
         </ul>
       </div>
-    );
+    </div>
+  );
+};
+
+function renderCategoryLink(categoryName, index) {
+  return (
+    <li className='CategoryList-CategoryLink' key={ categoryName + '_' + index }>
+      <NavLink to={ '/' + categoryName } className='CategoryList-Link'>{ categoryName }</NavLink>
+    </li>
+  );
+};
+
+async function getAllCategoriesNames() {
+  const {
+    categories,
+    message: errorMessage
+  } = await getAllCategories();
+
+  const fetchedCategoriesNames = [];
+
+  if (categories && categories.length) {
+    categories.forEach((category) => {
+      fetchedCategoriesNames.push(category.name);
+    });
   }
 
-  render() {
-    return (
-      <div className='CategoryList'>
-        { this.renderCategoryLinks() }
-      </div>
-    );
-  }
-}
-
-export default CategoryListComponent;
+  return errorMessage ? [] : fetchedCategoriesNames;
+};

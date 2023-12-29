@@ -1,72 +1,61 @@
 import './Account.style.scss';
 
 import AccountOverlay from 'Component/AccountOverlay';
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
-import { RefType } from 'Type/Common.type';
+import { createRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlayReducer.reducer';
+import { logOut } from 'Util/Customer';
 
 import {
   LOGIN
 } from './Account.config';
 
-class AccountComponent extends PureComponent {
-  static propTypes = {
-    toggleOverlay: PropTypes.func.isRequired,
-    isOverlayToggled: PropTypes.bool.isRequired,
-    accountRef: RefType.isRequired,
-    customerName: PropTypes.string.isRequired,
-    logoutCustomer: PropTypes.func.isRequired
-  };
+export default function Account() {
+  const accountRef = createRef();
+  const dispatch = useDispatch();
+  const isOverlayToggled = useSelector((state) => state.AccountOverlayReducer.isAccountOverlayToggled);
+  const customerName= useSelector((state) => state.CustomerReducer.customer.username);
 
-  renderLogOut() {
-    const {
-      customerName,
-      logoutCustomer
-    } = this.props;
-
-    if (!customerName) {
-      return null;
-    }
-
-    return (
-      <div
-        className='Account-Logout'
+  return (
+    <div className='Account'>
+      <p
+        className='Account-Text'
+        onClick={ () => dispatch(updateToggleAccountOverlay(!isOverlayToggled)) }
+        role='Button'
+        ref={ accountRef }
       >
-        <p
-          role='Button'
-          onClick={ logoutCustomer }
-        >Logout
-        </p>
-      </div>
-    );
+        { customerName ? customerName : LOGIN }
+      </p>
+      { renderLogOut() }
+      <AccountOverlay
+        isOverlayToggled={ isOverlayToggled }
+        accountRef ={ accountRef }
+      />
+    </div>
+  );
+};
+
+function renderLogOut() {
+  const customerName= useSelector((state) => state.CustomerReducer.customer.username);
+
+  if (!customerName) {
+    return null;
   }
 
-  render() {
-    const {
-      toggleOverlay,
-      isOverlayToggled,
-      accountRef,
-      customerName
-    } = this.props;
+  return (
+    <div
+      className='Account-Logout'
+    >
+      <p
+        role='Button'
+        onClick={ logoutCustomer }
+      >Logout
+      </p>
+    </div>
+  );
+};
 
-    return (
-      <div className='Account'>
-        <p
-          className='Account-Text'
-          onClick={ toggleOverlay }
-          role='Button'
-          ref={ accountRef }
-        >
-          { customerName ? customerName : LOGIN }
-        </p>
-        { this.renderLogOut() }
-        <AccountOverlay
-          isOverlayToggled={ isOverlayToggled }
-          accountRef ={ accountRef }
-        />
-      </div>
-    );
-  }
-}
-
-export default AccountComponent;
+function logoutCustomer() {
+  logOut();
+  location.reload();
+};
