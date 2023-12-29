@@ -55,16 +55,18 @@ async function handleSubmit(event, dispatch) {
 
   const {
     tokenAuth: {
-      token,
-      refreshToken,
+      token = '',
+      refreshToken = '',
       payload: {
-        username
-      }
-    }
+        username = ''
+      } = {}
+    } = {}
   } = await getAuthToken(usernameValue, passwordValue);
 
-  setAuthTokens(token, refreshToken);
-  dispatch(updateToggleAccountOverlay(false));
-  dispatch(customerSignIn({ username: username }));
-  setCustomerData({ username: username });
+  if (token) {
+    setAuthTokens(token, refreshToken);
+    dispatch(updateToggleAccountOverlay(false));
+    dispatch(customerSignIn({ username: username }));
+    setCustomerData({ username: username });
+  }
 };

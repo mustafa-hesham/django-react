@@ -1,0 +1,10 @@
+.Cart {
+    margin-block: auto;
+    margin-inline-start: 20%;
+
+    &-CartIcon {
+        filter: $primary-font-color-filter;
+        height: 25px;
+        cursor: pointer;
+    }
+}
