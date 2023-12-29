@@ -45,7 +45,6 @@ export default function AccountOverlay(props) {
 };
 
 function handleClickOutside(e, dispatch, accountRef, overlayRef, isOverlayToggled) {
-  e.preventDefault();
   const {
     current
   } = overlayRef;
