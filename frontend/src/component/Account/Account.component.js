@@ -1,7 +1,7 @@
 import './Account.style.scss';
 
 import AccountOverlay from 'Component/AccountOverlay';
-import { createRef } from 'react';
+import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlayReducer.reducer';
 import { logOut } from 'Util/Customer';
@@ -11,7 +11,7 @@ import {
 } from './Account.config';
 
 export default function Account() {
-  const accountRef = createRef();
+  const accountRef = useRef(null);
   const dispatch = useDispatch();
   const isOverlayToggled = useSelector((state) => state.AccountOverlayReducer.isAccountOverlayToggled);
   const customerName= useSelector((state) => state.CustomerReducer.customer.username);

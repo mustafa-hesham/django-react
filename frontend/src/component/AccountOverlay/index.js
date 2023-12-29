@@ -1,1 +1,1 @@
-export { default } from './AccountOverlay.container';
+export { default } from './AccountOverlay.component';

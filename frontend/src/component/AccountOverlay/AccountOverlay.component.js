@@ -5,65 +5,89 @@ import {
   LOGIN } from 'Component/Account/Account.config';
 import AccountLogin from 'Component/AccountLogin';
 import CloseButton from 'Component/CloseButton';
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
-import { RefType } from 'Type/Common.type';
+import { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlayReducer.reducer';
 
-class AccountOverlayComponent extends PureComponent {
-  static propTypes = {
-    isOverlayToggled: PropTypes.bool.isRequired,
-    overlayRef: RefType.isRequired,
-    closeAccountOverlay: PropTypes.func.isRequired
-  };
+export default function AccountOverlay(props) {
+  const { accountRef, isOverlayToggled } = props;
+  const overlayRef = useRef(null);
+  const dispatch = useDispatch();
 
-  renderTitle() {
-    return (
-      <div className='AccountOverlay-Title'>
-        <h2>{ LOGIN }</h2>
-        <h2>{ CREATE_ACCOUNT }</h2>
-      </div>
+  useEffect(() => {
+    document.addEventListener(
+        'mousedown', (e) => (
+          handleClickOutside(e, dispatch, accountRef, overlayRef, isOverlayToggled)
+        )
     );
+
+    return () => {
+      document.removeEventListener(
+          'mousedown', (e) => (
+            handleClickOutside(e, dispatch, accountRef, overlayRef, isOverlayToggled)
+          )
+      );
+    };
+  }, [isOverlayToggled]);
+
+  const className = isOverlayToggled ? 'AccountOverlay AccountOverlay_Clicked' : 'AccountOverlay';
+
+  return (
+    <div
+      className={ className }
+      ref={ overlayRef }
+    >
+      { renderCloseButton(dispatch, isOverlayToggled) }
+      { renderTitle() }
+      { renderLogin() }
+    </div>
+  );
+};
+
+function handleClickOutside(e, dispatch, accountRef, overlayRef, isOverlayToggled) {
+  e.preventDefault();
+  const {
+    current
+  } = overlayRef;
+
+  const {
+    target
+  } = e;
+
+  if (current && !current.contains(target) && isOverlayToggled && accountRef && !accountRef.current.contains(target)) {
+    dispatch(updateToggleAccountOverlay(!isOverlayToggled));
+  }
+};
+
+function renderTitle() {
+  return (
+    <div className='AccountOverlay-Title'>
+      <h2>{ LOGIN }</h2>
+      <h2>{ CREATE_ACCOUNT }</h2>
+    </div>
+  );
+};
+
+function closeAccountOverlay(dispatch, isOverlayToggled) {
+  if (!isOverlayToggled) {
+    return;
   }
 
-  renderCloseButton() {
-    const {
-      closeAccountOverlay
-    } = this.props;
+  dispatch(updateToggleAccountOverlay(false));
+};
 
-    return (
-      <div className='AccountOverlay-CloseButton'>
-        <CloseButton Click={ closeAccountOverlay }/>
-      </div>
-    );
-  }
+function renderCloseButton(dispatch, isOverlayToggled) {
+  return (
+    <div className='AccountOverlay-CloseButton'>
+      <CloseButton Click={ () => closeAccountOverlay(dispatch, isOverlayToggled) }/>
+    </div>
+  );
+};
 
-  renderLogin() {
-    return (
-      <div className='AccountOverlay-Login'>
-        <AccountLogin />
-      </div>
-    );
-  }
-
-  render() {
-    const {
-      isOverlayToggled,
-      overlayRef
-    } = this.props;
-
-    const className = isOverlayToggled ? 'AccountOverlay AccountOverlay_Clicked' : 'AccountOverlay';
-
-    return (
-      <div
-        className={ className }
-        ref={ overlayRef }
-      >
-        { this.renderCloseButton() }
-        { this.renderTitle() }
-        { this.renderLogin() }
-      </div>
-    );
-  }
-}
-
-export default AccountOverlayComponent;
+function renderLogin() {
+  return (
+    <div className='AccountOverlay-Login'>
+      <AccountLogin />
+    </div>
+  );
+};

@@ -1,1 +1,1 @@
-export { default } from './AccountLogin.container';
+export { default } from './AccountLogin.component';
