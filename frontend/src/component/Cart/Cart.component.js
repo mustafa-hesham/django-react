@@ -6,6 +6,14 @@ export default function Cart() {
   return (
     <div className='Cart'>
       <img className='Cart-CartIcon' src={ CartIcon } />
+      { cartOverlay() }
+    </div>
+  );
+}
+
+function cartOverlay() {
+  return (
+    <div className='Cart-CartOverlay'>
     </div>
   );
 }
