@@ -15,9 +15,10 @@
     }
 
     &-Link {
+        font-family: $Majestic-kingdome-Regular;
         color: $primary-font-color;
         text-decoration: none;
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         transition-property: color;
         transition-duration: 200ms;
         transition-timing-function: ease-in-out;

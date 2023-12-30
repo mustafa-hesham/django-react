@@ -19,17 +19,14 @@ export default function Overlay(props) {
 
   const handleClickOutside = (e) => {
     const {
-      current,
-      current: {
-        className = ''
-      } = {}
+      current
     } = overlayRef || {};
 
     const {
       target
     } = e;
 
-    if (current && !current.contains(target) && className.includes('Clicked') && isOverlayToggled &&
+    if (current && !current.contains(target) && current.className.includes('Clicked') && isOverlayToggled &&
      !buttonRef.current.contains(target)) {
       dispatch(toggleFunction(!isOverlayToggled));
     }

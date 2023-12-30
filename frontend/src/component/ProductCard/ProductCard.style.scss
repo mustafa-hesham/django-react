@@ -35,9 +35,9 @@
     }
 
     &-Name {
-        font-family: $semiflora-regular;
+        font-family: Verdana, sans-serif;
         font-style: bold;
-        font-size: 1.75vw;
+        font-size: 1vw;
         text-align: center;
         padding-block: 20px;
         padding-inline: 10px;
@@ -55,7 +55,7 @@
     }
 
     &-AddToCart {
-        font-family: $semiflora-regular;
+        font-family: $Mofulina-Regular;
         font-size: 1.2vw;
         text-align: center;
         background-color: $primary-button-color;

@@ -5,23 +5,51 @@
     src: local('Crima Regular'), url('/src/style/fonts/crima/Crima.ttf') format('truetype');
   }
 
-  @font-face {
-    font-family: 'Lato Regular';
-    font-style: normal;
-    font-weight: normal;
-    src: url('/src/style/fonts/lato/Lato-Regular.ttf') format('truetype');
-  }
+@font-face {
+  font-family: 'Lato Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/src/style/fonts/lato/Lato-Regular.ttf') format('truetype');
+}
 
-  @font-face {
-    font-family: 'Semiflora Regular';
-    font-style: normal;
-    font-weight: normal;
-    src: url('/src/style/fonts/semiflora/Semiflora.otf') format('OpenType');
-  }
+@font-face {
+  font-family: 'Semiflora Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/src/style/fonts/semiflora/Semiflora.otf') format('OpenType');
+}
 
-  @font-face {
-    font-family: 'MRKMaston Regular';
-    font-style: normal;
-    font-weight: normal;
-    src: url('/src/style/fonts/mrk-maston/MRKMaston-Regular.woff') format('woff');
-  }
+@font-face {
+  font-family: 'MRKMaston Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/src/style/fonts/mrk-maston/MRKMaston-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'DebasNeue Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/src/style/fonts/bebas-neue/BebasNeue-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Mofulina Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/src/style/fonts/mofulina/Mofulina.otf') format('OpenType');
+}
+
+@font-face {
+  font-family: 'Molaste Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/src/style/fonts/molaste/Molaste Demo.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Majestic kingdome Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/src/style/fonts/majestic-kingdome/Majestic Kingdome.otf') format('OpenType');
+}
