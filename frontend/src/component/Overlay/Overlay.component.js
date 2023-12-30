@@ -21,9 +21,9 @@ export default function Overlay(props) {
     const {
       current,
       current: {
-        className
-      }
-    } = overlayRef;
+        className = ''
+      } = {}
+    } = overlayRef || {};
 
     const {
       target
