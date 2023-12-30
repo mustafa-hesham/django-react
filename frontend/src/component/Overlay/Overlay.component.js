@@ -17,17 +17,35 @@ export default function Overlay(props) {
   const overlayRef = useRef(null);
   const dispatch = useDispatch();
 
+  const handleClickOutside = (e) => {
+    const {
+      current,
+      current: {
+        className
+      }
+    } = overlayRef;
+
+    const {
+      target
+    } = e;
+
+    if (current && !current.contains(target) && className.includes('Clicked') && isOverlayToggled &&
+     !buttonRef.current.contains(target)) {
+      dispatch(toggleFunction(!isOverlayToggled));
+    }
+  };
+
   useEffect(() => {
-    document.addEventListener(
+    window.addEventListener(
         'mousedown', (e) => (
-          handleClickOutside(e, dispatch, buttonRef, overlayRef, isOverlayToggled, toggleFunction)
+          handleClickOutside(e)
         )
     );
 
     return () => {
-      document.removeEventListener(
+      window.removeEventListener(
           'mousedown', (e) => (
-            handleClickOutside(e, dispatch, buttonRef, overlayRef, isOverlayToggled)
+            handleClickOutside(e)
           )
       );
     };
@@ -46,20 +64,6 @@ export default function Overlay(props) {
       { footer && footer() }
     </div>
   );
-};
-
-function handleClickOutside(e, dispatch, buttonRef, overlayRef, isOverlayToggled, toggleFunction) {
-  const {
-    current
-  } = overlayRef;
-
-  const {
-    target
-  } = e;
-
-  if (current && !current.contains(target) && isOverlayToggled && buttonRef && !buttonRef.current.contains(target)) {
-    dispatch(toggleFunction(!isOverlayToggled));
-  }
 };
 
 function closeAccountOverlay(dispatch, isOverlayToggled, toggleFunction) {
