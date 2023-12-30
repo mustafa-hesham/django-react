@@ -1,4 +1,3 @@
-from unicodedata import category
 import graphene
 from product.types import ProductType, CategoryType
 from product.models import Product, Category

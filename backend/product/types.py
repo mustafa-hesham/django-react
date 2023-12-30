@@ -1,4 +1,3 @@
-from dataclasses import fields
 from graphene_django import DjangoObjectType
 from product.models import Product, Category
 

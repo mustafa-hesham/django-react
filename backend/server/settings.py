@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "product",
+    "cart",
     "graphene_django",
     "graphql_jwt.refresh_token.apps.RefreshTokenConfig",
 ]
