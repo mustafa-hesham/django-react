@@ -8,7 +8,7 @@ export function getAllProducts() {
   return fetchQuery(query);
 }
 
-export function getAllProductsFieldList() {
+function getAllProductsFieldList() {
   return [
     'SKU',
     'name',

@@ -53,10 +53,18 @@ class AddProductToCart(graphene.Mutation):
             try:
                 productObject = Product.objects.get(pk=productID)
                 cartObject = Cart.objects.get(pk=cartID)
-                newCartItem = CartItem(
-                    product=productObject, cart=cartObject, quantity=quantity
-                ).save()
-                return AddProductToCart(cartItem=newCartItem)  # type: ignore
+                addedCartItem = CartItem.objects.get(
+                    cart=cartObject, product=productObject
+                )
+                if addedCartItem:
+                    addedCartItem.quantity += quantity
+                    addedCartItem.save()
+                    return AddProductToCart(cartItem=addedCartItem)  # type: ignore
+                else:
+                    newCartItem = CartItem(
+                        product=productObject, cart=cartObject, quantity=quantity
+                    ).save()
+                    return AddProductToCart(cartItem=newCartItem)  # type: ignore
             except Cart.DoesNotExist:
                 return None
         else:
