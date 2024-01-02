@@ -9,6 +9,7 @@ from product.models import Product
 
 
 class Cart(models.Model):
+    cart_id = models.CharField(max_length=40, default="")
     customer = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     email = models.EmailField(null=True, blank=True, max_length=254)
     createdAt = models.DateTimeField(default=now, blank=True)

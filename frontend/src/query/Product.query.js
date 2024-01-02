@@ -10,6 +10,7 @@ export function getAllProducts() {
 
 function getAllProductsFieldList() {
   return [
+    'id',
     'SKU',
     'name',
     'price',

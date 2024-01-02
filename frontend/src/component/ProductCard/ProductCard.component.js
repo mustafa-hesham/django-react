@@ -1,6 +1,11 @@
 import './ProductCard.style.scss';
 
+import { useDispatch } from 'react-redux';
+import { addProductToCart } from 'Util/Cart';
+
 export default function ProductCard(props) {
+  const dispatch = useDispatch();
+
   const {
     product: {
       name = '',
@@ -14,7 +19,7 @@ export default function ProductCard(props) {
       { renderProductImage(images) }
       { renderProductName(name) }
       { renderProductPrice(price) }
-      { renderAddToCart() }
+      { renderAddToCart(props, dispatch) }
     </div>
   );
 };
@@ -55,9 +60,16 @@ function renderProductPrice(price) {
   );
 };
 
-function renderAddToCart() {
+function renderAddToCart(props, dispatch) {
+  const {
+    product
+  } = props;
+
   return (
-    <div className='ProductCard-AddToCart'>
+    <div
+      className='ProductCard-AddToCart'
+      onClick={ () => addProductToCart(product, 1, dispatch) }
+    >
       <p>Add to cart</p>
     </div>
   );

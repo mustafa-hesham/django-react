@@ -5,6 +5,7 @@ import Router from 'Component/Router';
 import { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { getStore } from 'Store';
+import { getCartItems, setCartId, setCartItems } from 'Util/Cart';
 import { getCategoryLocalStorage, updateCategoryLocalStorage } from 'Util/Category';
 
 export default function App() {
@@ -23,9 +24,13 @@ export default function App() {
 };
 
 function initializeReducers() {
-  if (getCategoryLocalStorage()) {
-    return;
-  } else {
+  if (!getCategoryLocalStorage()) {
     updateCategoryLocalStorage('', []);
+  }
+
+  setCartId();
+
+  if (!getCartItems().length) {
+    setCartItems([]);
   }
 };
