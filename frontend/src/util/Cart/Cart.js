@@ -1,76 +1,65 @@
 import { addProductToCart as storeAddProductToCart } from 'Store/Cart/CartReducer.reducer';
 
-import { CART_ID, CART_ITEMS, NUMBER_OF_ITEMS, SUBTOTAL, TOTAL } from './Cart.config';
+import { CART } from './Cart.config';
 
-export function setCartItems(cartItems) {
-  setCartTotal(cartItems);
-  setCartTotalNumberOfItems(cartItems);
-  localStorage.setItem(CART_ITEMS, JSON.stringify(cartItems));
+export function setCart(cartItems = []) {
+  let cart = {};
+
+  const {
+    cartId = ''
+  } = getCart();
+
+  if (!!cartId) {
+    const total = cartItems?.reduce(
+        (accumulator, item) => accumulator + item.quantity * parseFloat(item.price),
+        0
+    ).toFixed(2);
+
+    const numberOfItems = cartItems?.reduce(
+        (accumulator, item) => accumulator + item.quantity,
+        0
+    );
+
+    cart = {
+      cartId: cartId,
+      cartItems: cartItems,
+      total: total,
+      numberOfItems: numberOfItems
+    };
+  } else {
+    cart = {
+      cartId: generateUniqueCartID(),
+      cartItems: [],
+      total: 0.00,
+      numberOfItems: 0
+    };
+  }
+
+  localStorage.setItem(CART, JSON.stringify(cart));
+}
+
+export function getCart() {
+  return JSON.parse(localStorage.getItem(CART)) || {};
 }
 
 export function updateCartReducer(dispatch) {
+  const cart = getCart();
   const updateCartReducer = {
-    cartItems: getCartItems(),
-    total: getCartTotal(),
-    numberOfItems: getCartTotalNumberOfItems()
+    ...cart
   };
 
   dispatch(storeAddProductToCart(updateCartReducer));
 }
 
-export function getCartItems() {
-  return JSON.parse(localStorage.getItem(CART_ITEMS)) || [];
-}
-
-export function setCartSubtotal(subtotal) {
-  localStorage.setItem(SUBTOTAL, JSON.stringify(subtotal));
-}
-
-export function getCartSubtotal() {
-  return parseFloat(JSON.parse(localStorage.getItem(SUBTOTAL))) || 0.00;
-}
-
-export function setCartTotal(newCartItems) {
-  const total = newCartItems.reduce(
-      (accumulator, item) => accumulator + item.quantity * parseFloat(item.price),
-      0
-  ).toFixed(2);
-
-  localStorage.setItem(TOTAL, JSON.stringify(total));
-}
-
-export function getCartTotal() {
-  return parseFloat(JSON.parse(localStorage.getItem(TOTAL))) || 0.00;
-}
-
-export function getCartTotalNumberOfItems() {
-  return parseInt(JSON.parse(localStorage.getItem(NUMBER_OF_ITEMS)));
-}
-
-export function setCartTotalNumberOfItems(cartItems) {
-  const numberOfItems = cartItems.reduce(
-      (accumulator, item) => accumulator + item.quantity,
-      0
-  );
-
-  localStorage.setItem(NUMBER_OF_ITEMS, JSON.stringify(numberOfItems));
-}
-
-export function setCartId() {
-  if (!getCartId()) {
-    localStorage.setItem(CART_ID, JSON.stringify(generateUniqueCartID()));
-  }
-}
-
-export function getCartId() {
-  return JSON.parse(localStorage.getItem(CART_ID));
-}
-
 export function addProductToCart(product, quantity, dispatch) {
   let newCartItems = [];
 
-  if (getCartItems().some((item) => item.id === product.id)) {
-    newCartItems = getCartItems().map(
+  const {
+    cartItems
+  } = getCart();
+
+  if (cartItems.some((item) => item.id === product.id)) {
+    newCartItems = cartItems.map(
         (item) => item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
     );
   } else {
@@ -79,10 +68,10 @@ export function addProductToCart(product, quantity, dispatch) {
       quantity
     };
 
-    newCartItems = [...getCartItems(), newCartItem];
+    newCartItems = [...cartItems, newCartItem];
   }
-
-  setCartItems(newCartItems);
+  console.log(newCartItems);
+  setCart(newCartItems);
   updateCartReducer(dispatch);
 }
 

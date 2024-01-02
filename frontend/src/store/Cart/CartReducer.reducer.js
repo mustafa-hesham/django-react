@@ -1,25 +1,20 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
-import {
-  getCartId,
-  getCartItems,
-  getCartSubtotal,
-  getCartTotal,
-  getCartTotalNumberOfItems } from 'Util/Cart';
+import { getCart } from 'Util/Cart';
 
-import { ADD_PRODUCT_TO_CART, TOGGLE_CART_OVERLAY } from './CartReducer.config';
+import { ADD_PRODUCT_TO_CART, CREATE_NEW_CART, TOGGLE_CART_OVERLAY } from './CartReducer.config';
 
-const getInitialState = () => ({
-  isCartOverlayToggled: false,
-  cartId: getCartId(),
-  cartItems: getCartItems() ?? [],
-  subtotal: getCartSubtotal() ?? 0.00,
-  total: getCartTotal() ?? 0.00,
-  tax: 0.0,
-  numberOfItems: getCartTotalNumberOfItems() ?? 0
-});
+const getInitialState = () => {
+  if (getCart()) {
+    return {
+      isCartOverlayToggled: false,
+      ...getCart()
+    };
+  }
+};
 
 export const updateToggleCartOverlay = createAction(TOGGLE_CART_OVERLAY);
 export const addProductToCart = createAction(ADD_PRODUCT_TO_CART);
+export const createNewCart = createAction(CREATE_NEW_CART);
 
 export const CartSlice = createSlice({
   name: 'CartReducer',
@@ -46,6 +41,14 @@ export const CartSlice = createSlice({
       state.cartItems = cartItems;
       state.total = total;
       state.numberOfItems = numberOfItems;
+    }
+    );
+    builder.addCase(createNewCart, (state, action) => {
+      const {
+        payload
+      } = action;
+
+      state.cartId = payload;
     }
     );
   }
