@@ -12,13 +12,13 @@ export default function CartItem(props) {
     product: {
       name,
       price,
-      quantity,
+      cartQuantity,
       images,
       id: productID
     }
   } = props;
 
-  if (!quantity) {
+  if (!cartQuantity) {
     return null;
   }
 
@@ -29,7 +29,7 @@ export default function CartItem(props) {
       { renderImage(images) }
       { renderName(name) }
       { renderQuantity(addProduct, product, dispatch) }
-      { renderItemTotalPrice(price, quantity) }
+      { renderItemTotalPrice(price, cartQuantity) }
       { renderRemoveItem(productID, dispatch, removeProduct) }
     </div>
   );
@@ -55,14 +55,14 @@ function renderImage(images) {
   );
 };
 
-function renderItemTotalPrice(price, quantity) {
-  if (!price || !quantity) {
+function renderItemTotalPrice(price, cartQuantity) {
+  if (!price || !cartQuantity) {
     return null;
   }
 
   return (
     <div className='CartItem-Price'>
-      { `$${(price * quantity).toFixed(2)}` }
+      { `$${(price * cartQuantity).toFixed(2)}` }
     </div>
   );
 };

@@ -9,14 +9,16 @@ export default function QuantityChanger(props) {
     dispatch,
     product,
     product: {
-      quantity
+      cartQuantity
     }
   } = props;
 
   return (
     <div className='QuantityChanger'>
       { renderIncreaseQuantity(addProduct, product, dispatch) }
-      { quantity }
+      <div className='QuantityChanger-Value'>
+        { cartQuantity }
+      </div>
       { renderDecreaseQuantity(addProduct, product, dispatch) }
     </div>
   );
@@ -45,15 +47,24 @@ function renderDecreaseQuantity(addProduct, product, dispatch) {
 };
 
 function increaseQuantity(addProduct, product, dispatch) {
+  const {
+    quantity,
+    cartQuantity
+  } = product;
+
+  if (cartQuantity === quantity) {
+    return;
+  }
+
   addProduct(product, 1, dispatch);
 };
 
 function decreaseQuantity(addProduct, product, dispatch) {
   const {
-    quantity
+    cartQuantity
   } = product;
 
-  if (quantity === 1) {
+  if (cartQuantity === 1) {
     return;
   }
 

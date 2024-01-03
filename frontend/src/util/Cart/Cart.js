@@ -11,12 +11,12 @@ export function setCart(cartItems = []) {
 
   if (!!cartId) {
     const total = cartItems?.reduce(
-        (accumulator, item) => accumulator + item.quantity * parseFloat(item.price),
+        (accumulator, item) => accumulator + item.cartQuantity * parseFloat(item.price),
         0
     ).toFixed(2);
 
     const numberOfItems = cartItems?.reduce(
-        (accumulator, item) => accumulator + item.quantity,
+        (accumulator, item) => accumulator + item.cartQuantity,
         0
     );
 
@@ -51,7 +51,7 @@ export function updateCartReducer(dispatch) {
   dispatch(storeAddProductToCart(updateCartReducer));
 }
 
-export function addProductToCart(product, quantity, dispatch) {
+export function addProductToCart(product, cartQuantity, dispatch) {
   let newCartItems = [];
 
   const {
@@ -60,12 +60,12 @@ export function addProductToCart(product, quantity, dispatch) {
 
   if (cartItems.some((item) => item.id === product.id)) {
     newCartItems = cartItems.map(
-        (item) => item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
+        (item) => item.id === product.id ? { ...item, cartQuantity: item.cartQuantity + cartQuantity } : item
     );
   } else {
     const newCartItem = {
       ...product,
-      quantity
+      cartQuantity
     };
 
     newCartItems = [...cartItems, newCartItem];

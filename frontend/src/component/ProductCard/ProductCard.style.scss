@@ -53,31 +53,4 @@
         font-size: 22px;
         padding-block-end: 20px;
     }
-
-    &-AddToCart {
-        font-family: $Mofulina-Regular;
-        font-size: 1.2vw;
-        text-align: center;
-        background-color: $primary-button-color;
-        color: $white;
-        border-radius: 0 0 15px 15px;
-        transition-property: background-color;
-        transition-duration: 300ms;
-        transition-timing-function: ease-in-out;
-        text-transform: uppercase;
-        cursor: pointer;
-        margin-block-start: auto;
-
-        @include mobile {
-            font-size: 3vw;
-        }
-
-        p {
-            padding-block: 5px;
-        }
-
-        &:hover {
-            background-color: $primary-button-color-hover;
-        }
-    }
 }

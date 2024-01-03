@@ -1,0 +1,26 @@
+/* stylelint-disable number-max-precision */
+
+.AddToCart {
+    font-family: $Mofulina-Regular;
+    font-size: 1.2vw;
+    background-color: $primary-button-color;
+    color: $white;
+    transition-property: background-color;
+    transition-duration: 300ms;
+    transition-timing-function: ease-in-out;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-block-start: auto;
+    height: 100%;
+    border-radius: 0 0 15px 15px;
+    display: flex;
+    justify-content: center;
+
+    @include mobile {
+        font-size: 3vw;
+    }
+
+    &:hover {
+        background-color: $primary-button-color-hover;
+    }
+}

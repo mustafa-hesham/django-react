@@ -1,8 +1,26 @@
 .QuantityChanger {
     display: flex;
-    border: 1px solid gray;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(218 217 217);
+    width: 100%;
+    background-color: whitesmoke;
 
     img {
-        height: 20px;
+        height: 15px;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    &-Value {
+        margin-inline: auto;
+        margin-block: 5px;
+        font-size: 1.5rem;
+    }
+
+    &-Increase, &-Decrease {
+        display: flex;
     }
 }

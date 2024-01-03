@@ -53,7 +53,7 @@ function renderTitle() {
 };
 
 function renderBody(cartItems, total) {
-  if (!cartItems || !total) {
+  if (!cartItems || !parseFloat(total)) {
     return null;
   }
 
