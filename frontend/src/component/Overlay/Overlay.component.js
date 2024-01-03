@@ -1,5 +1,6 @@
 import './Overlay.style.scss';
 
+import { ADD_TO_CART } from 'Component/AddToCart/AddToCart.config';
 import CloseButton from 'Component/CloseButton';
 import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
@@ -27,7 +28,7 @@ export default function Overlay(props) {
     } = e;
 
     if (current && !current.contains(target) && current.className.includes('Clicked') && isOverlayToggled &&
-     !buttonRef.current.contains(target)) {
+     !buttonRef.current.contains(target) && target.innerHTML !== ADD_TO_CART) {
       dispatch(toggleFunction(!isOverlayToggled));
     }
   };
