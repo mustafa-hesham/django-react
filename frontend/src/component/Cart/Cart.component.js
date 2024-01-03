@@ -1,13 +1,18 @@
 import './Cart.style.scss';
 
+import CartItem from 'Component/CartItem';
 import Overlay from 'Component/Overlay';
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateToggleCartOverlay } from 'Store/Cart/CartReducer.reducer';
 import CartIcon from 'Style/icons/Cart/cart-icon-60.png';
 
+import { CART, TOTAL } from './Cart.config';
+
 export default function Cart() {
   const isCartOverlayToggled = useSelector((state) => state.CartReducer.isCartOverlayToggled);
+  const cartItems = useSelector((state) => state.CartReducer.cartItems);
+  const cartTotal = useSelector((state) => state.CartReducer.total);
   const cartIconRef = useRef(null);
   const dispatch = useDispatch();
 
@@ -19,12 +24,12 @@ export default function Cart() {
         ref={ cartIconRef }
         onClick={ () => dispatch(updateToggleCartOverlay(!isCartOverlayToggled)) }
       />
-      { cartOverlay(cartIconRef, isCartOverlayToggled) }
+      { cartOverlay(cartIconRef, isCartOverlayToggled, cartItems, cartTotal) }
     </div>
   );
 }
 
-function cartOverlay(cartIconRef, isCartOverlayToggled) {
+function cartOverlay(cartIconRef, isCartOverlayToggled, cartItems, cartTotal) {
   return (
     <div className='Cart-CartOverlay'>
       <Overlay
@@ -32,6 +37,7 @@ function cartOverlay(cartIconRef, isCartOverlayToggled) {
         isOverlayToggled = { isCartOverlayToggled }
         toggleFunction = { updateToggleCartOverlay }
         header = { renderTitle }
+        body = { () => renderBody(cartItems, cartTotal) }
       />
     </div>
   );
@@ -40,7 +46,28 @@ function cartOverlay(cartIconRef, isCartOverlayToggled) {
 function renderTitle() {
   return (
     <div className='Cart-Title'>
-      <h2>Cart</h2>
+      <h2>{ CART }</h2>
+    </div>
+  );
+};
+
+function renderBody(cartItems, total) {
+  return (
+    <div className='Cart-Body'>
+      <div className='Cart-CartItems'>
+        { cartItems.map((item, index) => <CartItem product={ item } key={ index } />) }
+      </div>
+      <div className='Cart-Separator' />
+      { renderTotal(total) }
+    </div>
+  );
+}
+
+function renderTotal(total) {
+  return (
+    <div className='Cart-Total'>
+      <div className='Cart-TotalTitle'>{ TOTAL }</div>
+      <div className='Cart-TotalValue'>{ `$${total}` }</div>
     </div>
   );
 };

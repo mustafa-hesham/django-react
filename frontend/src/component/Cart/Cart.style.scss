@@ -7,4 +7,47 @@
         height: 25px;
         cursor: pointer;
     }
+
+    &-Title {
+        display: flex;
+        justify-content: center;
+        text-transform: capitalize;
+    }
+
+    &-CartItems {
+        padding-block-end: 20px;
+    }
+
+    &-Separator {
+        height: 1px;
+        width: 95%;
+        background-color: gray;
+        margin-inline: auto;
+    }
+
+    &-Total {
+        display: flex;
+        flex-direction: column;
+        margin-block-start: 20px;
+        text-align: start;
+
+        div {
+            width: 20%;
+            margin-block-end: auto;
+            align-self: flex-end;
+            padding-inline-end: 20px;
+        }
+    }
+
+    &-TotalTitle {
+        font-family:  Verdana, sans-serif;
+        margin-block: auto;
+
+    }
+
+    &-TotalValue {
+        font-family: $MRKMaston-Regular;
+        font-size: $large-font-size;
+        color: $cart-total-color;
+    }
 }
