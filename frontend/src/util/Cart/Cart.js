@@ -70,7 +70,7 @@ export function addProductToCart(product, quantity, dispatch) {
 
     newCartItems = [...cartItems, newCartItem];
   }
-  console.log(newCartItems);
+
   setCart(newCartItems);
   updateCartReducer(dispatch);
 }
@@ -80,4 +80,18 @@ export function generateUniqueCartID() {
     // eslint-disable-next-line no-magic-numbers
     (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
   ).replace(/-/g, '');
+}
+
+export function removeProductFromCart(productID, dispatch) {
+  const {
+    cartItems = []
+  } = getCart();
+
+  if (!cartItems || !cartItems.some((item) => item.id === productID)) {
+    return;
+  }
+
+  const newCartItems = cartItems.filter((item) => item.id !== productID);
+  setCart(newCartItems);
+  updateCartReducer(dispatch);
 }

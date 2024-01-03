@@ -1,12 +1,20 @@
 import './CartItem.styles.scss';
 
+import QuantityChanger from 'Component/QuantityChanger';
+import { useDispatch } from 'react-redux';
+import { ReactComponent as RemoveIcon } from 'Style/icons/RemoveIcon/remove-icon.svg';
+
 export default function CartItem(props) {
   const {
+    product,
+    removeProduct,
+    addProduct,
     product: {
       name,
       price,
       quantity,
-      images
+      images,
+      id: productID
     }
   } = props;
 
@@ -14,12 +22,15 @@ export default function CartItem(props) {
     return null;
   }
 
+  const dispatch = useDispatch();
+
   return (
     <div className='CartItem'>
       { renderImage(images) }
       { renderName(name) }
-      { renderQuantity(quantity) }
-      { renderProductPrice(price) }
+      { renderQuantity(addProduct, product, dispatch) }
+      { renderItemTotalPrice(price, quantity) }
+      { renderRemoveItem(productID, dispatch, removeProduct) }
     </div>
   );
 };
@@ -44,22 +55,33 @@ function renderImage(images) {
   );
 };
 
-function renderProductPrice(price) {
-  if (!price) {
+function renderItemTotalPrice(price, quantity) {
+  if (!price || !quantity) {
     return null;
   }
 
   return (
     <div className='CartItem-Price'>
-      { `$${price}` }
+      { `$${(price * quantity).toFixed(2)}` }
     </div>
   );
 };
 
-function renderQuantity(quantity) {
+function renderQuantity(addProduct, product, dispatch) {
   return (
     <div className='CartItem-Quantity'>
-      { quantity }
+      <QuantityChanger addProduct={ addProduct } product={ product } dispatch={ dispatch } />
+    </div>
+  );
+};
+
+function renderRemoveItem(productID, dispatch, removeProduct) {
+  return (
+    <div className='CartItem-RemoveItem'>
+      <RemoveIcon
+        className='CartItem-RemoveItemIcon'
+        onClick={ () => removeProduct(productID, dispatch) }
+      />
     </div>
   );
 };
