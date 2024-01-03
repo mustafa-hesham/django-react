@@ -10,6 +10,7 @@
     flex-direction: column;
     width: 100%;
     height: 100%;
+    user-select: none;
 
     &:hover {
         background-color: rgb(240 236 230);
