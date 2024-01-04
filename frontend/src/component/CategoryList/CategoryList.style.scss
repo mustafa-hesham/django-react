@@ -1,3 +1,5 @@
+/* stylelint-disable number-max-precision */
+
 .CategoryList {
     margin-inline-start: 10%;
     width: 100%;
@@ -18,13 +20,17 @@
         font-family: $Majestic-kingdome-Regular;
         color: $primary-font-color;
         text-decoration: none;
-        font-size: 1.25rem;
+        font-size: 1.5vw;
         transition-property: color;
         transition-duration: 200ms;
         transition-timing-function: ease-in-out;
 
         &:hover {
             color: $primary-button-color-hover;
+        }
+
+        @include mobile {
+            font-size: 3vw;
         }
     }
 }

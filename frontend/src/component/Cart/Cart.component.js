@@ -14,17 +14,25 @@ export default function Cart() {
   const isCartOverlayToggled = useSelector((state) => state.CartReducer.isCartOverlayToggled);
   const cartItems = useSelector((state) => state.CartReducer.cartItems);
   const cartTotal = useSelector((state) => state.CartReducer.total);
+  const numberOfItems = useSelector((state) => state.CartReducer.numberOfItems);
   const cartIconRef = useRef(null);
   const dispatch = useDispatch();
 
   return (
     <div className='Cart'>
-      <img
+      <div
         className='Cart-CartIcon'
-        src={ CartIcon }
-        ref={ cartIconRef }
         onClick={ () => dispatch(updateToggleCartOverlay(!isCartOverlayToggled)) }
-      />
+        ref={ cartIconRef }
+      >
+        { renderNumberOfItems(numberOfItems) }
+        <span className='Cart-CartIcon-ImageContainer'>
+          <img
+            className='Cart-CartIcon-Image'
+            src={ CartIcon }
+          />
+        </span>
+      </div>
       { cartOverlay(cartIconRef, isCartOverlayToggled, cartItems, cartTotal) }
     </div>
   );
@@ -80,5 +88,15 @@ function renderTotal(total) {
       <div className='Cart-TotalTitle'>{ TOTAL }</div>
       <div className='Cart-TotalValue'>{ `$${total}` }</div>
     </div>
+  );
+};
+
+function renderNumberOfItems(numberOfItems) {
+  if (!numberOfItems) {
+    return null;
+  }
+
+  return (
+    <span className='Cart-CartIcon-Badge' >{ numberOfItems }</span>
   );
 };
