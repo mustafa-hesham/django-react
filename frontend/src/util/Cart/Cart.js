@@ -2,7 +2,7 @@ import { addProductToCart as storeAddProductToCart } from 'Store/Cart/CartReduce
 
 import { CART } from './Cart.config';
 
-export function setCart(cartItems = []) {
+export function setCart(cartItems = [], customerCartId = '') {
   let cart = {};
 
   const {
@@ -21,7 +21,7 @@ export function setCart(cartItems = []) {
     );
 
     cart = {
-      cartId: cartId,
+      cartId: !!customerCartId ? customerCartId : cartId,
       cartItems: cartItems,
       total: total,
       numberOfItems: numberOfItems
@@ -94,4 +94,19 @@ export function removeProductFromCart(productID, dispatch) {
   const newCartItems = cartItems.filter((item) => item.id !== productID);
   setCart(newCartItems);
   updateCartReducer(dispatch);
+}
+
+export function mergeCarts(guestCart, customerCart) {
+  const {
+    cartItems: guestCartItems
+  } = guestCart;
+
+  const {
+    cartId: customerCartId,
+    cartItems: customerCartItems
+  } = customerCart;
+
+  newCartItems = [...new Set([...guestCartItems, ...customerCartItems])];
+
+  setCart(newCartItems, customerCartId);
 }

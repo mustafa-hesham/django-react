@@ -30,6 +30,12 @@ class Cart(models.Model):
     def isCartHasItems(self):
         return self.subtotal > 0
 
+    def updateTotal(self):
+        cartItems = CartItem.objects.filter(cart=self)
+        if cartItems and len(cartItems):
+            for item in cartItems:
+                self.total += item.product.price * item.quantity
+
 
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)

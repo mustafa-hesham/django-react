@@ -1,3 +1,4 @@
+import { getStore } from 'Store';
 import { removeCookie } from 'Util/Cookies';
 import { CSRF_TOKEN } from 'Util/Request';
 import { removeAuthTokens } from 'Util/Token';
@@ -22,4 +23,15 @@ export function logOut() {
   removeAuthTokens();
   removeCustomerData();
   removeCookie(CSRF_TOKEN);
+}
+
+export function isSignIn() {
+  const customerUsername = getStore()?.getState()?.CustomerReducer?.customer?.username;
+  return !!customerUsername;
+}
+
+export function signInProcedure() {
+  if (!isSignIn()) {
+    return;
+  }
 }
