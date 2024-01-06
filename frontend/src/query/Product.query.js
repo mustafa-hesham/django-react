@@ -8,7 +8,7 @@ export function getAllProducts() {
   return fetchQuery(query);
 }
 
-function getAllProductsFieldList() {
+export function getAllProductsFieldList() {
   return [
     'id',
     'SKU',
@@ -24,7 +24,7 @@ function getAllProductsFieldList() {
 
 export function getProductsByCategoryName(categoryName) {
   const query = new Field('productsByCategory')
-      .addArgument('category', categoryName)
+      .addArgument('category', categoryName, 'String!')
       .addFieldList(getAllProductsFieldList());
 
   return fetchQuery(query);

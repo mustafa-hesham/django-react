@@ -3,8 +3,8 @@ import { fetchMutation } from 'Util/Request';
 
 export function getAuthToken(username, password) {
   const mutation = new Field('tokenAuth')
-      .addArgument('username', username)
-      .addArgument('password', password)
+      .addArgument('username', username, 'String!')
+      .addArgument('password', password, 'String!')
       .addFieldList(authTokenFields());
 
   return fetchMutation(mutation);

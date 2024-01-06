@@ -4,7 +4,7 @@ import { getAuthToken } from 'Query/Token.query';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlayReducer.reducer';
 import { customerSignIn } from 'Store/Customer/CustomerReducer.reducer';
-import { setCustomerData } from 'Util/Customer';
+import { setCustomerData, signInProcedure } from 'Util/Customer';
 import { setAuthTokens } from 'Util/Token';
 
 export default function AccountLogin() {
@@ -68,5 +68,6 @@ async function handleSubmit(event, dispatch) {
     dispatch(updateToggleAccountOverlay(false));
     dispatch(customerSignIn({ username: username }));
     setCustomerData({ username: username });
+    signInProcedure();
   }
 };

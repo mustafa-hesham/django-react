@@ -15,8 +15,8 @@ export default function AddToCart(props) {
   const dispatch = useDispatch();
   const isCartOverlayToggled = useSelector((state) => state.CartReducer.isCartOverlayToggled);
   const isAccountOverlayToggled = useSelector((state) => state.AccountOverlayReducer.isAccountOverlayToggled);
-  const cartItems = useSelector((state) => state.CartReducer.cartItems);
-  const currentCartProduct = cartItems.find((item) => item.id === product.id);
+  const cartItems = useSelector((state) => state.CartReducer?.cartItems);
+  const currentCartProduct = cartItems?.find((item) => item.id === product.id);
 
   const {
     cartQuantity = 0

@@ -13,13 +13,15 @@ class Cart(models.Model):
     customer = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     email = models.EmailField(null=True, blank=True, max_length=254)
     createdAt = models.DateTimeField(default=now, blank=True)
-    subtotal = models.DecimalField(max_digits=100, decimal_places=2)
-    total = models.DecimalField(max_digits=100, decimal_places=2)
-    tax = models.DecimalField(max_digits=100, decimal_places=2)
+    subtotal = models.DecimalField(
+        max_digits=100, decimal_places=2, null=True, blank=True
+    )
+    total = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True, default=0.00)  # type: ignore
+    tax = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True)
     isActive = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.customer
+        return str(self.customer)
 
     def abandonedCart(self):
         return now() - self.createdAt > timedelta(days=1) and self.isActive
@@ -28,13 +30,16 @@ class Cart(models.Model):
         self.email = User.email
 
     def isCartHasItems(self):
-        return self.subtotal > 0
+        return self.total > 0
 
     def updateTotal(self):
+        self.total = 0
+        self.save()
         cartItems = CartItem.objects.filter(cart=self)
         if cartItems and len(cartItems):
             for item in cartItems:
                 self.total += item.product.price * item.quantity
+                self.save()
 
 
 class CartItem(models.Model):

@@ -42,6 +42,10 @@ export function getCart() {
   return JSON.parse(localStorage.getItem(CART)) || {};
 }
 
+export function removeCart() {
+  localStorage.removeItem(CART);
+}
+
 export function updateCartReducer(dispatch) {
   const cart = getCart();
   const updateCartReducer = {
@@ -96,17 +100,38 @@ export function removeProductFromCart(productID, dispatch) {
   updateCartReducer(dispatch);
 }
 
-export function mergeCarts(guestCart, customerCart) {
+export function mergeCarts(customerCartItems = []) {
   const {
     cartItems: guestCartItems
-  } = guestCart;
+  } = getCart();
 
-  const {
-    cartId: customerCartId,
-    cartItems: customerCartItems
-  } = customerCart;
+  if (Array.isArray(guestCartItems) && !guestCartItems.length) {
+    return customerCartItems;
+  }
 
-  newCartItems = [...new Set([...guestCartItems, ...customerCartItems])];
+  const uniqueGuestItems = guestCartItems.reduce(
+      (accumulator, item) => {
+        if (!customerCartItems.find((customerItem) => customerItem.id === item.id)) {
+          accumulator.push(item);
+        }
+        return accumulator;
+      }
+      , []);
 
-  setCart(newCartItems, customerCartId);
+  const newCartItems = customerCartItems.map((item) => {
+    const repeatedItem = guestCartItems.find(
+        (guestItem) => guestItem.id === item.id
+    );
+
+    if (repeatedItem) {
+      return {
+        ...item,
+        cartQuantity: repeatedItem.cartQuantity + item.cartQuantity
+      };
+    } else {
+      return item;
+    }
+  });
+
+  return [...newCartItems, ...uniqueGuestItems];
 }

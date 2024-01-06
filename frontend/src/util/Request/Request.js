@@ -36,9 +36,9 @@ export const fetchRequest = async (request, requestType) => {
       'Authorization': `JWT ${token}`,
       'X-CSRFToken': getCookie(CSRF_TOKEN)
     },
-    body: JSON.stringify({
-      query: composeRequest(request, requestType)
-    })
+    body: JSON.stringify(
+        composeRequest(request, requestType)
+    )
   });
 
   const { data, errors } = await response.json();
@@ -54,12 +54,15 @@ export function composeRequest(request, requestType) {
     fields: operationFields
   } = request;
 
-  return `${requestType} {${formatRequest(
-      operationAlias,
-      operationName,
-      operationArgs,
-      extractFields(operationFields).join(' ')
-  )}}`;
+  return {
+    query: `${requestType} ${capitalize(operationName)} ${mapArgsTypes(operationArgs)} {${formatRequest(
+        operationAlias,
+        operationName,
+        operationArgs,
+        extractFields(operationFields).join(' ')
+    )}}`,
+    variables: mapArgsValues(operationArgs)
+  };
 }
 
 export function formatRequest(alias, name, args, formattedFields) {
@@ -76,7 +79,7 @@ export function extractFields(fields) {
     } = field;
 
     return fields.length ?
-    formatRequest(alias, name, args, mapFields(fields).join(' ')) :
+    formatRequest(alias, name, args, extractFields(fields).join(' ')) :
     name;
   });
 }
@@ -84,28 +87,47 @@ export function extractFields(fields) {
 export function mapArgs(args) {
   const extractedArgs = args.map((arg) => {
     const {
-      name,
-      value
+      name
     } = arg;
 
-    const formattedArgs = typeof value === 'string'? `"${value}"` : value;
-
-    return `${name}: ${formattedArgs}`;
+    return `${name}: $${name}`;
   });
 
   return extractedArgs.length ? `(${extractedArgs.join(', ')})` : '';
 }
 
-export function mapFields(fields) {
-  return fields.map((field) => {
+export function mapArgsTypes(args) {
+  const extractedArgsTypes= args.map((arg) => {
     const {
-      name
-    } = field;
+      name,
+      type
+    } = arg;
 
-    return name;
+    return `$${name}: ${type}`;
   });
+
+  return extractedArgsTypes.length ? `(${extractedArgsTypes.join(', ')})` : '';
+}
+
+function mapArgsValues(args) {
+  const values = {};
+
+  args.map((args) => {
+    const {
+      name,
+      value
+    } = args;
+
+    values[name] = value;
+  });
+
+  return values;
 }
 
 export function formatAlias(alias) {
   return alias?? `${alias}:`;
+}
+
+function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }

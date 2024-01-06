@@ -30,10 +30,11 @@ export class Field {
     return this;
   }
 
-  addArgument(name, value) {
+  addArgument(name, value, type ='String') {
     this.args.push({
       name,
-      value
+      value,
+      type
     });
 
     return this;

@@ -25,3 +25,4 @@ class CartItemInput(graphene.InputObjectType):
     quantity = graphene.Int()
     is_available = graphene.Boolean()
     price = graphene.String()
+    weight = graphene.String()
