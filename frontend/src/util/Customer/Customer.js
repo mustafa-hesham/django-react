@@ -1,5 +1,6 @@
 import { createCartForCustomer, getCartItemsByCustomer } from 'Query/Cart.query';
 import { getStore } from 'Store';
+import { updateCart } from 'Store/Cart/CartReducer.reducer';
 import { getCart, mergeCarts, removeCart, setCart } from 'Util/Cart';
 import { removeCookie } from 'Util/Cookies';
 import { CSRF_TOKEN } from 'Util/Request';
@@ -37,7 +38,7 @@ export function isSignIn() {
   return !!getUsernameFromState();
 }
 
-export async function signInProcedure() {
+export async function signInProcedure(dispatch) {
   const customerUsername = getCustomerData().username || getUsernameFromState();
 
   const {
@@ -65,7 +66,12 @@ export async function signInProcedure() {
     }) : [];
 
     const newCartItems = cartItems.length ? mergeCarts(customerCartItems) : customerCartItems;
-    await createCartForCustomer(customerUsername, cartId, newCartItems);
+
+    if (cartItems.length) {
+      await createCartForCustomer(customerUsername, cartId, newCartItems);
+    }
+
     setCart(newCartItems, cartId);
+    dispatch(updateCart());
   }
 }

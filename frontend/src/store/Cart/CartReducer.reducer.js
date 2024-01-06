@@ -1,7 +1,12 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import { getCart } from 'Util/Cart';
 
-import { ADD_PRODUCT_TO_CART, CREATE_NEW_CART, TOGGLE_CART_OVERLAY } from './CartReducer.config';
+import {
+  ADD_PRODUCT_TO_CART,
+  CREATE_NEW_CART,
+  TOGGLE_CART_OVERLAY,
+  UPDATE_CART
+} from './CartReducer.config';
 
 const getInitialState = () => {
   if (getCart()) {
@@ -9,12 +14,17 @@ const getInitialState = () => {
       isCartOverlayToggled: false,
       ...getCart()
     };
+  } else {
+    return {
+      isCartOverlayToggled: false
+    };
   }
 };
 
 export const updateToggleCartOverlay = createAction(TOGGLE_CART_OVERLAY);
 export const addProductToCart = createAction(ADD_PRODUCT_TO_CART);
 export const createNewCart = createAction(CREATE_NEW_CART);
+export const updateCart = createAction(UPDATE_CART);
 
 export const CartSlice = createSlice({
   name: 'CartReducer',
@@ -49,6 +59,20 @@ export const CartSlice = createSlice({
       } = action;
 
       state.cartId = payload;
+    }
+    );
+    builder.addCase(updateCart, (state) => {
+      const {
+        total,
+        numberOfItems,
+        cartItems,
+        cartId
+      } = getCart();
+
+      state.cartId = cartId;
+      state.cartItems = cartItems;
+      state.numberOfItems = numberOfItems;
+      state.total = total;
     }
     );
   }

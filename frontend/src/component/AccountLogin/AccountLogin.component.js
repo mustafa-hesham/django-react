@@ -68,6 +68,6 @@ async function handleSubmit(event, dispatch) {
     dispatch(updateToggleAccountOverlay(false));
     dispatch(customerSignIn({ username: username }));
     setCustomerData({ username: username });
-    signInProcedure();
+    signInProcedure(dispatch);
   }
 };
