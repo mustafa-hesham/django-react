@@ -5,7 +5,7 @@ from cart.types import CartType, CartItemType, CartItemInput
 from cart.models import Cart, CartItem
 import graphene
 from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 
 class Query(graphene.ObjectType):
@@ -21,13 +21,20 @@ class Query(graphene.ObjectType):
         return CartItem.objects.all()
 
     def resolve_cart_by_user(self, info, user):
+        if not info.context.user.is_authenticated:
+            return
+
         try:
             userObject = User.objects.get(username=user)
             return Cart.objects.get(customer=userObject, isActive=True)
         except Cart.DoesNotExist:
             return None
 
+    @login_required
     def resolve_cart_items_by_user(self, info, user):
+        if not info.context.user.is_authenticated:
+            return
+
         try:
             userObject = User.objects.get(username=user)
             cartObject = Cart.objects.get(customer=userObject, isActive=True)
@@ -38,18 +45,33 @@ class Query(graphene.ObjectType):
 
 class CreateCartForCustomer(graphene.Mutation):
     class Arguments:
-        username = graphene.String(required=True)
+        user = graphene.String(required=True)
         cart_id = graphene.String(required=True)
         cart_items = graphene.List(CartItemInput, required=False)
 
     customer_cart = graphene.Field(lambda: CartType)
 
-    def mutate(self, info, username, cart_id, cart_items):
+    def mutate(self, info, user, cart_id, cart_items):
+        if not info.context.user.is_authenticated:
+            return
+
         try:
-            userObject = User.objects.get(username=username)
+            userObject = User.objects.get(username=user)
             cartObject, created = Cart.objects.get_or_create(
                 cart_id=cart_id, customer=userObject, isActive=True
             )
+
+            cartItemsObjects = CartItem.objects.filter(cart=cartObject, quantity__gt=0)
+            cartItemsIds = []
+
+            for item in cart_items:
+                cartItemsIds.append(item.id)
+
+            if cartItemsObjects and len(cartItemsObjects) > len(cartItemsIds):
+                for cartItem in cartItemsObjects:
+                    if not cartItem.id in cartItemsIds:
+                        cartItem.delete()
+
             if created:
                 cartObject.save()
 
@@ -60,7 +82,11 @@ class CreateCartForCustomer(graphene.Mutation):
                         cart=cartObject, product=productObject
                     )
 
-                    cartItemObject.quantity = item.cartQuantity
+                    if item.cartQuantity <= productObject.quantity:
+                        cartItemObject.quantity = item.cartQuantity
+                    else:
+                        cartItemObject.quantity = productObject.quantity
+
                     cartItemObject.save()
 
             cartObject.updateTotal()
@@ -78,6 +104,7 @@ class AddProductToCart(graphene.Mutation):
 
     cartItem = graphene.Field(lambda: CartItemType)
 
+    @login_required
     def mutate(self, info, productID, cartID, quantity):
         try:
             productObject = Product.objects.get(pk=productID)

@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { getStore } from 'Store';
 import { getCart, setCart } from 'Util/Cart';
 import { getCategoryLocalStorage, updateCategoryLocalStorage } from 'Util/Category';
+import { refreshAuthTokensTimeout } from 'Util/Token';
 
 export default function App() {
   useEffect(initializeReducers, []);
@@ -32,4 +33,5 @@ function initializeReducers() {
   } = getCart();
 
   setCart(cartItems);
+  refreshAuthTokensTimeout();
 };

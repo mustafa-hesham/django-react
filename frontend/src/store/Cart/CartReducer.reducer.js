@@ -1,5 +1,7 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
+import { createCartForCustomer } from 'Query/Cart.query';
 import { getCart } from 'Util/Cart';
+import { getCustomerData } from 'Util/Customer';
 
 import {
   ADD_PRODUCT_TO_CART,
@@ -32,9 +34,20 @@ export const CartSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(updateToggleCartOverlay, (state, action) => {
+      const username = getCustomerData() ? getCustomerData().username : '';
+
       const {
         payload
       } = action;
+
+      const {
+        cartId,
+        cartItems
+      } = getCart();
+
+      if (!!username && !payload) {
+        createCartForCustomer(username, cartId, cartItems);
+      }
 
       state.isCartOverlayToggled = payload;
     }

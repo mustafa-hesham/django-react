@@ -23,9 +23,9 @@ function getProductCartItemFieldList() {
       .addFieldList(getAllProductsFieldList());
 }
 
-export function createCartForCustomer(username, cartId, cartItems) {
+export function createCartForCustomer(user, cartId, cartItems) {
   const mutation = new Field('createCartForCustomer')
-      .addArgument('username', username, 'String!')
+      .addArgument('user', user, 'String!')
       .addArgument('cartId', cartId, 'String!')
       .addArgument('cartItems', cartItems, '[CartItemInput]')
       .addFieldList([getCartList()]);

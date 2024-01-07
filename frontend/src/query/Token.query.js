@@ -12,7 +12,7 @@ export function getAuthToken(username, password) {
 
 export function refreshAuthToken(refreshToken) {
   const mutation = new Field('refreshToken')
-      .addArgument('refreshToken', refreshToken)
+      .addArgument('refreshToken', refreshToken, 'String!')
       .addFieldList(authTokenFields());
 
   return fetchMutation(mutation);
@@ -20,7 +20,7 @@ export function refreshAuthToken(refreshToken) {
 
 export function revokeAuthToken(refreshToken) {
   const mutation = new Field('revokeToken')
-      .addArgument('refreshToken', refreshToken)
+      .addArgument('refreshToken', refreshToken, 'String!')
       .addField('revoked');
 
   return fetchMutation(mutation);

@@ -1,0 +1,1 @@
+export const REFRESH_TOKENS_TIMEOUT = 240000;
