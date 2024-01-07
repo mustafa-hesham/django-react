@@ -10,9 +10,9 @@ root.render(
     </React.StrictMode>
 );
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', async () => {
-    const swUrl = 'service-worker.js';
-    await navigator.serviceWorker.register(swUrl, { scope: '/' });
-  });
-}
+// if ('serviceWorker' in navigator) {
+//   window.addEventListener('load', async () => {
+//     const swUrl = 'service-worker.js';
+//     await navigator.serviceWorker.register(swUrl, { scope: '/' });
+//   });
+// }
