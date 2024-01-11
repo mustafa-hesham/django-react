@@ -30,7 +30,7 @@ self.addEventListener('fetch', async (event) => {
     event.respondWith(caches.open('graphql').then(async (cache) => {
       const requestClone = event.request.clone();
       const body = await requestClone.json();
-      const id = CryptoJS.MD5(body.query).toString();
+      const id = CryptoJS.MD5(body.query + JSON.stringify(body.variables)).toString();
       return cache.match(id).then((cachedResponse) => {
         const fetchedResponse = fetch(event.request).then(async (networkResponse) => {
           const networkResponseClone = networkResponse.clone();
