@@ -1,9 +1,10 @@
 import { CATEGORY } from './Category.config';
 
-export function updateCategoryLocalStorage(name, products) {
+export function updateCategoryLocalStorage(name, products, filters) {
   const category = {
     name,
-    products
+    products,
+    filters
   };
 
   localStorage.setItem(CATEGORY, JSON.stringify(category));

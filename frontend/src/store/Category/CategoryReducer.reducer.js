@@ -1,33 +1,54 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import { getCategoryLocalStorage } from 'Util/Category';
 
-import { UPDATE_CATEGORY_PRODUCTS } from './CategoryReducer.config';
+import {
+  UPDATE_CATEGORY_PRODUCTS,
+  UPDATE_PRICE_FILTER
+} from './CategoryReducer.config';
 
 const getInitialState = () => {
   if (!getCategoryLocalStorage()) {
     return {
       category: {
         name: '',
-        products: []
+        products: [],
+        filters: {
+          price: {
+            minPrice: 0,
+            maxPrice: 9999
+          }
+        }
       }
     };
   }
 
   const {
     name = '',
-    products = []
+    products = [],
+    filters: {
+      price: {
+        minPrice,
+        maxPrice
+      }
+    }
   } = getCategoryLocalStorage();
 
   return {
     category: {
       name: name,
-      products: products
+      products: products,
+      filters: {
+        price: {
+          minPrice: minPrice,
+          maxPrice: maxPrice
+        }
+      }
     }
-
   };
 };
 
 export const updateCategoryProducts = createAction(UPDATE_CATEGORY_PRODUCTS);
+export const updatePriceFilter = createAction(UPDATE_PRICE_FILTER);
 
 export const CategorySlice = createSlice({
   name: 'CategoryReducer',
@@ -36,10 +57,23 @@ export const CategorySlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(updateCategoryProducts, (state, action) => {
       const {
+        payload: {
+          name,
+          products
+        }
+      } = action;
+
+      state.category.name = name;
+      state.category.products = products;
+    }
+    );
+    builder.addCase(updatePriceFilter, (state, action) => {
+      const {
         payload
       } = action;
 
-      state.category = payload;
+      state.category.filters.price.minPrice = payload[0];
+      state.category.filters.price.maxPrice = payload[1];
     }
     );
   }

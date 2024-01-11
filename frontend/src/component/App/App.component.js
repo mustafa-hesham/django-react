@@ -26,8 +26,18 @@ export default function App() {
 
 function initializeReducers() {
   if (!getCategoryLocalStorage()) {
-    updateCategoryLocalStorage('', []);
+    updateCategoryLocalStorage(
+        '',
+        [],
+        {
+          price: {
+            minPrice: 0,
+            maxPrice: 9999
+          }
+        }
+    );
   }
+
   const {
     cartItems = []
   } = getCart();
