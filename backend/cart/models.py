@@ -21,13 +21,14 @@ class Cart(models.Model):
     isActive = models.BooleanField(default=True)
 
     def __str__(self):
-        return str(self.customer)
+        return self.cart_id[0:10]
 
     def abandonedCart(self):
         return now() - self.createdAt > timedelta(days=1) and self.isActive
 
-    def getEmailFromUser(self):
-        self.email = User.email
+    def setEmailForCart(self, email):
+        self.email = email
+        self.save()
 
     def isCartHasItems(self):
         return self.total > 0
@@ -46,3 +47,6 @@ class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = quantity = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return str(self.cart) + " " + self.product.name + " " + str(self.quantity)

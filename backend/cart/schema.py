@@ -73,6 +73,7 @@ class CreateCartForCustomer(graphene.Mutation):
                         cartItem.delete()
 
             if created:
+                cartObject.setEmailForCart(userObject.email)
                 cartObject.save()
 
             if cart_items and len(cart_items):
