@@ -1,16 +1,9 @@
-import { BrowserRouter, Route } from 'react-router-dom';
-import CategoryPage from 'Route/CategoryPage';
-import Home from 'Route/HomePage';
+import { createBrowserRouter as router, RouterProvider } from 'react-router-dom';
+
+import { ROUTES } from './Router.config';
 
 export default function Router() {
   return (
-    <BrowserRouter>
-      <Route exact path="/">
-        <Home />
-      </Route>
-      <Route exact path="/:category">
-        <CategoryPage />
-      </Route>
-    </BrowserRouter>
+    <RouterProvider router={ router(ROUTES) } />
   );
 };
