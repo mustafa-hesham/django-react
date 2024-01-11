@@ -1,5 +1,6 @@
 import './CategoryPage.style.scss';
 
+import CategoryPageFilters from 'Component/CategoryPageFilters';
 import Header from 'Component/Header';
 import ProductCard from 'Component/ProductCard';
 import { getProductsByCategoryName } from 'Query/Product.query';
@@ -21,7 +22,10 @@ export default function CategoryPage() {
   return (
     <div className='CategoryPage'>
       <Header />
-      { renderProductListGrid(categoryProducts) }
+      <div className='CategoryPage-Body'>
+        <CategoryPageFilters />
+        { renderProductListGrid(categoryProducts) }
+      </div>
     </div>
   );
 };

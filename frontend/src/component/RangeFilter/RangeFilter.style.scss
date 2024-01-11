@@ -1,0 +1,42 @@
+.RangeFilter {
+    margin-inline-start: 15px;
+
+    &-Range {
+        width: auto;
+        display: flex;
+        margin-block-start: 25px;
+        font-size: 1vw;
+        white-space: nowrap;
+    }
+
+    &-Thumb {
+        background-color: $primary-button-color;
+        border-radius: 50px;
+        color: $white;
+        font-size: 15px;
+        height: 10px;
+        width: 10px;
+    }
+
+    &-Title {
+        margin-block-end: 10px;
+    }
+
+    &-Track {
+        height: 3px;
+        margin-block-start: 4px;
+
+        &-0 {
+            background-color: $primary-background-color;
+        }
+
+        &-1 {
+            background-color: $black;
+        }
+
+        &-2 {
+            background-color: $primary-background-color;
+        }
+
+    }
+}

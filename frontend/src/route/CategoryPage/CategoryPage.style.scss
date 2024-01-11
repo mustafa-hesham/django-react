@@ -1,4 +1,9 @@
 .CategoryPage{
+    &-Body {
+        display: grid;
+        grid-template-columns: 15% 85%;
+    }
+
     &-ProductList {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
