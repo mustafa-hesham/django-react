@@ -34,17 +34,11 @@ export default function RangeFilter(props) {
 };
 
 function renderRange(value, minValue, maxValue) {
-  if (!value) {
-    return (
-      <div className='RangeFilter-Range'>
-        { `${minValue} to ${maxValue}` }
-      </div>
-    );
-  }
+  const content = value ? `${value[0]} to ${value[1]}` : `${minValue} to ${maxValue}`;
 
   return (
     <div className='RangeFilter-Range'>
-      { `${value[0]} to ${value[1]}` }
+      { content }
     </div>
   );
 };
