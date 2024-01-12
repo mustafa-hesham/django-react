@@ -314,8 +314,8 @@ def populate_ProductImageColor():
 
         colors_array.append(object)
     try:
-        os.mknod("colors_array.json")
-        f = open("colors_array.json", "w")
+        os.mknod("colors.json")
+        f = open("colors.json", "w")
         f.write(str(colors_array))
         f.close()
         print(colors_array)

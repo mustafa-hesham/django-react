@@ -1,6 +1,11 @@
 import graphene
-from product.types import ProductType, CategoryType
-from product.models import Product, Category
+from product.types import (
+    ProductType,
+    CategoryType,
+    ProductImagesItemType,
+    ProductImageType,
+)
+from product.models import Product, Category, ProductImagesItem, ProductImage
 import graphql_jwt
 
 
@@ -8,6 +13,8 @@ class Query(graphene.ObjectType):
     products = graphene.List(ProductType)
     categories = graphene.List(CategoryType)
     products_by_category = graphene.List(ProductType, category=graphene.String())
+    products_items = graphene.List(ProductImagesItemType)
+    product_images = graphene.List(ProductImageType)
 
     def resolve_products(self, info):
         return Product.objects.all()
@@ -21,6 +28,12 @@ class Query(graphene.ObjectType):
             return Product.objects.filter(category=categoryId)
         except Product.DoesNotExist:
             return None
+
+    def resolve_products_items(self, info):
+        return ProductImagesItem.objects.all()
+
+    def resolve_product_images(self, info):
+        return ProductImage.objects.all()
 
 
 class Mutation(graphene.ObjectType):

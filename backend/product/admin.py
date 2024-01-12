@@ -5,6 +5,7 @@ from .models import (
     ProductImagesItem,
     ProductImage,
     ProductImageColor,
+    ProductSize,
 )
 
 # Register your models here.
@@ -12,6 +13,7 @@ from .models import (
 
 class ProductImagesTabularInline(admin.TabularInline):
     model = ProductImagesItem
+    extra = 1
 
 
 class ProductAdmin(admin.ModelAdmin):
@@ -25,6 +27,7 @@ class ProductImageColorAdmin(admin.ModelAdmin):
     list_display = ["colored_name"]
 
 
+admin.site.register(ProductSize)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category)
 admin.site.register(ProductImage)

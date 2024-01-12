@@ -29,9 +29,21 @@ class ProductImageColor(models.Model):
         )
 
 
+class ProductSize(models.Model):
+    name = models.CharField(max_length=20, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 class ProductImage(models.Model):
     image = models.ImageField(upload_to="images/products/")
-    color = models.ForeignKey(ProductImageColor, on_delete=models.DO_NOTHING)
+    color = models.ForeignKey(ProductImageColor, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    size = models.ManyToManyField(ProductSize)
+
+    def __str__(self):
+        return self.color.name
 
 
 class Product(models.Model):
@@ -61,4 +73,4 @@ class Product(models.Model):
 class ProductImagesItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     image = models.OneToOneField(ProductImage, on_delete=models.CASCADE)
-    order = models.IntegerField(default=1)
+    order = models.PositiveIntegerField(default=1)
