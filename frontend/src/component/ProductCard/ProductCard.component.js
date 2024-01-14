@@ -1,7 +1,8 @@
 import './ProductCard.style.scss';
 
 import AddToCart from 'Component/AddToCart';
-import { getProductImages } from 'Util/Product';
+import { useState } from 'react';
+import { getProductColors, getProductImages, getProductVariantSizesByColor, sortVariants } from 'Util/Product';
 
 export default function ProductCard(props) {
   const {
@@ -13,13 +14,23 @@ export default function ProductCard(props) {
     }
   } = props;
 
-  const sortedVariantsByOrder = variants.slice().sort((a, b) => a.productvariant.order - b.productvariant.order);
+  const [clickedColorIndex, setClickedColorIndex] = useState(0);
+
+  const sortedVariantsByOrder = sortVariants(variants);
+  const productColors = getProductColors(sortedVariantsByOrder, false);
+  const selectedColor = productColors.find((color) => color[1] === clickedColorIndex);
+  const sizesByColor = getProductVariantSizesByColor(sortedVariantsByOrder, selectedColor, false);
 
   return (
     <div className='ProductCard'>
-      { renderProductImages(getProductImages(sortedVariantsByOrder, false)) }
+      { renderProductImages(getProductImages(sortedVariantsByOrder, false), clickedColorIndex) }
       { renderProductName(name) }
       { renderProductPrice(price) }
+      { renderProductColorsAndSizes(
+          productColors,
+          setClickedColorIndex,
+          sizesByColor
+      ) }
       { renderAddToCart(product) }
     </div>
   );
@@ -37,14 +48,21 @@ function renderProductName(name) {
   );
 }
 
-function renderProductImages(variantsImages) {
+function renderProductImages(variantsImages, clickedColorIndex) {
   if (!variantsImages) {
     return null;
   }
 
+  const imageUrl = `static/media/${variantsImages[clickedColorIndex]}`;
+
   return (
     <div className='ProductCard-Images'>
-      <img className='ProductCard-Image' src={ `static/media/${variantsImages[0]}` } />
+      <div
+        className='ProductCard-Image'
+        style={ {
+          backgroundImage: `url('${imageUrl}')`
+        } }
+      />
     </div>
   );
 };
@@ -67,6 +85,53 @@ function renderAddToCart(product) {
       className='ProductCard-AddToCart'
     >
       <AddToCart product={ product } />
+    </div>
+  );
+};
+
+function renderProductColor(color, setClickedColorIndex) {
+  if (!color) {
+    return null;
+  }
+
+  const {
+    hexValue
+  } = color[0];
+
+  return (
+    <div
+      key={ hexValue }
+      className='ProductCard-Color'
+      style={ {
+        backgroundColor: `${hexValue}`
+      } }
+      onClick={ () => setClickedColorIndex(color[1]) }
+    />
+
+  );
+};
+
+function renderVariantSizes(size) {
+  return (
+    <div className='ProductCard-Size'>
+      { size }
+    </div>
+  );
+};
+
+function renderProductColorsAndSizes(colors, setClickedColorIndex, sizesByColor) {
+  if (!colors && !colors.length) {
+    return null;
+  }
+
+  return (
+    <div className='ProductCard-VariantInfo'>
+      <div className='ProductCard-Colors'>
+        { colors.map((color, index) => renderProductColor(color, setClickedColorIndex, index)) }
+      </div>
+      <div className='ProductCard-Sizes'>
+        { sizesByColor && sizesByColor.map(renderVariantSizes) }
+      </div>
     </div>
   );
 };

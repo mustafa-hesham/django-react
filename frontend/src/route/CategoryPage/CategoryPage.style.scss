@@ -12,6 +12,10 @@
         place-items: center center;
         margin-block-start: 35px;
 
+        @include tablet {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
         @include mobile {
             grid-template-columns: repeat(2, 1fr);
         }
