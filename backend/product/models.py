@@ -1,3 +1,4 @@
+# type: ignore
 from colorfield.fields import ColorField
 from django.db import models
 from django.utils.timezone import now
@@ -40,22 +41,22 @@ class ProductImage(models.Model):
     image = models.ImageField(upload_to="images/products/")
     color = models.ForeignKey(ProductImageColor, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
-    size = models.ManyToManyField(ProductSize)
+    size = models.ForeignKey(ProductSize, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.color.name
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=100, unique=True)
     price = models.DecimalField(decimal_places=2, max_digits=10)
     quantity = models.PositiveIntegerField(default=0)
     SKU = models.CharField(max_length=15, unique=True)
     weight = models.DecimalField(decimal_places=2, max_digits=10)
     is_available = models.BooleanField(default=True)
     description = models.TextField(max_length=500, blank=True)
-    images = models.ManyToManyField(
-        ProductImage, through="ProductImagesItem", related_name="product_images_item"
+    variants = models.ManyToManyField(
+        ProductImage, through="ProductVariant", related_name="product_variant"
     )
     createdAt = models.DateTimeField(default=now, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -70,7 +71,14 @@ class Product(models.Model):
         self.is_available = self.getIsAvailable()
 
 
-class ProductImagesItem(models.Model):
+class ProductVariant(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     image = models.OneToOneField(ProductImage, on_delete=models.CASCADE)
     order = models.PositiveIntegerField(default=1)
+
+    # To update product quantity when adding a new variant.
+    def save(self, *args, **kwargs):
+        variantQuantity = self.image.quantity
+        self.product.quantity += variantQuantity
+        self.product.save()
+        super(ProductVariant, self).save(*args, **kwargs)

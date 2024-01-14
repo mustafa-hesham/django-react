@@ -2,10 +2,10 @@ import graphene
 from product.types import (
     ProductType,
     CategoryType,
-    ProductImagesItemType,
+    ProductVariantType,
     ProductImageType,
 )
-from product.models import Product, Category, ProductImagesItem, ProductImage
+from product.models import Product, Category, ProductVariant, ProductImage
 import graphql_jwt
 
 
@@ -13,7 +13,7 @@ class Query(graphene.ObjectType):
     products = graphene.List(ProductType)
     categories = graphene.List(CategoryType)
     products_by_category = graphene.List(ProductType, category=graphene.String())
-    products_items = graphene.List(ProductImagesItemType)
+    products_items = graphene.List(ProductVariantType)
     product_images = graphene.List(ProductImageType)
 
     def resolve_products(self, info):
@@ -30,7 +30,7 @@ class Query(graphene.ObjectType):
             return None
 
     def resolve_products_items(self, info):
-        return ProductImagesItem.objects.all()
+        return ProductVariant.objects.all()
 
     def resolve_product_images(self, info):
         return ProductImage.objects.all()

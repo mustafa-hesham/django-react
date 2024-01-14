@@ -1,8 +1,10 @@
 from graphene_django import DjangoObjectType
+import graphene
+
 from product.models import (
     Product,
     Category,
-    ProductImagesItem,
+    ProductVariant,
     ProductSize,
     ProductImageColor,
     ProductImage,
@@ -21,9 +23,9 @@ class CategoryType(DjangoObjectType):
         fields = "__all__"
 
 
-class ProductImagesItemType(DjangoObjectType):
+class ProductVariantType(DjangoObjectType):
     class Meta:
-        model = ProductImagesItem
+        model = ProductVariant
         fields = "__all__"
 
 
@@ -43,3 +45,24 @@ class ProductImageType(DjangoObjectType):
     class Meta:
         model = ProductImage
         fields = "__all__"
+
+
+class ProductSizeInputType(graphene.InputObjectType):
+    name = graphene.String()
+
+
+class ProductColorInputType(graphene.InputObjectType):
+    name = graphene.String()
+    hexValue = graphene.String()
+
+
+class ProductVariantOrderInputType(graphene.InputObjectType):
+    order = graphene.Int()
+
+
+class ProductVariantInputType(graphene.InputObjectType):
+    image = graphene.String()
+    quantity = graphene.Int()
+    color = ProductColorInputType()
+    size = ProductSizeInputType()
+    productvariant = ProductVariantOrderInputType()

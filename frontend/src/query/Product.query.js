@@ -16,10 +16,47 @@ export function getAllProductsFieldList() {
     'price',
     'isAvailable',
     'quantity',
-    'images',
     'weight',
-    'description'
+    'description',
+    getProductVariants()
   ];
+}
+
+function getProductVariants() {
+  return new Field('variants')
+      .addFieldList(getProductVariantsFieldList());
+}
+
+function getProductVariantsFieldList() {
+  return [
+    'image',
+    'quantity',
+    getProductSize(),
+    getProductColor(),
+    getProductVariantOrder()
+  ];
+}
+
+function getProductSize() {
+  return new Field('size')
+      .addField('name');
+}
+
+function getProductColor() {
+  return new Field('color')
+      .addFieldList(productColorFieldList());
+}
+
+function productColorFieldList() {
+  return [
+    'name',
+    'hexValue'
+  ];
+}
+
+function getProductVariantOrder() {
+  return new Field('productvariant')
+      .addField('order');
 }
 
 export function getProductsByCategoryName(categoryName) {

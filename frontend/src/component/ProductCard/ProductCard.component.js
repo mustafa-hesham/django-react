@@ -1,20 +1,23 @@
 import './ProductCard.style.scss';
 
 import AddToCart from 'Component/AddToCart';
+import { getProductImages } from 'Util/Product';
 
 export default function ProductCard(props) {
   const {
     product,
     product: {
       name = '',
-      images = '',
+      variants,
       price = 0.00
     }
   } = props;
 
+  const sortedVariantsByOrder = variants.slice().sort((a, b) => a.productvariant.order - b.productvariant.order);
+
   return (
     <div className='ProductCard'>
-      { renderProductImage(images) }
+      { renderProductImages(getProductImages(sortedVariantsByOrder, false)) }
       { renderProductName(name) }
       { renderProductPrice(price) }
       { renderAddToCart(product) }
@@ -34,14 +37,14 @@ function renderProductName(name) {
   );
 }
 
-function renderProductImage(images) {
-  if (!images) {
+function renderProductImages(variantsImages) {
+  if (!variantsImages) {
     return null;
   }
 
   return (
     <div className='ProductCard-Images'>
-      <img className='ProductCard-Image' src={ `static/media/${images}` } />
+      <img className='ProductCard-Image' src={ `static/media/${variantsImages[0]}` } />
     </div>
   );
 };

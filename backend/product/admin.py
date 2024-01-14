@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import (
     Product,
     Category,
-    ProductImagesItem,
+    ProductVariant,
     ProductImage,
     ProductImageColor,
     ProductSize,
@@ -12,7 +12,7 @@ from .models import (
 
 
 class ProductImagesTabularInline(admin.TabularInline):
-    model = ProductImagesItem
+    model = ProductVariant
     extra = 1
 
 

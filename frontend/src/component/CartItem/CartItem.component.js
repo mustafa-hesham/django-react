@@ -3,6 +3,7 @@ import './CartItem.styles.scss';
 import QuantityChanger from 'Component/QuantityChanger';
 import { useDispatch } from 'react-redux';
 import { ReactComponent as RemoveIcon } from 'Style/icons/RemoveIcon/remove-icon.svg';
+import { getProductImages } from 'Util/Product';
 
 export default function CartItem(props) {
   const {
@@ -13,7 +14,7 @@ export default function CartItem(props) {
       name,
       price,
       cartQuantity,
-      images,
+      variants,
       id: productID
     }
   } = props;
@@ -26,7 +27,7 @@ export default function CartItem(props) {
 
   return (
     <div className='CartItem'>
-      { renderImage(images) }
+      { renderImage(getProductImages(variants)) }
       { renderName(name) }
       { renderQuantity(addProduct, product, dispatch) }
       { renderItemTotalPrice(price, cartQuantity) }
@@ -50,7 +51,7 @@ function renderImage(images) {
 
   return (
     <div className='CartItem-Images'>
-      <img className='CartItem-Image' src={ `static/media/${images}` } />
+      <img className='CartItem-Image' src={ `static/media/${images[0]}` } />
     </div>
   );
 };
