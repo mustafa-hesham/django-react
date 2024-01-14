@@ -62,9 +62,13 @@ export function addProductToCart(product, cartQuantity, dispatch) {
     cartItems
   } = getCart();
 
-  if (cartItems.some((item) => item.id === product.id)) {
+  if (cartItems.some((item) => item.id === product.id &&
+  item.variants.color.name === product.variants.color.name)) {
     newCartItems = cartItems.map(
-        (item) => item.id === product.id ? { ...item, cartQuantity: item.cartQuantity + cartQuantity } : item
+        (item) => item.id === product.id &&
+        item.variants.color.name === product.variants.color.name ?
+        { ...item, cartQuantity: item.cartQuantity + cartQuantity } :
+        item
     );
   } else {
     const newCartItem = {
@@ -86,16 +90,16 @@ export function generateUniqueCartID() {
   ).replace(/-/g, '');
 }
 
-export function removeProductFromCart(productID, dispatch) {
+export function removeProductFromCart(productID, colorName, dispatch) {
   const {
     cartItems = []
   } = getCart();
 
-  if (!cartItems || !cartItems.some((item) => item.id === productID)) {
+  if (!cartItems || !cartItems.some((item) => item.id === productID && item.variants.color.name === colorName)) {
     return;
   }
 
-  const newCartItems = cartItems.filter((item) => item.id !== productID);
+  const newCartItems = cartItems.filter((item) => !(item.id === productID && item.variants.color.name === colorName));
   setCart(newCartItems);
   updateCartReducer(dispatch);
 }

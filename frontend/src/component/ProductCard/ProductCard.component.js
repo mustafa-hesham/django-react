@@ -31,7 +31,7 @@ export default function ProductCard(props) {
           setClickedColorIndex,
           sizesByColor
       ) }
-      { renderAddToCart(product) }
+      { renderAddToCart(product, clickedColorIndex) }
     </div>
   );
 };
@@ -79,12 +79,22 @@ function renderProductPrice(price) {
   );
 };
 
-function renderAddToCart(product) {
+function renderAddToCart(product, clickedColorIndex) {
+  const {
+    variants
+  } = product;
+
+  const modifiedProduct = {
+    ...product,
+    variants: {
+      ...variants[clickedColorIndex]
+    }
+  };
   return (
     <div
       className='ProductCard-AddToCart'
     >
-      <AddToCart product={ product } />
+      <AddToCart product={ modifiedProduct } />
     </div>
   );
 };
