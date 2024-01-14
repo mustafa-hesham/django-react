@@ -1,6 +1,6 @@
 # type: ignore
 from email.policy import default
-from product.models import Product
+from product.models import Product, ProductVariant
 from cart.types import CartType, CartItemType, CartItemInput
 from cart.models import Cart, CartItem
 import graphene
@@ -63,13 +63,18 @@ class CreateCartForCustomer(graphene.Mutation):
 
             cartItemsObjects = CartItem.objects.filter(cart=cartObject, quantity__gt=0)
             cartItemsIds = []
+            cartItemsVariantsId = []
 
             for item in cart_items:
                 cartItemsIds.append(item.id)
+                cartItemsVariantsId.append(item.variants[0].id)
 
             if cartItemsObjects and len(cartItemsObjects) > len(cartItemsIds):
                 for cartItem in cartItemsObjects:
-                    if not cartItem.id in cartItemsIds:
+                    if not (
+                        cartItem.id in cartItemsIds
+                        and cartItem.productVariantId in cartItemsVariantsId
+                    ):
                         cartItem.delete()
 
             if created:
@@ -79,8 +84,11 @@ class CreateCartForCustomer(graphene.Mutation):
             if cart_items and len(cart_items):
                 for item in cart_items:
                     productObject = Product.objects.get(pk=item.id)
+                    productVariantId = int(item.variants[0].id)
                     cartItemObject, cartItemCreated = CartItem.objects.get_or_create(
-                        cart=cartObject, product=productObject
+                        cart=cartObject,
+                        product=productObject,
+                        productVariantId=productVariantId,
                     )
 
                     if item.cartQuantity <= productObject.quantity:

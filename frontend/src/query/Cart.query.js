@@ -15,6 +15,7 @@ export function getCartItemsByCustomer(customer) {
 function getCartItemFieldList() {
   return new Field('cartitemSet')
       .addField('quantity')
+      .addField('productVariantId')
       .addFieldList([getProductCartItemFieldList()]);
 }
 

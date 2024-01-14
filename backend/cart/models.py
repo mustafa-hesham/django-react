@@ -47,6 +47,13 @@ class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = quantity = models.PositiveIntegerField(default=0)
+    productVariantId = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return str(self.cart) + " " + self.product.name + " " + str(self.quantity)
+        return (
+            str(self.cart)
+            + " "
+            + self.product.name
+            + " "
+            + str(self.product.variants.get(pk=self.productVariantId).color.name)
+        )

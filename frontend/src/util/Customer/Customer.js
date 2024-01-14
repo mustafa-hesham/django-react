@@ -59,8 +59,17 @@ export async function signInProcedure(dispatch) {
     } = cartByUser;
 
     const customerCartItems = cartitemSet.length? cartitemSet.map((item) => {
-      return {
+      const {
+        productVariantId
+      } = item;
+
+      const itemProduct = {
         ...item.product,
+        variants: item.product.variants.find((variant) => parseInt(variant.id) === productVariantId)
+      };
+
+      return {
+        ...itemProduct,
         cartQuantity: item.quantity
       };
     }) : [];

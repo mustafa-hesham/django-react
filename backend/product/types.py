@@ -61,6 +61,7 @@ class ProductVariantOrderInputType(graphene.InputObjectType):
 
 
 class ProductVariantInputType(graphene.InputObjectType):
+    id = graphene.String()
     image = graphene.String()
     quantity = graphene.Int()
     color = ProductColorInputType()

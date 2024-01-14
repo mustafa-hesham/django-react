@@ -29,6 +29,7 @@ function getProductVariants() {
 
 function getProductVariantsFieldList() {
   return [
+    'id',
     'image',
     'quantity',
     getProductSize(),
