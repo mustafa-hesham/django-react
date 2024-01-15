@@ -67,3 +67,7 @@ class ProductVariantInputType(graphene.InputObjectType):
     color = ProductColorInputType()
     size = ProductSizeInputType()
     productvariant = ProductVariantOrderInputType()
+
+
+class CategoryInputType(graphene.InputObjectType):
+    name = graphene.String()

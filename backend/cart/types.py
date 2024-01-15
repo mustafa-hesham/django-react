@@ -1,7 +1,7 @@
 from cart.models import Cart, CartItem
 from graphene_django import DjangoObjectType
 import graphene
-from product.types import ProductVariantType, ProductVariantInputType
+from product.types import CategoryInputType, ProductVariantInputType
 
 
 class CartType(DjangoObjectType):
@@ -27,3 +27,4 @@ class CartItemInput(graphene.InputObjectType):
     is_available = graphene.Boolean()
     price = graphene.String()
     weight = graphene.String()
+    category = CategoryInputType()
