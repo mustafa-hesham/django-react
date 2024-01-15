@@ -1,5 +1,6 @@
 import CategoryPage from 'Route/CategoryPage';
 import Home from 'Route/HomePage';
+import ProductPage from 'Route/ProductPage';
 
 export const ROUTES = [
   {
@@ -9,5 +10,9 @@ export const ROUTES = [
   {
     path: '/:category',
     element: <CategoryPage />
+  },
+  {
+    path: '/:SKU/:productName',
+    element: <ProductPage />
   }
 ];

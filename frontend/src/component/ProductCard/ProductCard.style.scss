@@ -48,6 +48,7 @@
 
         &:hover {
             transform: scale(1.2);
+            cursor: pointer;
         }
     }
 
@@ -93,5 +94,10 @@
 
     &-Size {
         margin-inline-end: 1vw;
+    }
+
+    &-MoreSizes {
+        font-size: 1rem;
+        white-space: nowrap;
     }
 }

@@ -38,11 +38,15 @@
     -->
     <script>
       if ('serviceWorker' in navigator) {
+          const {
+            location: { origin }
+          } = window;
+
         window.addEventListener('load', async () => {
-        const swUrl = 'service-worker.js';
-        await navigator.serviceWorker.register(swUrl, { scope: "/", type: "classic" });
-      });
-    }
+          const swUrl = `${origin}/service-worker.js`;
+          await navigator.serviceWorker.register(swUrl, { scope: '/', type: 'classic' });
+        });
+      }
     </script>
   </body>
 </html>

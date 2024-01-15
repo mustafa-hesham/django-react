@@ -1,13 +1,16 @@
+/* eslint-disable no-magic-numbers */
 import './ProductCard.style.scss';
 
 import AddToCart from 'Component/AddToCart';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getProductColors, getProductImages, getProductVariantSizesByColor, sortVariants } from 'Util/Product';
 
 export default function ProductCard(props) {
   const {
     product,
     product: {
+      SKU,
       name = '',
       variants,
       price = 0.00
@@ -20,10 +23,20 @@ export default function ProductCard(props) {
   const productColors = getProductColors(sortedVariantsByOrder, false);
   const selectedColor = productColors.find((color) => color[1] === clickedColorIndex);
   const sizesByColor = getProductVariantSizesByColor(sortedVariantsByOrder, selectedColor, false);
+  const navigate = useNavigate();
+  const modifiedProductName = name.replaceAll(' ', '-');
 
   return (
-    <div className='ProductCard'>
-      { renderProductImages(getProductImages(sortedVariantsByOrder, false), clickedColorIndex) }
+    <div
+      className='ProductCard'
+    >
+      { renderProductImages(
+          getProductImages(sortedVariantsByOrder, false),
+          clickedColorIndex,
+          modifiedProductName,
+          SKU,
+          navigate
+      ) }
       { renderProductName(name) }
       { renderProductPrice(price) }
       { renderProductColorsAndSizes(
@@ -48,7 +61,7 @@ function renderProductName(name) {
   );
 }
 
-function renderProductImages(variantsImages, clickedColorIndex) {
+function renderProductImages(variantsImages, clickedColorIndex, modifiedProductName, SKU, navigate) {
   if (!variantsImages) {
     return null;
   }
@@ -56,7 +69,10 @@ function renderProductImages(variantsImages, clickedColorIndex) {
   const imageUrl = `static/media/${variantsImages[clickedColorIndex]}`;
 
   return (
-    <div className='ProductCard-Images'>
+    <div
+      className='ProductCard-Images'
+      onClick={ ()=> navigate(`/${SKU}/${modifiedProductName}`) }
+    >
       <div
         className='ProductCard-Image'
         style={ {
@@ -80,6 +96,10 @@ function renderProductPrice(price) {
 };
 
 function renderAddToCart(product, clickedColorIndex) {
+  if (!product) {
+    return null;
+  }
+
   const {
     variants
   } = product;
@@ -122,6 +142,10 @@ function renderProductColor(color, setClickedColorIndex) {
 };
 
 function renderVariantSizes(size) {
+  if (!size) {
+    return null;
+  }
+
   return (
     <div className='ProductCard-Size'>
       { size }
@@ -140,7 +164,8 @@ function renderProductColorsAndSizes(colors, setClickedColorIndex, sizesByColor)
         { colors.map((color, index) => renderProductColor(color, setClickedColorIndex, index)) }
       </div>
       <div className='ProductCard-Sizes'>
-        { sizesByColor && sizesByColor.map(renderVariantSizes) }
+        { sizesByColor.length < 4 ? sizesByColor.map(renderVariantSizes) :
+        <div className='ProductCard-MoreSizes'>{ `${sizesByColor.length} sizes` }</div> }
       </div>
     </div>
   );

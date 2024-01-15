@@ -38,4 +38,8 @@ urlpatterns = [
     ),
     path("manifest.json", TemplateView.as_view(template_name="manifest.json")),
     path("robots.txt", TemplateView.as_view(template_name="robots.txt")),
+    path(
+        "<SKU>/<productName>",
+        ensure_csrf_cookie(TemplateView.as_view(template_name="index.html")),
+    ),
 ]
