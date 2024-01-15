@@ -15,6 +15,7 @@ class Query(graphene.ObjectType):
     products_by_category = graphene.List(ProductType, category=graphene.String())
     products_items = graphene.List(ProductVariantType)
     product_images = graphene.List(ProductImageType)
+    product_by_sku = graphene.Field(ProductType, sku=graphene.String(required=True))
 
     def resolve_products(self, info):
         return Product.objects.all()
@@ -34,6 +35,9 @@ class Query(graphene.ObjectType):
 
     def resolve_product_images(self, info):
         return ProductImage.objects.all()
+
+    def resolve_product_by_sku(self, info, sku):
+        return Product.objects.get(SKU=sku)
 
 
 class Mutation(graphene.ObjectType):

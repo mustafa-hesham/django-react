@@ -18,8 +18,14 @@ export function getAllProductsFieldList() {
     'quantity',
     'weight',
     'description',
+    productCategoryFields(),
     getProductVariants()
   ];
+}
+
+function productCategoryFields() {
+  return new Field('category')
+      .addField('name');
 }
 
 function getProductVariants() {
@@ -63,6 +69,14 @@ function getProductVariantOrder() {
 export function getProductsByCategoryName(categoryName) {
   const query = new Field('productsByCategory')
       .addArgument('category', categoryName, 'String!')
+      .addFieldList(getAllProductsFieldList());
+
+  return fetchQuery(query);
+}
+
+export function getProductBySKU(sku) {
+  const query = new Field('productBySku')
+      .addArgument('sku', sku, 'String!')
       .addFieldList(getAllProductsFieldList());
 
   return fetchQuery(query);
