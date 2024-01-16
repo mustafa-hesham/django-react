@@ -1,6 +1,7 @@
 import './AddToCart.style.scss';
 
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlayReducer.reducer';
 import { updateToggleCartOverlay } from 'Store/Cart/CartReducer.reducer';
 import { addProductToCart } from 'Util/Cart';
@@ -13,6 +14,7 @@ export default function AddToCart(props) {
   } = props;
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isCartOverlayToggled = useSelector((state) => state.CartReducer.isCartOverlayToggled);
   const isAccountOverlayToggled = useSelector((state) => state.AccountOverlayReducer.isAccountOverlayToggled);
   const cartItems = useSelector((state) => state.CartReducer?.cartItems);
@@ -25,29 +27,48 @@ export default function AddToCart(props) {
   return (
     <div
       className='AddToCart'
-      onClick={ () => addProduct(product, dispatch, isCartOverlayToggled, isAccountOverlayToggled, cartQuantity) }
+      onClick={ () => addProduct(
+          product,
+          dispatch,
+          isCartOverlayToggled,
+          isAccountOverlayToggled,
+          cartQuantity,
+          navigate
+      ) }
     >
       { ADD_TO_CART }
     </div>
   );
 };
 
-function addProduct(product, dispatch, isCartOverlayToggled, isAccountOverlayToggled, cartQuantity) {
+function addProduct(product, dispatch, isCartOverlayToggled, isAccountOverlayToggled, cartQuantity, navigate) {
   const {
-    quantity
+    quantity,
+    variants
   } = product;
 
-  if (isAccountOverlayToggled) {
-    dispatch(updateToggleAccountOverlay(!isAccountOverlayToggled));
-  }
+  if (Array.isArray(variants) && variants.length > 1) {
+    const {
+      SKU,
+      name
+    } = product;
 
-  if (cartQuantity >= quantity) {
-    return;
-  }
+    const modifiedProductName = name.replaceAll(' ', '-');
 
-  addProductToCart(product, 1, dispatch);
+    navigate(`/${SKU}/${modifiedProductName}`);
+  } else {
+    if (isAccountOverlayToggled) {
+      dispatch(updateToggleAccountOverlay(!isAccountOverlayToggled));
+    }
 
-  if (!isCartOverlayToggled) {
-    dispatch(updateToggleCartOverlay(true));
+    if (cartQuantity >= quantity) {
+      return;
+    }
+
+    addProductToCart(product, 1, dispatch);
+
+    if (!isCartOverlayToggled) {
+      dispatch(updateToggleCartOverlay(true));
+    }
   }
 };

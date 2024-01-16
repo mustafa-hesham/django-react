@@ -4,7 +4,12 @@ import './ProductCard.style.scss';
 import AddToCart from 'Component/AddToCart';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getProductColors, getProductImages, getProductVariantSizesByColor, sortVariants } from 'Util/Product';
+import {
+  getMediaLink,
+  getProductColors,
+  getProductImages,
+  getProductVariantSizesByColor,
+  sortVariants } from 'Util/Product';
 
 export default function ProductCard(props) {
   const {
@@ -44,7 +49,7 @@ export default function ProductCard(props) {
           setClickedColorIndex,
           sizesByColor
       ) }
-      { renderAddToCart(product, clickedColorIndex) }
+      { renderAddToCart(product) }
     </div>
   );
 };
@@ -66,7 +71,7 @@ function renderProductImages(variantsImages, clickedColorIndex, modifiedProductN
     return null;
   }
 
-  const imageUrl = `static/media/${variantsImages[clickedColorIndex]}`;
+  const imageUrl = getMediaLink(variantsImages[clickedColorIndex]);
 
   return (
     <div
@@ -95,7 +100,7 @@ function renderProductPrice(price) {
   );
 };
 
-function renderAddToCart(product, clickedColorIndex) {
+function renderAddToCart(product) {
   if (!product) {
     return null;
   }
@@ -104,12 +109,13 @@ function renderAddToCart(product, clickedColorIndex) {
     variants
   } = product;
 
-  const modifiedProduct = {
+  const modifiedProduct = variants.length === 1 ? {
     ...product,
     variants: {
-      ...variants[clickedColorIndex]
+      ...variants[0]
     }
-  };
+  } : product;
+
   return (
     <div
       className='ProductCard-AddToCart'
@@ -141,18 +147,6 @@ function renderProductColor(color, setClickedColorIndex) {
   );
 };
 
-function renderVariantSizes(size) {
-  if (!size) {
-    return null;
-  }
-
-  return (
-    <div className='ProductCard-Size'>
-      { size }
-    </div>
-  );
-};
-
 function renderProductColorsAndSizes(colors, setClickedColorIndex, sizesByColor) {
   if (!colors && !colors.length) {
     return null;
@@ -164,8 +158,9 @@ function renderProductColorsAndSizes(colors, setClickedColorIndex, sizesByColor)
         { colors.map((color, index) => renderProductColor(color, setClickedColorIndex, index)) }
       </div>
       <div className='ProductCard-Sizes'>
-        { sizesByColor.length < 4 ? sizesByColor.map(renderVariantSizes) :
-        <div className='ProductCard-MoreSizes'>{ `${sizesByColor.length} sizes` }</div> }
+        { sizesByColor.length === 1 ? <div className='ProductCard-Size'>
+          { sizesByColor[0] }
+        </div> : <div className='ProductCard-MoreSizes'>{ `${sizesByColor.length} sizes` }</div> }
       </div>
     </div>
   );

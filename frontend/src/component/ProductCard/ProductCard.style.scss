@@ -36,7 +36,6 @@
 
     &-Image {
         min-width: 100%;
-        height: 0;
         padding-block-start: 120%;
         transition-property: transform, background-image;
         background-size: cover;
@@ -59,17 +58,22 @@
         text-align: center;
         padding-block: 20px;
         padding-inline: 10px;
+        height: 10%;
 
         @include mobile {
-            font-size: 3vw;
+            font-size: 2vw;
         }
     }
 
     &-Price {
         text-align: center;
         font-family: $MRKMaston-Regular;
-        font-size: 22px;
+        font-size: 3vw;
         padding-block-end: 20px;
+
+        @include desktop {
+            font-size: 2vw;
+        }
     }
 
     &-AddToCart {
@@ -78,6 +82,7 @@
     }
 
     &-VariantInfo {
+        min-width: 105px;
         display: flex;
         justify-content: space-between;
     }

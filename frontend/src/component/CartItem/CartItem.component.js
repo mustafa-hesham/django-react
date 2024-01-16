@@ -3,6 +3,7 @@ import './CartItem.styles.scss';
 import QuantityChanger from 'Component/QuantityChanger';
 import { useDispatch } from 'react-redux';
 import { ReactComponent as RemoveIcon } from 'Style/icons/RemoveIcon/remove-icon.svg';
+import { getMediaLink } from 'Util/Product';
 
 export default function CartItem(props) {
   const {
@@ -55,7 +56,7 @@ function renderImage(image) {
 
   return (
     <div className='CartItem-Images'>
-      <img className='CartItem-Image' src={ `static/media/${image}` } />
+      <img className='CartItem-Image' src={ getMediaLink(image) } />
     </div>
   );
 };
