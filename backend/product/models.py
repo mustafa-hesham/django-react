@@ -38,12 +38,16 @@ class ProductSize(models.Model):
 
 
 class ProductImage(models.Model):
+    class Meta:
+        ordering = ["productvariant__order"]
+
     image = models.ImageField(upload_to="images/products/")
     color = models.ForeignKey(ProductImageColor, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     size = models.ForeignKey(ProductSize, on_delete=models.CASCADE)
 
     def __str__(self):
+        # associatedProduct = ProductVariant.objects.get(image=self).product
         return self.color.name
 
 
@@ -75,6 +79,9 @@ class ProductVariant(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     image = models.OneToOneField(ProductImage, on_delete=models.CASCADE)
     order = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        ordering = ["order"]
 
     # To update product quantity when adding a new variant.
     def save(self, *args, **kwargs):

@@ -10,8 +10,7 @@ import {
   getMediaLink,
   getProductColors,
   getProductImages,
-  getProductVariantSizesByColor,
-  sortVariants
+  getProductVariantSizesByColor
 } from 'Util/Product';
 
 export default function ProductPage(props) {
@@ -47,11 +46,10 @@ function renderProduct(product, clickedColorIndex) {
     variants
   } = product;
 
-  const sortedVariantsByOrder = sortVariants(variants);
-  const productColors = getProductColors(sortedVariantsByOrder, false);
-  const productImages = getProductImages(sortedVariantsByOrder, false);
+  const productColors = getProductColors(variants);
+  const productImages = getProductImages(variants);
   const selectedColor = productColors? productColors.find((color) => color[1] === clickedColorIndex) : {};
-  const sizesByColor = getProductVariantSizesByColor(sortedVariantsByOrder, selectedColor, false);
+  const sizesByColor = getProductVariantSizesByColor(variants, selectedColor);
 
   return (
     <div className='ProductPage-Product'>

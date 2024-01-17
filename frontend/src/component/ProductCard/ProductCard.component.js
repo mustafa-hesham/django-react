@@ -1,4 +1,3 @@
-/* eslint-disable no-magic-numbers */
 import './ProductCard.style.scss';
 
 import AddToCart from 'Component/AddToCart';
@@ -8,8 +7,8 @@ import {
   getMediaLink,
   getProductColors,
   getProductImages,
-  getProductVariantSizesByColor,
-  sortVariants } from 'Util/Product';
+  getProductVariantSizesByColor
+} from 'Util/Product';
 
 export default function ProductCard(props) {
   const {
@@ -24,10 +23,9 @@ export default function ProductCard(props) {
 
   const [clickedColorIndex, setClickedColorIndex] = useState(0);
 
-  const sortedVariantsByOrder = sortVariants(variants);
-  const productColors = getProductColors(sortedVariantsByOrder, false);
+  const productColors = getProductColors(variants);
   const selectedColor = productColors.find((color) => color[1] === clickedColorIndex);
-  const sizesByColor = getProductVariantSizesByColor(sortedVariantsByOrder, selectedColor, false);
+  const sizesByColor = getProductVariantSizesByColor(variants, selectedColor);
   const navigate = useNavigate();
   const modifiedProductName = name.replaceAll(' ', '-');
 
@@ -36,7 +34,7 @@ export default function ProductCard(props) {
       className='ProductCard'
     >
       { renderProductImages(
-          getProductImages(sortedVariantsByOrder, false),
+          getProductImages(variants),
           clickedColorIndex,
           modifiedProductName,
           SKU,
@@ -148,7 +146,7 @@ function renderProductColor(color, setClickedColorIndex) {
 };
 
 function renderProductColorsAndSizes(colors, setClickedColorIndex, sizesByColor) {
-  if (!colors && !colors.length) {
+  if (!colors.length || !sizesByColor.length) {
     return null;
   }
 
