@@ -1,3 +1,21 @@
+export function getUniqueProductImages(variants) {
+  if (!variants || !Array.isArray(variants)) {
+    return [];
+  }
+
+  const colors = [];
+  const uniqueImages = [];
+
+  variants.forEach((variant, index) => {
+    if (!colors.some((color) => color.name === variant.color.name)) {
+      colors.push(variant.color);
+      uniqueImages.push([variant.image, index]);
+    }
+  });
+
+  return uniqueImages;
+}
+
 export function getProductImages(variants) {
   if (!variants || !Array.isArray(variants)) {
     return [];
