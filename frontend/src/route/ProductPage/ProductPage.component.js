@@ -224,7 +224,7 @@ function renderAddToCart(product, selectedVariant) {
       ...selectedVariant
     }
   };
-  console.log(modifiedProduct);
+
   return (
     <div
       className='ProductPage-AddToCart'

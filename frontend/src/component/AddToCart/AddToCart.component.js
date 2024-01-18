@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlayReducer.reducer';
 import { updateToggleCartOverlay } from 'Store/Cart/CartReducer.reducer';
 import { addProductToCart } from 'Util/Cart';
+import { showNotificationMessage } from 'Util/ShowNotification';
 
 import { ADD_TO_CART } from './AddToCart.config';
 
@@ -54,7 +55,7 @@ function addProduct(product, dispatch, isCartOverlayToggled, isAccountOverlayTog
     } = product;
 
     const modifiedProductName = name.replaceAll(' ', '-');
-
+    showNotificationMessage('info', 'Please select product options');
     navigate(`/${SKU}/${modifiedProductName}`);
   } else {
     if (isAccountOverlayToggled) {

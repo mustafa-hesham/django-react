@@ -27,7 +27,7 @@ module.exports = override(
             {
               loader: 'sass-loader',
               options: {
-                additionalData: '@import "./src/style/main.scss";'
+                additionalData: '@import "./src/style/main.scss"; @import "react-notifications/lib/notifications.css";'
               }
             }
           ]
