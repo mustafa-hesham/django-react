@@ -165,7 +165,7 @@ function renderProductColor(color, setClickedColorIndex) {
 };
 
 function renderProductColorsAndSizes(colors, setClickedColorIndex, sizesByColor) {
-  if (!colors && !colors.length) {
+  if (!Array.isArray(colors)) {
     return null;
   }
 
