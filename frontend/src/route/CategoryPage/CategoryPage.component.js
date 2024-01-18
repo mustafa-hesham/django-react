@@ -71,7 +71,7 @@ async function getCategoryProducts(category, filters = {}, dispatch) {
   } else {
     getCategoryProductsQuery(category, filters, dispatch);
   }
-}
+};
 
 async function getCategoryProductsQuery(category, filters, dispatch) {
   const {
@@ -83,4 +83,4 @@ async function getCategoryProductsQuery(category, filters, dispatch) {
     dispatch(updateCategoryProducts({ name: category, products: productsByCategory }));
     updateCategoryLocalStorage(category, productsByCategory, filters);
   }
-}
+};

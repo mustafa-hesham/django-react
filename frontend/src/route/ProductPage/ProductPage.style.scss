@@ -35,6 +35,8 @@
     }
 
     &-ImageThumbnail {
+        cursor: pointer;
+
         &_Clicked {
             img {
                 box-sizing: border-box;
@@ -67,6 +69,13 @@
         margin-inline-start: 5px;
         cursor: pointer;
         margin-block: auto;
+
+        &_Clicked {
+            box-sizing: border-box;
+            border-style: solid;
+            border-color: $black;
+            border-width: 2px;
+        }
     }
 
     &-ColorName {

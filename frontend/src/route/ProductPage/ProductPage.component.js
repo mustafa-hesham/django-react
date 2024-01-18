@@ -142,19 +142,22 @@ function renderImageThumbNail(image, setClickedColorIndex, clickedColorIndex) {
   );
 };
 
-function renderProductColor(color, setClickedColorIndex) {
+function renderProductColor(color, setClickedColorIndex, selectedColor) {
   if (!color) {
     return null;
   }
 
   const {
+    name,
     hexValue
   } = color[0];
+
+  const className = color === selectedColor ? 'ProductPage-Color ProductPage-Color_Clicked' : 'ProductPage-Color';
 
   return (
     <div
       key={ hexValue }
-      className='ProductPage-Color'
+      className={ className }
       style={ {
         backgroundColor: `${hexValue}`
       } }
