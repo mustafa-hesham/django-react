@@ -1,0 +1,39 @@
+.ColorsFilter {
+    padding-block-start: 25px;
+
+    &-Colors {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        row-gap: 15%;
+        place-items: center center;
+        margin-block: 25px;
+
+        @include mobile {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    &-Color {
+        height: 25px;
+        width: 25px;
+        border-radius: 50px;
+        margin-inline-start: 5px;
+        cursor: pointer;
+
+        &_Selected {
+            box-sizing: border-box;
+            border-style: solid;
+            border-color: $black;
+            border-width: 2px;
+        }
+    }
+
+    &-Title {
+        margin-inline-start: 10px;
+    }
+
+    &-Reset {
+        margin-inline-start: 10px;
+        cursor: pointer;
+    }
+}

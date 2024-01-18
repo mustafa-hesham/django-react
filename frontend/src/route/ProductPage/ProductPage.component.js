@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import './ProductPage.style.scss';
 
 import AddToCart from 'Component/AddToCart';
@@ -148,7 +147,6 @@ function renderProductColor(color, setClickedColorIndex, selectedColor) {
   }
 
   const {
-    name,
     hexValue
   } = color[0];
 

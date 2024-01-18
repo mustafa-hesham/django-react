@@ -8,16 +8,27 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { updateCategoryProducts } from 'Store/Category/CategoryReducer.reducer';
-import { getCategoryLocalStorage, updateCategoryLocalStorage } from 'Util/Category';
+import {
+  getCategoryLocalStorage,
+  getCategoryProductsUniqueColors,
+  updateCategoryLocalStorage } from 'Util/Category';
+import { getProductColors } from 'Util/Product';
 
 export default function CategoryPage() {
   const { category } = useParams();
   const dispatch = useDispatch();
+
   const categoryProducts = useSelector((state) => state.CategoryReducer?.category?.products);
+  const uniqueProductsColors = getCategoryProductsUniqueColors(categoryProducts);
+
   const filters = useSelector((state) => state.CategoryReducer?.category?.filters);
   const filteredCategoryProducts = categoryProducts.filter((product) => {
+    const uniqueProductColors = getProductColors(product.variants).map((color) => color[0]);
+
     return parseFloat(product.price) >= filters.price.minPrice &&
-    parseFloat(product.price) <= filters.price.maxPrice;
+    parseFloat(product.price) <= filters.price.maxPrice && (!filters.colors.length || filters.colors.find(
+        (stateColor) => uniqueProductColors.some((productColor) => stateColor.name === productColor.name)
+    ));
   });
 
   useEffect(() => {
@@ -32,7 +43,7 @@ export default function CategoryPage() {
     <div className='CategoryPage'>
       <Header />
       <div className='CategoryPage-Body'>
-        <CategoryPageFilters />
+        <CategoryPageFilters colors={ uniqueProductsColors }/>
         { renderProductListGrid(filteredCategoryProducts) }
       </div>
     </div>

@@ -1,7 +1,8 @@
 import './ProductCard.style.scss';
 
 import AddToCart from 'Component/AddToCart';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   getMediaLink,
@@ -21,9 +22,27 @@ export default function ProductCard(props) {
     }
   } = props;
 
+  const stateColors = useSelector((state) => state.CategoryReducer.category.filters.colors);
   const [clickedColorIndex, setClickedColorIndex] = useState(0);
+  const [stateSelectedColorSelected, setStateSelectedColorSelected] = useState(false);
 
   const productColors = getProductColors(variants);
+
+  const stateSelectedColor = productColors.find(
+      (color) => stateColors.some((stateColor) => stateColor.name === color[0].name)
+  );
+
+  if (!stateSelectedColor && stateSelectedColorSelected) {
+    setStateSelectedColorSelected(false);
+  }
+
+  useEffect(() => {
+    if (stateSelectedColor && !stateSelectedColorSelected) {
+      setClickedColorIndex(stateSelectedColor[1]);
+      setStateSelectedColorSelected(true);
+    }
+  }, [stateSelectedColor]);
+
   const selectedColor = productColors.find((color) => color[1] === clickedColorIndex);
   const sizesByColor = getProductVariantSizesByColor(variants, selectedColor);
   const navigate = useNavigate();
@@ -146,7 +165,7 @@ function renderProductColor(color, setClickedColorIndex) {
 };
 
 function renderProductColorsAndSizes(colors, setClickedColorIndex, sizesByColor) {
-  if (!colors.length || !sizesByColor.length) {
+  if (!colors && !colors.length) {
     return null;
   }
 
@@ -155,11 +174,21 @@ function renderProductColorsAndSizes(colors, setClickedColorIndex, sizesByColor)
       <div className='ProductCard-Colors'>
         { colors.map((color, index) => renderProductColor(color, setClickedColorIndex, index)) }
       </div>
-      <div className='ProductCard-Sizes'>
-        { sizesByColor.length === 1 ? <div className='ProductCard-Size'>
-          { sizesByColor[0] }
-        </div> : <div className='ProductCard-MoreSizes'>{ `${sizesByColor.length} sizes` }</div> }
-      </div>
+      { renderProductSizes(sizesByColor) }
     </div>
   );
 };
+
+function renderProductSizes(sizesByColor) {
+  if (!Array.isArray(sizesByColor)) {
+    return null;
+  }
+
+  return (
+    <div className='ProductCard-Sizes'>
+      { sizesByColor && sizesByColor.length === 1 ? <div className='ProductCard-Size'>
+        { sizesByColor[0] }
+      </div> : <div className='ProductCard-MoreSizes'>{ `${sizesByColor.length} sizes` }</div> }
+    </div>
+  );
+}
