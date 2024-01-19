@@ -8,6 +8,7 @@ import { MAX_VALUE } from './RangerFilter.config';
 export default function RangeFilter(props) {
   const {
     filterName,
+    filterValue,
     minValue,
     maxValue,
     updateFunction,
@@ -15,6 +16,17 @@ export default function RangeFilter(props) {
   } = props;
 
   const [sliderValue, setSliderValue] = useState([0, MAX_VALUE]);
+  const [isSliderValueSet, setIsSliderValueSet] = useState(false);
+
+  if (JSON.stringify(sliderValue) !== JSON.stringify(filterValue) && !isSliderValueSet) {
+    const {
+      minPrice,
+      maxPrice
+    } = filterValue;
+
+    setSliderValue([minPrice, maxPrice]);
+    setIsSliderValueSet(true);
+  }
 
   return (
     <div className="RangeFilter">

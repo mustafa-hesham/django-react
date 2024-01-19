@@ -25,6 +25,7 @@ export default function CategoryPageFilters(props) {
       <div className='CategoryPageFilters-Price'>
         <RangeFilter
           filterName="Price"
+          filterValue={ filters.price }
           minValue={ minPrice }
           maxValue={ maxPrice }
           updateFunction={ updatePriceFilter }
