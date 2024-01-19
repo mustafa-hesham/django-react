@@ -24,26 +24,26 @@ export default function ProductCard(props) {
 
   const stateColors = useSelector((state) => state.CategoryReducer.category.filters.colors);
   const [clickedColorIndex, setClickedColorIndex] = useState(0);
-  const [stateSelectedColorSelected, setStateSelectedColorSelected] = useState(false);
-
   const productColors = getProductColors(variants);
+  const selectedColor = productColors.find((color) => color[1] === clickedColorIndex);
+
+  const [stateSelectedColorSelected, setStateSelectedColorSelected] = useState(false);
 
   const stateSelectedColor = productColors.find(
       (color) => stateColors.some((stateColor) => stateColor.name === color[0].name)
   );
 
-  if (!stateSelectedColor && stateSelectedColorSelected) {
-    setStateSelectedColorSelected(false);
-  }
-
   useEffect(() => {
+    if ((!stateSelectedColor && stateSelectedColorSelected)) {
+      setStateSelectedColorSelected(false);
+    }
+
     if (stateSelectedColor && !stateSelectedColorSelected) {
       setClickedColorIndex(stateSelectedColor[1]);
       setStateSelectedColorSelected(true);
     }
-  }, [stateSelectedColor]);
+  }, [stateSelectedColor, stateColors]);
 
-  const selectedColor = productColors.find((color) => color[1] === clickedColorIndex);
   const sizesByColor = getProductVariantSizesByColor(variants, selectedColor);
   const navigate = useNavigate();
   const modifiedProductName = name.replaceAll(' ', '-');
@@ -88,7 +88,9 @@ function renderProductImages(variantsImages, clickedColorIndex, modifiedProductN
     return null;
   }
 
-  const imageUrl = getMediaLink(variantsImages[clickedColorIndex]);
+  const imageUrl = variantsImages[clickedColorIndex] ?
+    getMediaLink(variantsImages[clickedColorIndex]) :
+    getMediaLink(variantsImages[0]);
 
   return (
     <div

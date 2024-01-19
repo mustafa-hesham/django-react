@@ -1,36 +1,51 @@
 import './CategoryPageFilters.style.scss';
 
-import ColorsFilter from 'Component/ColorsFilter';
+import FilterComponent from 'Component/FilterComponent';
 import RangeFilter from 'Component/RangeFilter';
 import { useDispatch, useSelector } from 'react-redux';
-import { updatePriceFilter } from 'Store/Category/CategoryReducer.reducer';
+import { updateColorFilter, updatePriceFilter, updateSizesFilter } from 'Store/Category/CategoryReducer.reducer';
 
 export default function CategoryPageFilters(props) {
   const {
-    colors
+    colors,
+    sizes
   } = props;
 
   const dispatch = useDispatch();
-  const price = useSelector((state) => state.CategoryReducer?.category.filters.price);
+  const filters = useSelector((state) => state.CategoryReducer?.category.filters);
 
   const {
     minPrice,
     maxPrice
-  } = price;
+  } = filters.price;
 
   return (
     <div className='CategoryPageFilters'>
-      <h1>Filters</h1>
-      <RangeFilter
-        filterName="Price"
-        minValue={ minPrice }
-        maxValue={ maxPrice }
-        updateFunction={ updatePriceFilter }
-        dispatch={ dispatch }
-      />
-      <ColorsFilter
-        colors={ colors }
+      <div className='CategoryPageFilters-Title'>Filters</div>
+      <div className='CategoryPageFilters-Price'>
+        <RangeFilter
+          filterName="Price"
+          minValue={ minPrice }
+          maxValue={ maxPrice }
+          updateFunction={ updatePriceFilter }
+          dispatch={ dispatch }
+        />
+      </div>
+      <FilterComponent
+        filterValues = { colors }
         dispatch = { dispatch }
+        stateValues = { filters.colors }
+        title = 'Colors'
+        isValueName = { true }
+        updateValueFilter = { updateColorFilter }
+      />
+      <FilterComponent
+        filterValues = { sizes }
+        dispatch = { dispatch }
+        stateValues = { filters.sizes }
+        title = 'Sizes'
+        isValueName = { false }
+        updateValueFilter = { updateSizesFilter }
       />
     </div>
   );

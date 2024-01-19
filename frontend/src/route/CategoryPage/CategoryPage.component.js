@@ -7,12 +7,13 @@ import { getProductsByCategoryName } from 'Query/Product.query';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { updateCategoryProducts } from 'Store/Category/CategoryReducer.reducer';
+import { updateCategoryProducts, updateFilteredProducts } from 'Store/Category/CategoryReducer.reducer';
 import {
   getCategoryLocalStorage,
   getCategoryProductsUniqueColors,
+  getCategoryProductsUniqueSizes,
   updateCategoryLocalStorage } from 'Util/Category';
-import { getProductColors } from 'Util/Product';
+import { getProductColors, getProductUniqueSizes } from 'Util/Product';
 
 export default function CategoryPage() {
   const { category } = useParams();
@@ -20,30 +21,42 @@ export default function CategoryPage() {
 
   const categoryProducts = useSelector((state) => state.CategoryReducer?.category?.products);
   const uniqueProductsColors = getCategoryProductsUniqueColors(categoryProducts);
+  const uniqueProductsSizes = getCategoryProductsUniqueSizes(categoryProducts);
 
   const filters = useSelector((state) => state.CategoryReducer?.category?.filters);
   const filteredCategoryProducts = categoryProducts.filter((product) => {
     const uniqueProductColors = getProductColors(product.variants).map((color) => color[0]);
+    const uniqueProductSizes = getProductUniqueSizes(product);
 
     return parseFloat(product.price) >= filters.price.minPrice &&
     parseFloat(product.price) <= filters.price.maxPrice && (!filters.colors.length || filters.colors.find(
         (stateColor) => uniqueProductColors.some((productColor) => stateColor.name === productColor.name)
+    )) && (!filters.sizes.length || filters.sizes.find(
+        (stateSize) => uniqueProductSizes.some((productSize) => stateSize === productSize)
     ));
   });
+
+  const modifiedFilters = {
+    ...filters,
+    filteredProducts: filteredCategoryProducts
+  };
 
   useEffect(() => {
     getCategoryProducts(category, filters, dispatch);
   }, [category]);
 
   useEffect(() => {
-    updateCategoryLocalStorage(category, categoryProducts, filters);
+    updateCategoryLocalStorage(category, categoryProducts, modifiedFilters);
+    if (JSON.stringify(filters.filteredProducts) !== JSON.stringify(filteredCategoryProducts)) {
+      dispatch(updateFilteredProducts(filteredCategoryProducts));
+    }
   }, [filters]);
 
   return (
     <div className='CategoryPage'>
       <Header />
       <div className='CategoryPage-Body'>
-        <CategoryPageFilters colors={ uniqueProductsColors }/>
+        <CategoryPageFilters colors={ uniqueProductsColors } sizes = { uniqueProductsSizes }/>
         { renderProductListGrid(filteredCategoryProducts) }
       </div>
     </div>

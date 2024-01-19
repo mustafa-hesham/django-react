@@ -4,7 +4,10 @@ import { getCategoryLocalStorage } from 'Util/Category';
 import {
   UPDATE_CATEGORY_PRODUCTS,
   UPDATE_COLOR_FILTER,
-  UPDATE_PRICE_FILTER } from './CategoryReducer.config';
+  UPDATE_FILTERED_PRODUCTS,
+  UPDATE_PRICE_FILTER,
+  UPDATE_SIZE_FILTER
+} from './CategoryReducer.config';
 
 const getInitialState = () => {
   if (!getCategoryLocalStorage()) {
@@ -17,7 +20,9 @@ const getInitialState = () => {
             minPrice: 0,
             maxPrice: 9999
           },
-          color: []
+          colors: [],
+          sizes: [],
+          filteredProducts: []
         }
       }
     };
@@ -31,7 +36,9 @@ const getInitialState = () => {
         minPrice,
         maxPrice
       },
-      colors = []
+      colors = [],
+      sizes = [],
+      filteredProducts = []
     }
   } = getCategoryLocalStorage();
 
@@ -44,7 +51,9 @@ const getInitialState = () => {
           minPrice: minPrice,
           maxPrice: maxPrice
         },
-        colors: colors
+        colors: colors,
+        sizes: sizes,
+        filteredProducts: filteredProducts
       }
     }
   };
@@ -53,6 +62,8 @@ const getInitialState = () => {
 export const updateCategoryProducts = createAction(UPDATE_CATEGORY_PRODUCTS);
 export const updatePriceFilter = createAction(UPDATE_PRICE_FILTER);
 export const updateColorFilter = createAction(UPDATE_COLOR_FILTER);
+export const updateFilteredProducts = createAction(UPDATE_FILTERED_PRODUCTS);
+export const updateSizesFilter = createAction(UPDATE_SIZE_FILTER);
 
 export const CategorySlice = createSlice({
   name: 'CategoryReducer',
@@ -86,6 +97,22 @@ export const CategorySlice = createSlice({
       } = action;
 
       state.category.filters.colors = payload;
+    }
+    );
+    builder.addCase(updateFilteredProducts, (state, action) => {
+      const {
+        payload
+      } = action;
+
+      state.category.filters.filteredProducts = payload;
+    }
+    );
+    builder.addCase(updateSizesFilter, (state, action) => {
+      const {
+        payload
+      } = action;
+
+      state.category.filters.sizes = payload;
     }
     );
   }

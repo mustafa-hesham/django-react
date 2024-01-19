@@ -40,3 +40,22 @@ export function getCategoryProductsUniqueColors(categoryProducts) {
 
   return colors;
 }
+
+export function getCategoryProductsUniqueSizes(categoryProducts) {
+  const sizes = [];
+  categoryProducts.forEach(
+      (product) => {
+        const {
+          variants
+        } = product;
+
+        variants.forEach((variant) => {
+          if (sizes.indexOf(variant.size.name) === -1) {
+            sizes.push(variant.size.name);
+          }
+        });
+      }
+  );
+
+  return sizes;
+}

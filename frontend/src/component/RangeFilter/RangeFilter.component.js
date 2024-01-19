@@ -14,7 +14,7 @@ export default function RangeFilter(props) {
     dispatch
   } = props;
 
-  const [sliderValue, setSliderValue] = useState();
+  const [sliderValue, setSliderValue] = useState([0, MAX_VALUE]);
 
   return (
     <div className="RangeFilter">
@@ -30,9 +30,11 @@ export default function RangeFilter(props) {
         renderThumb={ (props) => <div className='RangeFilter-Thumb-Background'{ ...props } /> }
         pearling
         step={ 5 }
+        value={ sliderValue }
         onChange={ (value) => onChange(value, dispatch, updateFunction, setSliderValue) }
       />
       { renderRange(sliderValue, minValue, maxValue) }
+      { renderResetRange(filterName, minValue, maxValue, dispatch, updateFunction, setSliderValue) }
     </div>
   );
 };
@@ -43,6 +45,17 @@ function renderRange(value, minValue, maxValue) {
   return (
     <div className='RangeFilter-Range'>
       { content }
+    </div>
+  );
+};
+
+function renderResetRange(filterName, minValue, maxValue, dispatch, updateFunction, setSliderValue) {
+  return (
+    <div
+      className='RangeFilter-Reset'
+      onClick={ () => onChange([0, MAX_VALUE], dispatch, updateFunction, setSliderValue) }
+    >
+      { `Reset ${filterName.toLowerCase()}` }
     </div>
   );
 };

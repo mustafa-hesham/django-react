@@ -68,3 +68,19 @@ export function getMediaLink(link) {
 
   return `${origin}/static/media/${link}`;
 }
+
+export function getProductUniqueSizes(product) {
+  const sizes = [];
+
+  const {
+    variants
+  } = product;
+
+  variants.forEach((variant) => {
+    if (sizes.indexOf(variant.size.name) === -1) {
+      sizes.push(variant.size.name);
+    }
+  });
+
+  return sizes;
+}
