@@ -51,18 +51,20 @@ function renderValueFilter(stateValues, value, updateValueFilter, dispatch, isVa
     } = value;
 
     const className = stateValues.some((stateValue) => stateValue.name === value.name) ?
-        'FilterComponent-Color FilterComponent-Color_Selected' :
-        'FilterComponent-Color';
+        'FilterComponent-ColorValue FilterComponent-ColorValue_Selected' :
+        'FilterComponent-ColorValue';
 
     return (
-      <div
-        key={ hexValue }
-        className={ className }
-        style={ {
-          backgroundColor: `${hexValue}`
-        } }
-        onClick={ () => setStateValuesByName(stateValues, value, updateValueFilter, dispatch) }
-      />
+      <div className={ className }>
+        <div
+          key={ hexValue }
+          className='FilterComponent-Color'
+          style={ {
+            backgroundColor: `${hexValue}`
+          } }
+          onClick={ () => setStateValuesByName(stateValues, value, updateValueFilter, dispatch) }
+        />
+      </div>
     );
   }
 
