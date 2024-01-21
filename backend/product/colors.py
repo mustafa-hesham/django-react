@@ -303,12 +303,12 @@ colors_values = [
 ]
 
 
-def populate_ProductImageColor():
+def populate_ProductColor():
     colors_array = list()
     for i, key in enumerate(colors_keys):
         object = {
             "pk": i,
-            "model": "product.ProductImageColor",
+            "model": "product.ProductColor",
             "fields": {"name": key, "hexValue": colors_values[i]},
         }
 

@@ -4,10 +4,11 @@ import graphene
 from product.models import (
     Product,
     Category,
-    ProductVariant,
+    ProductVariantCollection,
     ProductSize,
-    ProductImageColor,
-    ProductImage,
+    ProductColor,
+    ProductVariant,
+    ProductSingleImage,
 )
 
 
@@ -23,9 +24,9 @@ class CategoryType(DjangoObjectType):
         fields = "__all__"
 
 
-class ProductVariantType(DjangoObjectType):
+class ProductVariantCollectionType(DjangoObjectType):
     class Meta:
-        model = ProductVariant
+        model = ProductVariantCollection
         fields = "__all__"
 
 
@@ -35,15 +36,21 @@ class ProductSizeType(DjangoObjectType):
         fields = "__all__"
 
 
-class ProductImageColorType(DjangoObjectType):
+class ProductColorType(DjangoObjectType):
     class Meta:
-        model = ProductImageColor
+        model = ProductColor
         fields = "__all__"
 
 
-class ProductImageType(DjangoObjectType):
+class ProductVariantType(DjangoObjectType):
     class Meta:
-        model = ProductImage
+        model = ProductVariant
+        fields = "__all__"
+
+
+class ProductSingleImageType(DjangoObjectType):
+    class Meta:
+        model = ProductSingleImage
         fields = "__all__"
 
 
@@ -56,17 +63,21 @@ class ProductColorInputType(graphene.InputObjectType):
     hexValue = graphene.String()
 
 
+class ProductSingleImageInputType(graphene.InputObjectType):
+    image = graphene.String()
+
+
 class ProductVariantOrderInputType(graphene.InputObjectType):
     order = graphene.Int()
 
 
 class ProductVariantInputType(graphene.InputObjectType):
     id = graphene.String()
-    image = graphene.String()
+    images = graphene.List(ProductSingleImageInputType)
     quantity = graphene.Int()
     color = ProductColorInputType()
     size = ProductSizeInputType()
-    productvariant = ProductVariantOrderInputType()
+    ProductVariantCollection = ProductVariantOrderInputType()
 
 
 class CategoryInputType(graphene.InputObjectType):

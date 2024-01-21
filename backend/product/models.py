@@ -15,7 +15,7 @@ class Category(models.Model):
         return self.name
 
 
-class ProductImageColor(models.Model):
+class ProductColor(models.Model):
     name = models.CharField(max_length=50, unique=True)
     hexValue = ColorField(default="#000", editable=False)
 
@@ -37,17 +37,25 @@ class ProductSize(models.Model):
         return self.name
 
 
-class ProductImage(models.Model):
-    class Meta:
-        ordering = ["productvariant__order"]
-
+class ProductSingleImage(models.Model):
     image = models.ImageField(upload_to="images/products/")
-    color = models.ForeignKey(ProductImageColor, on_delete=models.CASCADE)
+
+
+class ProductVariant(models.Model):
+    class Meta:
+        ordering = ["productvariantcollection__order"]
+
+    images = models.ManyToManyField(
+        ProductSingleImage,
+        through="ProductVariantImages",
+        related_name="product_variant_images",
+    )
+    color = models.ForeignKey(ProductColor, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     size = models.ForeignKey(ProductSize, on_delete=models.CASCADE)
 
     def __str__(self):
-        # associatedProduct = ProductVariant.objects.get(image=self).product
+        # associatedProduct = ProductVariantCollection.objects.get(image=self).product
         return self.color.name
 
 
@@ -60,7 +68,9 @@ class Product(models.Model):
     is_available = models.BooleanField(default=True)
     description = models.TextField(max_length=500, blank=True)
     variants = models.ManyToManyField(
-        ProductImage, through="ProductVariant", related_name="product_variant"
+        ProductVariant,
+        through="ProductVariantCollection",
+        related_name="product_variant",
     )
     createdAt = models.DateTimeField(default=now, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -75,9 +85,9 @@ class Product(models.Model):
         self.is_available = self.getIsAvailable()
 
 
-class ProductVariant(models.Model):
+class ProductVariantCollection(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    image = models.OneToOneField(ProductImage, on_delete=models.CASCADE)
+    variant = models.OneToOneField(ProductVariant, on_delete=models.CASCADE)
     order = models.PositiveIntegerField(default=1)
 
     class Meta:
@@ -85,7 +95,16 @@ class ProductVariant(models.Model):
 
     # To update product quantity when adding a new variant.
     def save(self, *args, **kwargs):
-        variantQuantity = self.image.quantity
+        variantQuantity = self.variant.quantity
         self.product.quantity += variantQuantity
         self.product.save()
-        super(ProductVariant, self).save(*args, **kwargs)
+        super(ProductVariantCollection, self).save(*args, **kwargs)
+
+
+class ProductVariantImages(models.Model):
+    variant = models.ForeignKey(ProductVariant, on_delete=models.CASCADE)
+    image = models.OneToOneField(ProductSingleImage, on_delete=models.CASCADE)
+    order = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        ordering = ["order"]

@@ -1,6 +1,6 @@
 # type: ignore
 from email.policy import default
-from product.models import Product, ProductVariant
+from product.models import Product, ProductVariantCollection
 from cart.types import CartType, CartItemType, CartItemInput
 from cart.models import Cart, CartItem
 import graphene
