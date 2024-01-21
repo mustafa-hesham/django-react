@@ -44,8 +44,12 @@ export default function AddToCart(props) {
 
 function addProduct(product, dispatch, isCartOverlayToggled, isAccountOverlayToggled, cartQuantity, navigate) {
   const {
-    quantity,
-    variants
+    variants,
+    variants: {
+      productsizecollectionSet: {
+        quantity
+      }
+    }
   } = product;
 
   if (Array.isArray(variants) && variants.length > 1) {

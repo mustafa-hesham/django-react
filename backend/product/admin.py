@@ -8,6 +8,7 @@ from .models import (
     ProductSize,
     ProductSingleImage,
     ProductVariantImages,
+    ProductSizeCollection,
 )
 
 # Register your models here.
@@ -23,8 +24,13 @@ class ProductVariantImagesTabularInline(admin.TabularInline):
     extra = 1
 
 
+class ProductSizeCollectionTabularInline(admin.TabularInline):
+    model = ProductSizeCollection
+    extra = 1
+
+
 class ProductVariantAdmin(admin.ModelAdmin):
-    inlines = [ProductVariantImagesTabularInline]
+    inlines = [ProductVariantImagesTabularInline, ProductSizeCollectionTabularInline]
 
 
 class ProductAdmin(admin.ModelAdmin):

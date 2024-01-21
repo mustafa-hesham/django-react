@@ -1,4 +1,5 @@
 # type: ignore
+from email.policy import default
 from colorfield.fields import ColorField
 from django.db import models
 from django.utils.timezone import now
@@ -50,9 +51,13 @@ class ProductVariant(models.Model):
         through="ProductVariantImages",
         related_name="product_variant_images",
     )
+    quantity = models.PositiveIntegerField(default=0)
     color = models.ForeignKey(ProductColor, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)
-    size = models.ForeignKey(ProductSize, on_delete=models.CASCADE)
+    sizes = models.ManyToManyField(
+        ProductSize,
+        through="ProductSizeCollection",
+        related_name="product_variant_sizes",
+    )
 
     def __str__(self):
         # associatedProduct = ProductVariantCollection.objects.get(image=self).product
@@ -108,3 +113,9 @@ class ProductVariantImages(models.Model):
 
     class Meta:
         ordering = ["order"]
+
+
+class ProductSizeCollection(models.Model):
+    variant = models.ForeignKey(ProductVariant, on_delete=models.CASCADE)
+    size = models.ForeignKey(ProductSize, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=0)

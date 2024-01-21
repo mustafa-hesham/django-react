@@ -63,10 +63,12 @@ export function addProductToCart(product, cartQuantity, dispatch) {
   } = getCart();
 
   if (cartItems.some((item) => item.id === product.id &&
-  item.variants.color.name === product.variants.color.name)) {
+  item.variants.color.name === product.variants.color.name &&
+  item.variants.productsizecollectionSet.size.name === product.variants.productsizecollectionSet.size.name)) {
     newCartItems = cartItems.map(
         (item) => item.id === product.id &&
-        item.variants.color.name === product.variants.color.name ?
+        item.variants.color.name === product.variants.color.name &&
+        item.variants.productsizecollectionSet.size.name === product.variants.productsizecollectionSet.size.name?
         { ...item, cartQuantity: item.cartQuantity + cartQuantity } :
         item
     );

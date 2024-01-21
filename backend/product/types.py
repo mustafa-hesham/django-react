@@ -1,3 +1,4 @@
+from pyexpat import model
 from graphene_django import DjangoObjectType
 import graphene
 
@@ -9,6 +10,7 @@ from product.models import (
     ProductColor,
     ProductVariant,
     ProductSingleImage,
+    ProductSizeCollection,
 )
 
 
@@ -33,6 +35,12 @@ class ProductVariantCollectionType(DjangoObjectType):
 class ProductSizeType(DjangoObjectType):
     class Meta:
         model = ProductSize
+        fields = "__all__"
+
+
+class ProductSizeCollectionType(DjangoObjectType):
+    class Meta:
+        model = ProductSizeCollection
         fields = "__all__"
 
 
@@ -71,13 +79,19 @@ class ProductVariantOrderInputType(graphene.InputObjectType):
     order = graphene.Int()
 
 
+class ProductSizeCollectionInputType(graphene.InputObjectType):
+    size = ProductSizeInputType()
+    quantity = graphene.Int()
+
+
 class ProductVariantInputType(graphene.InputObjectType):
     id = graphene.String()
     images = graphene.List(ProductSingleImageInputType)
     quantity = graphene.Int()
     color = ProductColorInputType()
-    size = ProductSizeInputType()
-    ProductVariantCollection = ProductVariantOrderInputType()
+    sizes = graphene.List(ProductSizeInputType)
+    productvariantcollection = ProductVariantOrderInputType()
+    productsizecollectionSet = graphene.List(ProductSizeCollectionInputType)
 
 
 class CategoryInputType(graphene.InputObjectType):

@@ -15,7 +15,7 @@ export default function CartItem(props) {
       price,
       cartQuantity,
       variants: {
-        image,
+        images,
         color: {
           name: colorName = ''
         }
@@ -32,7 +32,7 @@ export default function CartItem(props) {
 
   return (
     <div className='CartItem'>
-      { renderImage(image) }
+      { renderImage(images) }
       { renderName(name) }
       { renderQuantity(addProduct, product, dispatch) }
       { renderItemTotalPrice(price, cartQuantity) }
@@ -49,10 +49,13 @@ function renderName(name) {
   );
 };
 
-function renderImage(image) {
-  if (!image) {
+function renderImage(images) {
+  if (!images) {
     return null;
   }
+  const {
+    image
+  } = images[0];
 
   return (
     <div className='CartItem-Images'>

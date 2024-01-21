@@ -191,7 +191,7 @@ function renderProductSizes(sizesByColor) {
   return (
     <div className='ProductCard-Sizes'>
       { sizesByColor.length === 1 ? <div className='ProductCard-Size'>
-        { sizesByColor[0] }
+        { sizesByColor[0].size.name }
       </div> : <div className='ProductCard-MoreSizes'>{ `${sizesByColor.length} sizes` }</div> }
     </div>
   );

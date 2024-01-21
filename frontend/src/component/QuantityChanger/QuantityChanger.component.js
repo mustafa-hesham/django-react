@@ -48,7 +48,11 @@ function renderDecreaseQuantity(addProduct, product, dispatch) {
 
 function increaseQuantity(addProduct, product, dispatch) {
   const {
-    quantity,
+    variants: {
+      productsizecollectionSet: {
+        quantity
+      }
+    },
     cartQuantity
   } = product;
 

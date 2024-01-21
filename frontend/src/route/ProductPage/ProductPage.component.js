@@ -9,11 +9,10 @@ import {
   getMediaLink,
   getProductColors,
   getProductImages,
-  getProductVariantSizesByColor,
-  getUniqueProductImages
+  getProductVariantSizesByColor
 } from 'Util/Product';
 
-export default function ProductPage(props) {
+export default function ProductPage() {
   const {
     SKU
   } = useParams();
@@ -25,6 +24,7 @@ export default function ProductPage(props) {
   }, []);
 
   const [clickedColorIndex, setClickedColorIndex] = useState(0);
+  const [clickedImageIndex, setClickedImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState('');
 
   if (!product) {
@@ -38,15 +38,24 @@ export default function ProductPage(props) {
   const productColors = getProductColors(variants);
   const selectedColor = productColors? productColors.find((color) => color[1] === clickedColorIndex) : {};
   const sizesByColor = getProductVariantSizesByColor(variants, selectedColor);
-  if (sizesByColor && sizesByColor.length && !sizesByColor.some((size) => size === selectedSize)) {
-    setSelectedSize(sizesByColor[0]);
+
+  if (sizesByColor && sizesByColor.length && !sizesByColor.some((size) => size.size.name === selectedSize)) {
+    setSelectedSize(sizesByColor[0].size.name);
   }
 
   const selectedVariant = variants ? variants.find(
       (variant) =>
-        variant.color.name === selectedColor[0].name &&
-    variant.size.name === selectedSize
+        variant.color.name === selectedColor[0].name
   ) : 0;
+
+  const selectedSizeObject = sizesByColor ? sizesByColor.find((size) => size.size.name === selectedSize) : {};
+
+  const modifiedSelectedVariant = {
+    ...selectedVariant,
+    productsizecollectionSet: {
+      ...selectedSizeObject
+    }
+  };
 
   return (
     <div className='ProductPage'>
@@ -59,7 +68,9 @@ export default function ProductPage(props) {
           clickedColorIndex,
           setClickedColorIndex,
           setSelectedSize,
-          selectedVariant
+          modifiedSelectedVariant,
+          clickedImageIndex,
+          setClickedImageIndex
       ) }
     </div>
   );
@@ -73,7 +84,9 @@ function renderProduct(
     clickedColorIndex,
     setClickedColorIndex,
     setSelectedSize,
-    selectedVariant
+    selectedVariant,
+    clickedImageIndex,
+    setClickedImageIndex
 ) {
   const {
     name,
@@ -82,12 +95,16 @@ function renderProduct(
   } = product;
 
   const productImages = getProductImages(variants);
-  const uniqueProductImages = getUniqueProductImages(variants);
 
   return (
     <div className='ProductPage-Product'>
       <div className='ProductPage-Images'>
-        { renderProductImage(productImages, uniqueProductImages, clickedColorIndex, setClickedColorIndex) }
+        { renderProductImage(
+            productImages,
+            clickedColorIndex,
+            clickedImageIndex,
+            setClickedImageIndex
+        ) }
       </div>
       <div className='ProductPage-Info'>
         <div className='ProductPage-Name'>{ name }</div>
@@ -105,16 +122,29 @@ function renderProduct(
   );
 };
 
-function renderProductImage(images, uniqueProductImages, clickedColorIndex, setClickedColorIndex) {
-  if (!images) {
+function renderProductImage(
+    images,
+    clickedColorIndex,
+    clickedImageIndex,
+    setClickedImageIndex
+) {
+  if (!images || !images.length) {
     return null;
   }
-  const imageUrl = getMediaLink(images[clickedColorIndex]);
+
+  const {
+    image
+  } = images[clickedColorIndex][clickedImageIndex];
+
+  const imageUrl = getMediaLink(image);
 
   return (
     <div className='ProductPage-VariantsImages'>
       <div className='ProductPage-ImagesThumbnails'>
-        { uniqueProductImages.map((image) => renderImageThumbNail(image, setClickedColorIndex, clickedColorIndex)) }
+        { images[clickedColorIndex].map(
+            (image, index) =>
+              renderImageThumbNail(image, index, setClickedImageIndex, clickedImageIndex, clickedColorIndex)
+        ) }
       </div>
 
       <div
@@ -127,15 +157,19 @@ function renderProductImage(images, uniqueProductImages, clickedColorIndex, setC
   );
 };
 
-function renderImageThumbNail(image, setClickedColorIndex, clickedColorIndex) {
-  const className = clickedColorIndex === image[1] ?
+function renderImageThumbNail(image, index, setClickedImageIndex, clickedImageIndex, clickedColorIndex) {
+  const {
+    image: currentImage
+  } = image;
+
+  const className = clickedImageIndex === index ?
   'ProductPage-ImageThumbnail_Clicked' :
   'ProductPage-ImageThumbnail';
   return (
     <div className={ className }>
       <img
-        src={ getMediaLink(image[0]) }
-        onClick={ () => setClickedColorIndex(image[1]) }
+        src={ getMediaLink(currentImage) }
+        onClick={ () => setClickedImageIndex(index) }
       />
     </div>
   );
@@ -209,8 +243,14 @@ function renderProductSize(size) {
     return null;
   }
 
+  const {
+    size: {
+      name
+    }
+  } = size;
+
   return (
-    <option key={ size } value={ size }>{ size }</option>
+    <option key={ name } value={ name }>{ name }</option>
   );
 }
 

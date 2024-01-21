@@ -50,9 +50,11 @@ export function getCategoryProductsUniqueSizes(categoryProducts) {
         } = product;
 
         variants.forEach((variant) => {
-          if (sizes.indexOf(variant.size.name) === -1) {
-            sizes.push(variant.size.name);
-          }
+          variant.productsizecollectionSet.forEach((size) => {
+            if (sizes.indexOf(size.size.name) === -1) {
+              sizes.push(size.size.name);
+            }
+          });
         });
       }
   );

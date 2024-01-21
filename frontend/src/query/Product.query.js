@@ -38,10 +38,16 @@ function getProductVariantsFieldList() {
     'id',
     getVariantImages(),
     'quantity',
-    getProductSize(),
+    getProductSizes(),
     getProductColor(),
     getProductVariantOrder()
   ];
+}
+
+function getProductSizes() {
+  return new Field('productsizecollectionSet')
+      .addField(getProductSize())
+      .addField('quantity');
 }
 
 function getProductSize() {
