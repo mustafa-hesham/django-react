@@ -132,8 +132,13 @@ function renderProductImage(
     return null;
   }
 
+  if (clickedImageIndex + 1 > images[clickedColorIndex].length) {
+    setClickedImageIndex(0);
+    return;
+  }
+
   const {
-    image
+    image = { image: '' }
   } = images[clickedColorIndex][clickedImageIndex];
 
   const imageUrl = getMediaLink(image);
