@@ -36,7 +36,7 @@ function getProductVariants() {
 function getProductVariantsFieldList() {
   return [
     'id',
-    'image',
+    getVariantImages(),
     'quantity',
     getProductSize(),
     getProductColor(),
@@ -47,6 +47,11 @@ function getProductVariantsFieldList() {
 function getProductSize() {
   return new Field('size')
       .addField('name');
+}
+
+function getVariantImages() {
+  return new Field('images')
+      .addField('image');
 }
 
 function getProductColor() {
@@ -62,7 +67,7 @@ function productColorFieldList() {
 }
 
 function getProductVariantOrder() {
-  return new Field('productvariant')
+  return new Field('productvariantcollection')
       .addField('order');
 }
 

@@ -88,9 +88,11 @@ function renderProductImages(variantsImages, clickedColorIndex, modifiedProductN
     return null;
   }
 
-  const imageUrl = variantsImages[clickedColorIndex] ?
-    getMediaLink(variantsImages[clickedColorIndex]) :
-    getMediaLink(variantsImages[0]);
+  const {
+    image
+  } = variantsImages[clickedColorIndex] ? variantsImages[clickedColorIndex][0] : variantsImages[0][0];
+
+  const imageUrl = getMediaLink(image);
 
   return (
     <div

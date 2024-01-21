@@ -21,7 +21,7 @@ export function getProductImages(variants) {
     return [];
   }
 
-  return variants.map((variant) => variant.image);
+  return variants.map((variant) => variant.images);
 }
 
 export function getProductColors(variants) {
