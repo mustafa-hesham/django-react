@@ -21,14 +21,16 @@ export default function CartItem(props) {
         },
         productsizecollectionSet: {
           size: {
-            name: sizeName
-          }
-        }
+            name: sizeName = ''
+          } = { name: '' }
+        } = { size: {
+          name: ''
+        } }
       },
       id: productID
     }
   } = props;
-  console.log(sizeName);
+
   if (!cartQuantity) {
     return null;
   }

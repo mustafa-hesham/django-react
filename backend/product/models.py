@@ -63,6 +63,16 @@ class ProductVariant(models.Model):
         # associatedProduct = ProductVariantCollection.objects.get(image=self).product
         return self.color.name
 
+    def save(self, *args, **kwargs):
+        self.quantity = 0
+        variantsSizes = self.sizes.all()
+        for variantsSize in variantsSizes:
+            sizeQuantity = ProductSizeCollection.objects.get(
+                variant=self, size=variantsSize
+            ).quantity
+            self.quantity += sizeQuantity
+        super(ProductVariant, self).save(*args, **kwargs)
+
 
 class Product(models.Model):
     name = models.CharField(max_length=100, unique=True)
