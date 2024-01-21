@@ -171,7 +171,7 @@ function renderImageThumbNail(image, index, setClickedImageIndex, clickedImageIn
   'ProductPage-ImageThumbnail_Clicked' :
   'ProductPage-ImageThumbnail';
   return (
-    <div className={ className }>
+    <div className={ className } key={ index }>
       <img
         src={ getMediaLink(currentImage) }
         onClick={ () => setClickedImageIndex(index) }
@@ -186,7 +186,8 @@ function renderProductColor(color, setClickedColorIndex, selectedColor) {
   }
 
   const {
-    hexValue
+    hexValue,
+    name
   } = color[0];
 
   const className = color === selectedColor ? 'ProductPage-Color ProductPage-Color_Clicked' : 'ProductPage-Color';
@@ -194,6 +195,7 @@ function renderProductColor(color, setClickedColorIndex, selectedColor) {
   return (
     <div
       key={ hexValue }
+      title={ name }
       className={ className }
       style={ {
         backgroundColor: `${hexValue}`
