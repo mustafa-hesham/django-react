@@ -44,12 +44,7 @@ export default function AddToCart(props) {
 
 function addProduct(product, dispatch, isCartOverlayToggled, isAccountOverlayToggled, cartQuantity, navigate) {
   const {
-    variants,
-    variants: {
-      productsizecollectionSet: {
-        quantity
-      }
-    }
+    variants
   } = product;
 
   if (Array.isArray(variants) && variants.length > 1) {
@@ -62,6 +57,14 @@ function addProduct(product, dispatch, isCartOverlayToggled, isAccountOverlayTog
     showNotificationMessage('info', 'Please select product options');
     navigate(`/${SKU}/${modifiedProductName}`);
   } else {
+    const {
+      variants: {
+        productsizecollectionSet: {
+          quantity
+        }
+      }
+    } = product;
+
     if (isAccountOverlayToggled) {
       dispatch(updateToggleAccountOverlay(!isAccountOverlayToggled));
     }
