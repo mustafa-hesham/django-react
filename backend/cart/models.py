@@ -3,7 +3,7 @@ from django.utils.timezone import now
 from django.contrib.auth.models import User
 from datetime import timedelta
 
-from product.models import Product
+from product.models import Product, ProductSize, ProductColor
 
 # Create your models here.
 
@@ -48,6 +48,8 @@ class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = quantity = models.PositiveIntegerField(default=0)
     productVariantId = models.PositiveIntegerField(default=0)
+    productColor = models.ForeignKey(ProductColor, on_delete=models.CASCADE)
+    productSize = models.ForeignKey(ProductSize, on_delete=models.CASCADE)
 
     def __str__(self):
         return (
@@ -57,3 +59,11 @@ class CartItem(models.Model):
             + " "
             + str(self.product.variants.get(pk=self.productVariantId).color.name)
         )
+
+    def setProductSize(self, size):
+        self.size = size
+        self.save()
+
+    def setProductColor(self, color):
+        self.color = color
+        self.save()
