@@ -130,10 +130,13 @@ function renderAddToCart(product) {
     variants
   } = product;
 
-  const modifiedProduct = variants.length === 1 ? {
+  const modifiedProduct = variants.length === 1 && productsizecollectionSet.length === 1 ? {
     ...product,
     variants: {
-      ...variants[0]
+      ...variants[0],
+      productsizecollectionSet: {
+        ...productsizecollectionSet[0]
+      }
     }
   } : product;
 

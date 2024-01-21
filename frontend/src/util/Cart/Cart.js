@@ -92,16 +92,18 @@ export function generateUniqueCartID() {
   ).replace(/-/g, '');
 }
 
-export function removeProductFromCart(productID, colorName, dispatch) {
+export function removeProductFromCart(productID, colorName, sizeName, dispatch) {
   const {
     cartItems = []
   } = getCart();
 
-  if (!cartItems || !cartItems.some((item) => item.id === productID && item.variants.color.name === colorName)) {
+  if (!cartItems || !cartItems.some((item) => item.id === productID && item.variants.color.name === colorName &&
+  item.variants.productsizecollectionSet.size.name === sizeName)) {
     return;
   }
 
-  const newCartItems = cartItems.filter((item) => !(item.id === productID && item.variants.color.name === colorName));
+  const newCartItems = cartItems.filter((item) => !(item.id === productID && item.variants.color.name === colorName &&
+    item.variants.productsizecollectionSet.size.name === sizeName));
   setCart(newCartItems);
   updateCartReducer(dispatch);
 }
