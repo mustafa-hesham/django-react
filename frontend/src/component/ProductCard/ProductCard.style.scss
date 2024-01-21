@@ -9,7 +9,8 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    max-height: auto;
+    margin-block-end: auto;
     user-select: none;
 
     &:hover {
@@ -56,9 +57,9 @@
         font-style: bold;
         font-size: 1vw;
         text-align: center;
-        padding-block: 20px;
+        padding-block: 1vh;
         padding-inline: 10px;
-        height: 10%;
+        height: 6vh;
 
         @include mobile {
             font-size: 2vw;
@@ -68,8 +69,8 @@
     &-Price {
         text-align: center;
         font-family: $MRKMaston-Regular;
-        font-size: 3vw;
-        padding-block-end: 20px;
+        font-size: 4vw;
+        padding-block: 2vh;
 
         @include desktop {
             font-size: 2vw;
@@ -77,8 +78,11 @@
     }
 
     &-AddToCart {
-        margin-block-start: auto;
-        min-height: 10%;
+        min-height: 5vh;
+
+        .AddToCart {
+            min-height: 5vh;
+        }
     }
 
     &-VariantInfo {
@@ -89,8 +93,8 @@
 
     &-Sizes {
         padding-inline-end: 3%;
-        font-size: 1rem;
         display: flex;
+        font-size: 1vw;
 
         @include mobile {
             font-size: smaller;
@@ -102,7 +106,6 @@
     }
 
     &-MoreSizes {
-        font-size: 1rem;
         white-space: nowrap;
     }
 }

@@ -24,6 +24,9 @@ export default function ProductPage(props) {
     getProductBySKU(SKU).then((data) => setProduct(data.productBySku));
   }, []);
 
+  const [clickedColorIndex, setClickedColorIndex] = useState(0);
+  const [selectedSize, setSelectedSize] = useState('');
+
   if (!product) {
     return null;
   }
@@ -31,13 +34,10 @@ export default function ProductPage(props) {
   const {
     variants
   } = product;
-  const [clickedColorIndex, setClickedColorIndex] = useState(0);
 
   const productColors = getProductColors(variants);
   const selectedColor = productColors? productColors.find((color) => color[1] === clickedColorIndex) : {};
   const sizesByColor = getProductVariantSizesByColor(variants, selectedColor);
-  const [selectedSize, setSelectedSize] = useState('');
-
   if (sizesByColor && sizesByColor.length && !sizesByColor.some((size) => size === selectedSize)) {
     setSelectedSize(sizesByColor[0]);
   }
