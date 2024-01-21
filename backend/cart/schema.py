@@ -96,6 +96,7 @@ class CreateCartForCustomer(graphene.Mutation):
                     else:
                         cartItemObject.quantity = productObject.quantity
 
+                    cartItemObject.setItemColor()
                     cartItemObject.save()
 
             cartObject.updateTotal()

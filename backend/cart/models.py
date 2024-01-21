@@ -48,8 +48,8 @@ class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = quantity = models.PositiveIntegerField(default=0)
     productVariantId = models.PositiveIntegerField(default=0)
-    productColor = models.ForeignKey(ProductColor, on_delete=models.CASCADE)
-    productSize = models.ForeignKey(ProductSize, on_delete=models.CASCADE)
+    productColor = models.ForeignKey(ProductColor, on_delete=models.CASCADE, null=True)
+    productSize = models.ForeignKey(ProductSize, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return (
@@ -60,10 +60,13 @@ class CartItem(models.Model):
             + str(self.product.variants.get(pk=self.productVariantId).color.name)
         )
 
-    def setProductSize(self, size):
-        self.size = size
+    def setItemSize(self, size):
+        sizeObject = ProductSize.objects.get(name=size)
+        self.size = sizeObject
         self.save()
 
-    def setProductColor(self, color):
-        self.color = color
+    def setItemColor(self):
+        colorName = self.product.variants.get(pk=self.productVariantId).color.name
+        colorObject = ProductColor.objects.get(name=colorName)
+        self.productColor = colorObject
         self.save()
