@@ -102,7 +102,7 @@ async function getCategoryProductsQuery(category, filters, dispatch) {
     productsByCategory = [],
     message: errorMessage
   } = await getProductsByCategoryName(category);
-  console.log(productsByCategory, errorMessage);
+
   if (!errorMessage) {
     dispatch(updateCategoryProducts({ name: category, products: productsByCategory }));
     updateCategoryLocalStorage(category, productsByCategory, filters);

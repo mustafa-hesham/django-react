@@ -35,7 +35,14 @@ self.addEventListener('fetch', async (event) => {
         const fetchedResponse = fetch(event.request).then(async (networkResponse) => {
           const networkResponseClone = networkResponse.clone();
           const { errors } = await networkResponseClone.json();
-          if (!errors) {
+          let isUnCached = false;
+          unCachedQueries.forEach((query) => {
+            if (body.query.includes(query)) {
+              isUnCached = true;
+            }
+          });
+
+          if (!errors && !isUnCached) {
             cache.put(id, networkResponse.clone());
           }
 
@@ -49,3 +56,9 @@ self.addEventListener('fetch', async (event) => {
     return;
   }
 });
+
+const unCachedQueries = [
+  'cartByUser',
+  'tokenAuth',
+  'createCartForCustomer'
+];

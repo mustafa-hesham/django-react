@@ -1,6 +1,7 @@
 import { addProductToCart as storeAddProductToCart } from 'Store/Cart/CartReducer.reducer';
+import { compareTwoObjects } from 'Util/General';
 
-import { CART } from './Cart.config';
+import { CART, CART_QUANTITY } from './Cart.config';
 
 export function setCart(cartItems = [], customerCartId = '') {
   let cart = {};
@@ -119,7 +120,7 @@ export function mergeCarts(customerCartItems = []) {
 
   const uniqueGuestItems = guestCartItems.reduce(
       (accumulator, item) => {
-        if (!customerCartItems.find((customerItem) => customerItem.id === item.id)) {
+        if (!customerCartItems.find((customerItem) => compareTwoObjects(customerItem, item, [CART_QUANTITY]))) {
           accumulator.push(item);
         }
         return accumulator;
@@ -128,7 +129,7 @@ export function mergeCarts(customerCartItems = []) {
 
   const newCartItems = customerCartItems.map((item) => {
     const repeatedItem = guestCartItems.find(
-        (guestItem) => guestItem.id === item.id
+        (guestItem) => compareTwoObjects(guestItem, item, [CART_QUANTITY])
     );
 
     if (repeatedItem) {
