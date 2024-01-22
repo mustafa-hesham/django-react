@@ -1,6 +1,5 @@
 # type: ignore
-from email.policy import default
-from product.models import Product, ProductVariantCollection
+from product.models import Product, ProductSize
 from cart.types import CartType, CartItemType, CartItemInput
 from cart.models import Cart, CartItem
 import graphene
@@ -64,16 +63,24 @@ class CreateCartForCustomer(graphene.Mutation):
             cartItemsObjects = CartItem.objects.filter(cart=cartObject, quantity__gt=0)
             cartItemsIds = []
             cartItemsVariantsId = []
+            cartItemsSizeNames = []
+
+            if not len(cart_items):
+                return
 
             for item in cart_items:
-                cartItemsIds.append(item.id)
-                cartItemsVariantsId.append(item.variants[0].id)
+                cartItemsIds.append(int(item.id))
+                cartItemsVariantsId.append(item.variants.id)
+                cartItemsSizeNames.append(
+                    item.variants.productsizecollectionSet.size.name
+                )
 
             if cartItemsObjects and len(cartItemsObjects) > len(cartItemsIds):
                 for cartItem in cartItemsObjects:
                     if not (
                         cartItem.id in cartItemsIds
                         and cartItem.productVariantId in cartItemsVariantsId
+                        and cartItem.productSize.name in cartItemsSizeNames
                     ):
                         cartItem.delete()
 
@@ -84,17 +91,26 @@ class CreateCartForCustomer(graphene.Mutation):
             if cart_items and len(cart_items):
                 for item in cart_items:
                     productObject = Product.objects.get(pk=item.id)
-                    productVariantId = int(item.variants[0].id)
+                    productVariantId = int(item.variants.id)
+                    sizeObject = ProductSize.objects.get(
+                        name=item.variants.productsizecollectionSet.size.name
+                    )
                     cartItemObject, cartItemCreated = CartItem.objects.get_or_create(
                         cart=cartObject,
                         product=productObject,
                         productVariantId=productVariantId,
+                        productSize=sizeObject,
                     )
 
-                    if item.cartQuantity <= productObject.quantity:
+                    if (
+                        item.cartQuantity
+                        <= item.variants.productsizecollectionSet.quantity
+                    ):
                         cartItemObject.quantity = item.cartQuantity
                     else:
-                        cartItemObject.quantity = productObject.quantity
+                        cartItemObject.quantity = (
+                            item.variants.productsizecollectionSet.quantity
+                        )
 
                     cartItemObject.setItemColor()
                     cartItemObject.save()

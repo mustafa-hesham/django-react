@@ -21,7 +21,7 @@ class ProductColor(models.Model):
     hexValue = ColorField(default="#000", editable=False)
 
     def __str__(self):
-        return self.colored_name()
+        return self.name
 
     def colored_name(self):
         return format_html(
@@ -60,7 +60,6 @@ class ProductVariant(models.Model):
     )
 
     def __str__(self):
-        # associatedProduct = ProductVariantCollection.objects.get(image=self).product
         return self.color.name
 
     def save(self, *args, **kwargs):

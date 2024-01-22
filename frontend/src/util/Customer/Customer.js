@@ -60,12 +60,24 @@ export async function signInProcedure(dispatch) {
 
     const customerCartItems = cartitemSet.length? cartitemSet.map((item) => {
       const {
-        productVariantId
+        productVariantId,
+        productSize
       } = item;
+
+      const selectedVariant = item.product.variants.find((variant) => parseInt(variant.id) === productVariantId);
+      const selectedSize = selectedVariant.productsizecollectionSet.find(
+          (sizeCollection) => sizeCollection.size.name === productSize.name
+      );
+      const selectedSizeVariant = {
+        ...selectedVariant,
+        productsizecollectionSet: {
+          ...selectedSize
+        }
+      };
 
       const itemProduct = {
         ...item.product,
-        variants: item.product.variants.find((variant) => parseInt(variant.id) === productVariantId)
+        variants: selectedSizeVariant
       };
 
       return {

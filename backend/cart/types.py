@@ -21,7 +21,7 @@ class CartItemInput(graphene.InputObjectType):
     SKU = graphene.String()
     description = graphene.String()
     name = graphene.String()
-    variants = graphene.List(ProductVariantInputType)
+    variants = ProductVariantInputType()
     cartQuantity = graphene.Int()
     quantity = graphene.Int()
     is_available = graphene.Boolean()

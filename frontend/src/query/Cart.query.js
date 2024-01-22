@@ -16,7 +16,13 @@ function getCartItemFieldList() {
   return new Field('cartitemSet')
       .addField('quantity')
       .addField('productVariantId')
+      .addFieldList([getCartItemSize()])
       .addFieldList([getProductCartItemFieldList()]);
+}
+
+function getCartItemSize() {
+  return new Field('productSize')
+      .addField('name');
 }
 
 function getProductCartItemFieldList() {

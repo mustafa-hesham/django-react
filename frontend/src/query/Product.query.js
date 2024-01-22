@@ -50,7 +50,7 @@ function getProductSizes() {
       .addField('quantity');
 }
 
-function getProductSize() {
+export function getProductSize() {
   return new Field('size')
       .addField('name');
 }

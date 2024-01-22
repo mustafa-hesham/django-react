@@ -91,7 +91,7 @@ class ProductVariantInputType(graphene.InputObjectType):
     color = ProductColorInputType()
     sizes = graphene.List(ProductSizeInputType)
     productvariantcollection = ProductVariantOrderInputType()
-    productsizecollectionSet = graphene.List(ProductSizeCollectionInputType)
+    productsizecollectionSet = ProductSizeCollectionInputType()
 
 
 class CategoryInputType(graphene.InputObjectType):
