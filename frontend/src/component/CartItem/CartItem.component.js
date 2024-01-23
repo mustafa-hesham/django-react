@@ -16,9 +16,6 @@ export default function CartItem(props) {
       cartQuantity,
       variants: {
         images,
-        color: {
-          name: colorName = ''
-        },
         productsizecollectionSet: {
           size: {
             name: sizeName = ''
@@ -26,8 +23,7 @@ export default function CartItem(props) {
         } = { size: {
           name: ''
         } }
-      },
-      id: productID
+      }
     }
   } = props;
 
@@ -44,7 +40,7 @@ export default function CartItem(props) {
       { renderSize(sizeName) }
       { renderQuantity(addProduct, product, dispatch) }
       { renderItemTotalPrice(price, cartQuantity) }
-      { renderRemoveItem(productID, colorName, sizeName, dispatch, removeProduct) }
+      { renderRemoveItem(product, dispatch, removeProduct) }
     </div>
   );
 };
@@ -92,12 +88,12 @@ function renderQuantity(addProduct, product, dispatch) {
   );
 };
 
-function renderRemoveItem(productID, colorName, sizeName, dispatch, removeProduct) {
+function renderRemoveItem(product, dispatch, removeProduct) {
   return (
     <div className='CartItem-RemoveItem'>
       <RemoveIcon
         className='CartItem-RemoveItemIcon'
-        onClick={ () => removeProduct(productID, colorName, sizeName, dispatch) }
+        onClick={ () => removeProduct(product, dispatch) }
       />
     </div>
   );

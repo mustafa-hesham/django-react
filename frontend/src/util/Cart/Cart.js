@@ -63,13 +63,9 @@ export function addProductToCart(product, cartQuantity, dispatch) {
     cartItems
   } = getCart();
 
-  if (cartItems.some((item) => item.id === product.id &&
-  item.variants.color.name === product.variants.color.name &&
-  item.variants.productsizecollectionSet.size.name === product.variants.productsizecollectionSet.size.name)) {
+  if (cartItems.some((item) => compareTwoObjects(product, item, [CART_QUANTITY]))) {
     newCartItems = cartItems.map(
-        (item) => item.id === product.id &&
-        item.variants.color.name === product.variants.color.name &&
-        item.variants.productsizecollectionSet.size.name === product.variants.productsizecollectionSet.size.name?
+        (item) => compareTwoObjects(product, item, [CART_QUANTITY])?
         { ...item, cartQuantity: item.cartQuantity + cartQuantity } :
         item
     );
@@ -93,18 +89,16 @@ export function generateUniqueCartID() {
   ).replace(/-/g, '');
 }
 
-export function removeProductFromCart(productID, colorName, sizeName, dispatch) {
+export function removeProductFromCart(product, dispatch) {
   const {
     cartItems = []
   } = getCart();
 
-  if (!cartItems || !cartItems.some((item) => item.id === productID && item.variants.color.name === colorName &&
-  item.variants.productsizecollectionSet.size.name === sizeName)) {
+  if (!cartItems || !cartItems.some((item) => compareTwoObjects(product, item, [CART_QUANTITY]))) {
     return;
   }
 
-  const newCartItems = cartItems.filter((item) => !(item.id === productID && item.variants.color.name === colorName &&
-    item.variants.productsizecollectionSet.size.name === sizeName));
+  const newCartItems = cartItems.filter((item) => !compareTwoObjects(product, item, [CART_QUANTITY]));
   setCart(newCartItems);
   updateCartReducer(dispatch);
 }
