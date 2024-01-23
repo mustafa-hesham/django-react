@@ -43,9 +43,11 @@ INSTALLED_APPS = [
     "corsheaders",
     "product",
     "cart",
+    "customer",
     "graphene_django",
     "graphql_jwt.refresh_token.apps.RefreshTokenConfig",
     "colorfield",
+    "django_countries",
 ]
 
 MIDDLEWARE = [
