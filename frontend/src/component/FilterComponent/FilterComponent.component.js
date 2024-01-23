@@ -55,9 +55,8 @@ function renderValueFilter(stateValues, value, updateValueFilter, dispatch, isVa
         'FilterComponent-ColorValue';
 
     return (
-      <div className={ className }>
+      <div className={ className } key={ hexValue }>
         <div
-          key={ hexValue }
           className='FilterComponent-Color'
           style={ {
             backgroundColor: `${hexValue}`
