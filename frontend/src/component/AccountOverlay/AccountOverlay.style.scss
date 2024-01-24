@@ -3,9 +3,10 @@
         display: flex;
         gap: 50px;
         justify-content: center;
+        user-select: none;
+    }
 
-        h2 {
-            user-select: none;
-        }
+    &-LoginTitle, &-CreateAccountTitle {
+        cursor: pointer;
     }
 }
