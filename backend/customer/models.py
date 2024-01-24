@@ -19,3 +19,12 @@ class Address(models.Model):
     zipCode = models.CharField(max_length=10)
     address_type = models.PositiveIntegerField(choices=TYPE_ADDRESS_CHOICES)
     is_default = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.customer
+
+    def isBillingAddress(self):
+        return self.address_type == 1
+
+    def isShippingAddress(self):
+        return self.address_type == 2
