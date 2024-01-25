@@ -3,6 +3,7 @@ import './AccountOverlay.style.scss';
 import {
   CREATE_ACCOUNT,
   LOGIN } from 'Component/Account/Account.config';
+import AccountCreateAccount from 'Component/AccountCreateAccount';
 import AccountLogin from 'Component/AccountLogin';
 import Overlay from 'Component/Overlay';
 import { useState } from 'react';
@@ -51,7 +52,7 @@ function renderTitle(setToggledTab, toggledTab) {
 
 function renderLogin(toggledTab) {
   if (toggledTab) {
-    return null;
+    return <AccountCreateAccount />;
   }
 
   return (

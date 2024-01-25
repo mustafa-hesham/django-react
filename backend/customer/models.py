@@ -16,6 +16,7 @@ emailField = RegexValidator(
 usernameField = RegexValidator(r"[a-zA-Z][a-zA-Z0-9_\.-]+", "Enter a valid username")
 
 
+# Create your models here.
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, first_name, last_name, password=None):
         if not email:
@@ -99,8 +100,6 @@ class CustomUser(AbstractBaseUser):
         super(CustomUser, self).save(*args, **kwargs)
 
 
-# Create your models here.
-
 TYPE_ADDRESS_CHOICES = [
     (1, "Billing address"),
     (2, "Shipping address"),
@@ -108,6 +107,9 @@ TYPE_ADDRESS_CHOICES = [
 
 
 class Address(models.Model):
+    class Meta:
+        verbose_name_plural = "Addresses"
+
     customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     country = CountryField()
     state = models.CharField(max_length=50)
