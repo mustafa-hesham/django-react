@@ -30,7 +30,7 @@ export function logOut() {
 }
 
 export function getUsernameFromState() {
-  const customerUsername = getStore()?.getState()?.CustomerReducer?.customer?.username;
+  const customerUsername = getStore()?.getState()?.CustomerReducer?.customer?.email;
   return customerUsername || null;
 }
 
@@ -39,7 +39,7 @@ export function isSignIn() {
 }
 
 export async function signInProcedure(dispatch) {
-  const customerUsername = getCustomerData().username || getUsernameFromState();
+  const customerUsername = getCustomerData().email || getUsernameFromState();
 
   const {
     cartId: localCartId,

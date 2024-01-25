@@ -1,10 +1,11 @@
 # type: ignore
+import email
 from product.models import Product, ProductSize
 from cart.types import CartType, CartItemType, CartItemInput
 from cart.models import Cart, CartItem
 import graphene
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from customer.models import CustomUser
 
 
 class Query(graphene.ObjectType):
@@ -24,7 +25,7 @@ class Query(graphene.ObjectType):
             return
 
         try:
-            userObject = User.objects.get(username=user)
+            userObject = CustomUser.objects.get(email=user)
             return Cart.objects.get(customer=userObject, isActive=True)
         except Cart.DoesNotExist:
             return None
@@ -35,7 +36,7 @@ class Query(graphene.ObjectType):
             return
 
         try:
-            userObject = User.objects.get(username=user)
+            userObject = CustomUser.objects.get(email=user)
             cartObject = Cart.objects.get(customer=userObject, isActive=True)
             return CartItem.objects.filter(cart=cartObject, quantity__gt=0)
         except CartItem.DoesNotExist:
@@ -55,7 +56,7 @@ class CreateCartForCustomer(graphene.Mutation):
             return
 
         try:
-            userObject = User.objects.get(username=user)
+            userObject = CustomUser.objects.get(email=user)
             cartObject, created = Cart.objects.get_or_create(
                 cart_id=cart_id, customer=userObject, isActive=True
             )

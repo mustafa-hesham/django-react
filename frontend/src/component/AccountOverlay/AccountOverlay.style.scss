@@ -1,12 +1,39 @@
 .AccountOverlay {
     &-Title {
         display: flex;
-        gap: 50px;
-        justify-content: center;
+        justify-content: space-between;
         user-select: none;
+        padding-block-start: 10%;
+        font-family: $Majestic-kingdome-Regular;
+        color: $primary-font-color;
+        margin-inline: auto;
+        border-width: 0 0 1px;
+        border-color: $black;
+        border-style: solid;
+        width: 80%;
     }
 
     &-LoginTitle, &-CreateAccountTitle {
         cursor: pointer;
+        border: 1px solid $black;
+        padding-block: 10px;
+        padding-inline: 15px;
+        width: 40%;
+        text-align: center;
+        border-radius: 15px 15px 0 0;
+        background-color: $primary-button-color;
+        color: $white;
+        transition-property: background-color;
+        transition-duration: 300ms;
+        transition-timing-function: ease-in-out;
+
+        &:hover {
+            background-color: $primary-button-color-hover;
+        }
+
+        &_Clicked {
+            background-color: $primary-button-color-hover;
+            border-width: 1px 1px 0;
+        }
     }
 }

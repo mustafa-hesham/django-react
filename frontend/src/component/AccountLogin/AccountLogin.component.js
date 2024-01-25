@@ -8,7 +8,7 @@ import { setCustomerData, signInProcedure } from 'Util/Customer';
 import { refreshAuthTokensTimeout, setAuthTokens } from 'Util/Token';
 
 export default function AccountLogin() {
-  const customerName = useSelector((state) => state.CustomerReducer.customer.username);
+  const customerName = useSelector((state) => state.CustomerReducer.customer.email);
 
   if (customerName) {
     return null;
@@ -21,8 +21,8 @@ export default function AccountLogin() {
       <form className='AccountLogin-LoginForm' onSubmit={ (e) => handleSubmit(e, dispatch) }>
         <input
           type="text"
-          name="username"
-          placeholder='Username'
+          name="email"
+          placeholder='Email'
           className='AccountLogin-LoginTextField'
           required
         />
@@ -44,8 +44,8 @@ async function handleSubmit(event, dispatch) {
 
   const {
     target: {
-      username: {
-        value: usernameValue
+      email: {
+        value: emailValue
       },
       password: {
         value: passwordValue
@@ -58,16 +58,20 @@ async function handleSubmit(event, dispatch) {
       token = '',
       refreshToken = '',
       payload: {
-        username = ''
+        email = ''
+      } = {},
+      user: {
+        firstName = '',
+        lastName = ''
       } = {}
     } = {}
-  } = await getAuthToken(usernameValue, passwordValue);
+  } = await getAuthToken(emailValue, passwordValue);
 
   if (token) {
     setAuthTokens(token, refreshToken);
     dispatch(updateToggleAccountOverlay(false));
-    dispatch(customerSignIn({ username: username }));
-    setCustomerData({ username: username });
+    dispatch(customerSignIn({ email: email, firstName: firstName, lastName: lastName }));
+    setCustomerData({ email: email, firstName: firstName, lastName: lastName });
     signInProcedure(dispatch);
     refreshAuthTokensTimeout();
   }

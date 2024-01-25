@@ -5,7 +5,9 @@ import { CUSTOMER_SIGN_IN } from './CustomerReducer.config';
 
 const getInitialState = () => ({
   customer: {
-    username: getCustomerData() ? getCustomerData().username : ''
+    email: getCustomerData() ? getCustomerData().email : '',
+    firstName: getCustomerData() ? getCustomerData().firstName : '',
+    lastName: getCustomerData() ? getCustomerData().lastName : ''
   }
 });
 
@@ -18,12 +20,10 @@ export const CustomerSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(customerSignIn, (state, action) => {
       const {
-        payload: {
-          username
-        }
+        payload
       } = action;
 
-      state.customer.username = username;
+      state.customer = payload;
     }
     );
   }

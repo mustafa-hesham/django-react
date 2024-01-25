@@ -34,7 +34,7 @@ export const CartSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(updateToggleCartOverlay, (state, action) => {
-      const username = getCustomerData() ? getCustomerData().username : '';
+      const email = getCustomerData() ? getCustomerData().email : '';
 
       const {
         payload
@@ -45,8 +45,8 @@ export const CartSlice = createSlice({
         cartItems
       } = getCart();
 
-      if (!!username && !payload) {
-        createCartForCustomer(username, cartId, cartItems);
+      if (!!email && !payload) {
+        createCartForCustomer(email, cartId, cartItems);
       }
 
       state.isCartOverlayToggled = payload;

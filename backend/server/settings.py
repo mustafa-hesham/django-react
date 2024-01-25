@@ -163,6 +163,9 @@ GRAPHQL_JWT = {
     "JWT_REFRESH_EXPIRATION_DELTA": timedelta(days=1),
 }
 
+AUTH_USER_MODEL = "customer.CustomUser"
+USER_FIELDS = ["email", "first_name", "last_name", "password"]
+
 APPEND_SLASH = True
 
 CORS_ALLOWED_ORIGINS = [

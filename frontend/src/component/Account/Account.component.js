@@ -14,7 +14,7 @@ export default function Account() {
   const accountRef = useRef(null);
   const dispatch = useDispatch();
   const isOverlayToggled = useSelector((state) => state.AccountOverlayReducer.isAccountOverlayToggled);
-  const customerName= useSelector((state) => state.CustomerReducer.customer.username);
+  const customerName= useSelector((state) => state.CustomerReducer.customer.firstName);
 
   return (
     <div className='Account'>
@@ -36,7 +36,7 @@ export default function Account() {
 };
 
 function renderLogOut() {
-  const customerName= useSelector((state) => state.CustomerReducer.customer.username);
+  const customerName= useSelector((state) => state.CustomerReducer.customer.email);
 
   if (!customerName) {
     return null;

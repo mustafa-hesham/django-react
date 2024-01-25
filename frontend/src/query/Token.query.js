@@ -1,13 +1,20 @@
 import Field from 'Util/Field';
 import { fetchMutation } from 'Util/Request';
 
-export function getAuthToken(username, password) {
+export function getAuthToken(email, password) {
   const mutation = new Field('tokenAuth')
-      .addArgument('username', username, 'String!')
+      .addArgument('email', email, 'String!')
       .addArgument('password', password, 'String!')
-      .addFieldList(authTokenFields());
+      .addFieldList(authTokenFields())
+      .addFieldList([getUserData()]);
 
   return fetchMutation(mutation);
+}
+
+function getUserData() {
+  return new Field('user')
+      .addField('firstName')
+      .addField('lastName');
 }
 
 export function refreshAuthToken(refreshToken) {

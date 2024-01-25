@@ -17,23 +17,30 @@ export default function AccountOverlay(props) {
       buttonRef = { accountRef }
       isOverlayToggled = { isOverlayToggled }
       toggleFunction = { updateToggleAccountOverlay }
-      header = { () => renderTitle(setToggledTab) }
+      header = { () => renderTitle(setToggledTab, toggledTab) }
       body = { () => renderLogin(toggledTab) }
     />
   );
 };
 
-function renderTitle(setToggledTab) {
+function renderTitle(setToggledTab, toggledTab) {
+  const loginTitleClassName = toggledTab === 0 ? 'AccountOverlay-LoginTitle AccountOverlay-LoginTitle_Clicked' :
+  'AccountOverlay-LoginTitle';
+
+  const CreateAccountTitleClassName = toggledTab === 1 ?
+  'AccountOverlay-CreateAccountTitle AccountOverlay-CreateAccountTitle_Clicked':
+  'AccountOverlay-CreateAccountTitle';
+
   return (
     <div className='AccountOverlay-Title'>
       <div
-        className='AccountOverlay-LoginTitle'
+        className={ loginTitleClassName }
         onClick={ () => setToggledTab(0) }
       >
         { LOGIN }
       </div>
       <div
-        className='AccountOverlay-CreateAccountTitle'
+        className={ CreateAccountTitleClassName }
         onClick={ () => setToggledTab(1) }
       >
         { CREATE_ACCOUNT }

@@ -7,6 +7,7 @@ from product.types import (
 )
 from product.models import Product, Category, ProductVariantCollection, ProductVariant
 import graphql_jwt
+from customer.types import CustomerType
 
 
 class Query(graphene.ObjectType):
@@ -40,8 +41,16 @@ class Query(graphene.ObjectType):
         return Product.objects.get(SKU=sku)
 
 
+class ObtainJSONWebToken(graphql_jwt.JSONWebTokenMutation):
+    user = graphene.Field(CustomerType)
+
+    @classmethod
+    def resolve(cls, root, info, **kwargs):
+        return cls(user=info.context.user)
+
+
 class Mutation(graphene.ObjectType):
-    token_auth = graphql_jwt.ObtainJSONWebToken.Field()
+    token_auth = ObtainJSONWebToken.Field()
     verify_token = graphql_jwt.Verify.Field()
     refresh_token = graphql_jwt.Refresh.Field()
     revoke_token = graphql_jwt.Revoke.Field()

@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.timezone import now
-from django.contrib.auth.models import User
+from customer.models import CustomUser
 from datetime import timedelta
 
 from product.models import Product, ProductSize, ProductColor
@@ -10,7 +10,9 @@ from product.models import Product, ProductSize, ProductColor
 
 class Cart(models.Model):
     cart_id = models.CharField(max_length=40, default="")
-    customer = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    customer = models.ForeignKey(
+        CustomUser, null=True, blank=True, on_delete=models.CASCADE
+    )
     email = models.EmailField(null=True, blank=True, max_length=254)
     createdAt = models.DateTimeField(default=now, blank=True)
     subtotal = models.DecimalField(
