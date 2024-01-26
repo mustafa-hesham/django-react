@@ -1,45 +1,73 @@
 import './AccountCreateAccount.style.scss';
-import 'react-datepicker/dist/react-datepicker.css';
 
+import FormDatePicker from 'Component/FormDatePicker';
 import { useState } from 'react';
-import DatePicker from 'react-datepicker';
 
 export default function AccountCreateAccount() {
   const [startDate, setStartDate] = useState(new Date());
   return (
     <div className='AccountCreateAccount'>
-      <form className='AccountCreateAccount-CreateAccountForm'>
+      <form
+        className='AccountCreateAccount-CreateAccountForm OverlayForm'
+        onSubmit={ (e) => handleCreateAccount(e) }
+      >
         <input
           type="email"
           name="email"
           placeholder='Email'
-          className='AccountCreateAccount-TextField'
+          className='AccountCreateAccount-TextField OverlayForm-TextField'
           required
         />
         <input
           type="password"
           name="password"
           placeholder='Password'
-          className='AccountCreateAccount-TextField'
+          className='AccountCreateAccount-TextField OverlayForm-TextField'
           required
         />
         <input
           type="text"
           name="firstName"
           placeholder='First name'
-          className='AccountCreateAccount-TextField'
+          className='AccountCreateAccount-TextField OverlayForm-TextField'
           required
         />
         <input
           type="text"
           name="lastName"
           placeholder='Last name'
-          className='AccountCreateAccount-TextField'
+          className='AccountCreateAccount-TextField OverlayForm-TextField'
           required
         />
-        <DatePicker selected={ startDate } onChange={ (date) => setStartDate(date) } />
-        <input type="submit" value="Create Account" className='AccountCreateAccount-CreateAccountButton'/>
+        <FormDatePicker
+          startDate = { startDate }
+          setStartDate = { setStartDate }
+        />
+        <input
+          type="submit"
+          value="Create Account"
+          className='AccountCreateAccount-CreateAccountButton OverlayForm-SubmitButton'
+        />
       </form>
     </div>
   );
+};
+
+async function handleCreateAccount(event) {
+  event.preventDefault();
+  const {
+    target: {
+      email: {
+        value: emailValue
+      },
+      password: {
+        value: passwordValue
+      },
+      DatePicker: {
+        value: datePickerValue
+      }
+    }
+  } = event;
+
+  console.log(emailValue, passwordValue, datePickerValue);
 };

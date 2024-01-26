@@ -18,22 +18,22 @@ export default function AccountLogin() {
 
   return (
     <div className='AccountLogin'>
-      <form className='AccountLogin-LoginForm' onSubmit={ (e) => handleSubmit(e, dispatch) }>
+      <form className='AccountLogin-LoginForm OverlayForm' onSubmit={ (e) => handleSubmit(e, dispatch) }>
         <input
           type="text"
           name="email"
           placeholder='Email'
-          className='AccountLogin-LoginTextField'
+          className='AccountLogin-LoginTextField OverlayForm-TextField'
           required
         />
         <input
           type="password"
           name="password"
           placeholder='Password'
-          className='AccountLogin-LoginTextField'
+          className='AccountLogin-LoginTextField OverlayForm-TextField'
           required
         />
-        <input type="submit" value="Login" className='AccountLogin-LoginButton'/>
+        <input type="submit" value="Login" className='AccountLogin-LoginButton OverlayForm-SubmitButton'/>
       </form>
     </div>
   );

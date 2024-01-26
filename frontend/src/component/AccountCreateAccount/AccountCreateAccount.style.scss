@@ -1,49 +1,4 @@
 .AccountCreateAccount {
     padding-block-start: 15%;
     margin-inline: 15px;
-
-    &-CreateAccountForm {
-        flex-direction: column;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 30px;
-    }
-
-    &-TextField {
-        width: 80%;
-        height: 50px;
-        padding-inline-start: 10px;
-        transition-property: background-color;
-        transition-duration: 300ms;
-        transition-timing-function: ease-in-out;
-        border-radius: 5px;
-        font-size: 18px;
-
-        &:focus {
-            background-color: $input-focus-background;
-
-            &::placeholder {
-                color: #5c7b5b;
-            }
-        }
-    }
-
-    &-CreateAccountButton {
-        background-color: $primary-button-color;
-        width: auto;
-        padding-inline: 10%;
-        height: 60px;
-        color: $white;
-        font-size: 22px;
-        border: none;
-        transition-property: background-color;
-        transition-duration: 100ms;
-        transition-timing-function: ease-in-out;
-        border-radius: 3px;
-
-        &:hover {
-            background-color: $primary-button-color-hover;
-        }
-    }
 }
