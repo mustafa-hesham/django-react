@@ -36,6 +36,14 @@
     justify-content: center;
     gap: 30px;
 
+    &-TextFieldWrapper {
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
     &-TextField {
         width: 80%;
         height: 50px;
@@ -71,5 +79,12 @@
         &:hover {
             background-color: $primary-button-color-hover;
         }
+    }
+
+    &-Error {
+        align-self: self-start;
+        padding-inline-start: 10%;
+        color: $red;
+        padding-block-start: 5px;
     }
 }
