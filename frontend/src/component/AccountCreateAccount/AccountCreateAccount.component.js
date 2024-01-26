@@ -130,7 +130,7 @@ function validateInput(e, input, error, setError) {
         if (!value) {
           stateObj[name] = 'Please enter Password.';
         } else if (input.password2 && value !== input.password2) {
-          stateObj['password2'] = 'Password and confirm password don\'t match.';
+          stateObj['password2'] = 'Password and confirm password does not match.';
         } else {
           stateObj['password2'] = input.password2 ? '' : error.password2;
         }
@@ -140,7 +140,7 @@ function validateInput(e, input, error, setError) {
         if (!value) {
           stateObj[name] = 'Please enter Confirm Password.';
         } else if (input.password && value !== input.password) {
-          stateObj[name] = 'Password and confirm password don\'t match.';
+          stateObj[name] = 'Password and confirm password does not match.';
         }
         break;
 
