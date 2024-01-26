@@ -1,11 +1,12 @@
 import graphene
 from graphene_django import DjangoObjectType
-from django.contrib.auth import get_user_model
+from customer.models import CustomUser
 
 
 class CustomerType(DjangoObjectType):
     class Meta:
-        model = get_user_model()
+        model = CustomUser
+        fields = "__all__"
         exclude = ("password",)
 
 
@@ -13,6 +14,6 @@ class CustomerTypeInput(graphene.InputObjectType):
     email = graphene.String()
     password = graphene.String()
     password2 = graphene.String()
-    firstName = graphene.String()
-    lastName = graphene.String()
-    birthDate = graphene.String()
+    first_name = graphene.String()
+    last_name = graphene.String()
+    birth_date = graphene.String()
