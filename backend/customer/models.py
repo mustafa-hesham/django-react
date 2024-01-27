@@ -9,7 +9,7 @@ from django.core.exceptions import ValidationError
 alphaField = RegexValidator(r"[a-zA-Z\s\-\']+", "Enter a valid name")
 
 emailField = RegexValidator(
-    r"[a-zA-Z][a-zA-Z0-9_\.-]+\@[a-zA-Z]+[a-zA-Z0-9]+\.[a-z]+(\.[a-z]+)?",
+    r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
     "Enter a valid email",
 )
 
@@ -83,10 +83,7 @@ class CustomUser(AbstractBaseUser):
     objects = CustomUserManager()
 
     def __str__(self):
-        if self.is_admin:
-            return self.first_name + " " + self.last_name
-        else:
-            return self.email
+        return self.first_name + " " + self.last_name
 
     def has_perm(self, perm, obj=None):
         return self.is_admin

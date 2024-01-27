@@ -6,7 +6,6 @@ from customer.models import CustomUser
 class CustomerType(DjangoObjectType):
     class Meta:
         model = CustomUser
-        fields = "__all__"
         exclude = ("password",)
 
 

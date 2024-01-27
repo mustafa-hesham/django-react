@@ -1,10 +1,9 @@
 # type: ignore
-import email
 from product.models import Product, ProductSize
 from cart.types import CartType, CartItemType, CartItemInput
 from cart.models import Cart, CartItem
 import graphene
-from django.contrib.auth.decorators import login_required
+from graphql_jwt.decorators import login_required
 from customer.models import CustomUser
 
 
@@ -20,10 +19,8 @@ class Query(graphene.ObjectType):
     def resolve_cart_items(self, info):
         return CartItem.objects.all()
 
+    @login_required
     def resolve_cart_by_user(self, info, user):
-        if not info.context.user.is_authenticated:
-            return
-
         try:
             userObject = CustomUser.objects.get(email=user)
             return Cart.objects.get(customer=userObject, isActive=True)
@@ -32,9 +29,6 @@ class Query(graphene.ObjectType):
 
     @login_required
     def resolve_cart_items_by_user(self, info, user):
-        if not info.context.user.is_authenticated:
-            return
-
         try:
             userObject = CustomUser.objects.get(email=user)
             cartObject = Cart.objects.get(customer=userObject, isActive=True)
@@ -51,10 +45,8 @@ class CreateCartForCustomer(graphene.Mutation):
 
     customer_cart = graphene.Field(lambda: CartType)
 
+    @login_required
     def mutate(self, info, user, cart_id, cart_items):
-        if not info.context.user.is_authenticated:
-            return
-
         try:
             userObject = CustomUser.objects.get(email=user)
             cartObject, created = Cart.objects.get_or_create(
@@ -131,7 +123,6 @@ class AddProductToCart(graphene.Mutation):
 
     cartItem = graphene.Field(lambda: CartItemType)
 
-    @login_required
     def mutate(self, info, productID, cartID, quantity):
         try:
             productObject = Product.objects.get(pk=productID)

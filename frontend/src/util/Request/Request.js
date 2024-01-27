@@ -29,13 +29,21 @@ export const fetchRequest = async (request, requestType) => {
     token
   } = getAuthTokens();
 
+  let requestHeaders = {
+    'Content-Type': CONTENT_TYPE,
+    'X-CSRFToken': getCookie(CSRF_TOKEN)
+  };
+
+  if (token) {
+    requestHeaders = {
+      ...requestHeaders,
+      'Authorization': `JWT ${token}`
+    };
+  }
+
   const response = await fetch(getGraphqlURI(), {
     method: REQUEST_METHOD_POST,
-    headers: {
-      'Content-Type': CONTENT_TYPE,
-      'Authorization': `JWT ${token}`,
-      'X-CSRFToken': getCookie(CSRF_TOKEN)
-    },
+    headers: requestHeaders,
     body: JSON.stringify(
         composeRequest(request, requestType)
     )

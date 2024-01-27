@@ -18,28 +18,25 @@ from django.contrib import admin
 from django.urls import path
 from graphene_django.views import GraphQLView
 from django.views.generic import TemplateView
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-
+from server.views import index, category, product_page
+from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path(
         "graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True))
     ),  # exempted during development.
-    path("", ensure_csrf_cookie(TemplateView.as_view(template_name="index.html"))),
+    path("", index, name="index"),
+    path("<category>", category, name="category"),
     path(
-        "<category>",
-        ensure_csrf_cookie(TemplateView.as_view(template_name="index.html")),
+        "service-worker.js",
+        TemplateView.as_view(template_name="service-worker.js"),
     ),
-    path("service-worker.js", TemplateView.as_view(template_name="service-worker.js")),
     path(
         "service-worker.js.map",
         TemplateView.as_view(template_name="service-worker.js.map"),
     ),
     path("manifest.json", TemplateView.as_view(template_name="manifest.json")),
     path("robots.txt", TemplateView.as_view(template_name="robots.txt")),
-    path(
-        "<SKU>/<productName>",
-        ensure_csrf_cookie(TemplateView.as_view(template_name="index.html")),
-    ),
+    path("<SKU>/<productName>", product_page, name="PDP"),
 ]

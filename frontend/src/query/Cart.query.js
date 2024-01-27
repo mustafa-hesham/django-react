@@ -4,7 +4,7 @@ import { fetchMutation, fetchQuery } from 'Util/Request';
 
 export function getCartItemsByCustomer(customer) {
   const query = new Field('cartByUser')
-      .addArgument('user', customer)
+      .addArgument('user', customer, 'String')
       .addField('cartId')
       .addField('total')
       .addFieldList([getCartItemFieldList()]);

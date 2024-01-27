@@ -1,6 +1,7 @@
 import './AccountCreateAccount.style.scss';
 
 import FormDatePicker from 'Component/FormDatePicker';
+import { createNewCustomer } from 'Query/Account.query';
 import { useState } from 'react';
 
 export default function AccountCreateAccount() {
@@ -103,13 +104,38 @@ async function handleCreateAccount(event, isFormSubmitted, error) {
       password: {
         value: passwordValue
       },
+      password2: {
+        value: password2Value
+      },
+      firstName: {
+        value: firstNameValue
+      },
+      lastName: {
+        value: lastNameValue
+      },
       DatePicker: {
         value: datePickerValue
       }
     }
   } = event;
-  console.log(isFormSubmitted && !!Object.values(error).find((value) => !!value));
-  console.log(emailValue, passwordValue, datePickerValue);
+
+  console.log(typeof datePickerValue);
+  if (isFormSubmitted && !!Object.values(error).find((value) => !!value)) {
+    return;
+  }
+
+  const {
+    customer
+  } = await createNewCustomer(
+      emailValue,
+      firstNameValue,
+      lastNameValue,
+      passwordValue,
+      password2Value,
+      datePickerValue
+  );
+
+  console.log(customer);
 };
 
 function validateInput(e, input, error, setError) {
