@@ -4,9 +4,9 @@ import Header from 'Component/Header';
 import { useNavigate, useParams } from 'react-router-dom';
 import SuccessIcon from 'Style/icons/Success/success-green-check-mark-icon.png';
 
-import { SUCCESS, SUCCESS_MESSAGE } from './AccountCreated.config';
+import { CONTINUE, SUCCESS, SUCCESS_MESSAGE } from './AccountCreated.config';
 
-export default function AccountCreated(props) {
+export default function AccountCreated() {
   const {
     email,
     firstName,
@@ -28,7 +28,8 @@ export default function AccountCreated(props) {
           <button
             className='AccountCreated-Button OverlayForm-SubmitButton'
             onClick={ () => navigate('/') }
-          >Continue
+          >
+            { CONTINUE }
           </button>
         </div>
       </div>
