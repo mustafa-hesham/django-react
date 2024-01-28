@@ -3,6 +3,10 @@ import './AccountCreateAccount.style.scss';
 import FormDatePicker from 'Component/FormDatePicker';
 import { createNewCustomer } from 'Query/Account.query';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlayReducer.reducer';
+import { showNotificationMessage } from 'Util/ShowNotification';
 
 export default function AccountCreateAccount() {
   const [currentDate, setCurrentDate] = useState(new Date('1971-01-01'));
@@ -24,12 +28,16 @@ export default function AccountCreateAccount() {
     lastName: '',
     birthDate: ''
   });
-  console.log(error);
+
+  const navigate = useNavigate();
+  const isOverlayToggled = useSelector((state) => state.AccountOverlayReducer.isAccountOverlayToggled);
+  const dispatch = useDispatch();
+
   return (
     <div className='AccountCreateAccount'>
       <form
         className='AccountCreateAccount-CreateAccountForm OverlayForm'
-        onSubmit={ (e) => handleCreateAccount(e, isFormSubmitted, error) }
+        onSubmit={ (e) => handleCreateAccount(e, isFormSubmitted, error, navigate, isOverlayToggled, dispatch) }
       >
         <div className='AccountCreateAccount-TextFieldWrapper OverlayForm-TextFieldWrapper'>
           <div className='OverlayForm-Label OverlayForm-Label_Required'>Email</div>
@@ -122,7 +130,7 @@ export default function AccountCreateAccount() {
   );
 };
 
-async function handleCreateAccount(event, isFormSubmitted, error) {
+async function handleCreateAccount(event, isFormSubmitted, error, navigate, isOverlayToggled, dispatch) {
   event.preventDefault();
   const {
     target: {
@@ -179,7 +187,15 @@ async function handleCreateAccount(event, isFormSubmitted, error) {
       datePickerValue
   ) || {};
 
-  console.log(email, firstName, lastName, birthDate, errorMessage);
+  if (!errorMessage && email) {
+    navigate(`/new_account/${firstName}/${lastName}/${email}/${birthDate}`);
+
+    if (isOverlayToggled) {
+      dispatch(updateToggleAccountOverlay(false));
+    }
+  } else {
+    showNotificationMessage('error', errorMessage);
+  }
 };
 
 function validateInput(e, input, error, setError) {
