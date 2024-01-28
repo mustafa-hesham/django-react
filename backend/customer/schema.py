@@ -40,7 +40,7 @@ class CreateCustomer(graphene.Mutation):
                 int(splitted_birth_date[2]),
             )
 
-            if birth_date_obj == date.today():
+            if birth_date_obj == date(1971, 1, 1):
                 birth_date_obj = None
 
         if not re.match(emailPattern, normalizedEmail):

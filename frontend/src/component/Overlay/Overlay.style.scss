@@ -87,4 +87,23 @@
         color: $red;
         padding-block-start: 5px;
     }
+
+    &-Label {
+        align-self: self-start;
+        padding-inline-start: 10%;
+        font-family: Verdana, sans-serif;
+        padding-block-end: 2px;
+
+        &::after {
+            content: " (Optional)";
+            color: grey;
+        }
+
+        &_Required {
+            &::after {
+                content:"*";
+                color: $red;
+            }
+        }
+    }
 }
