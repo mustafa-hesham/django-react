@@ -54,9 +54,7 @@ export default function ProductCard(props) {
     <div
       className='ProductCard'
     >
-      <div className='ProductCard-FavoriteButton'>
-        <FavoriteButton product={ product }/>
-      </div>
+      <FavoriteButton product={ product }/>
       { renderProductImages(
           getProductImages(variants),
           clickedColorIndex,

@@ -30,14 +30,6 @@
         cursor: pointer;
     }
 
-    &-FavoriteButton {
-        z-index: 2;
-        position: absolute;
-        align-self: flex-end;
-        padding-inline-end: 25px;
-        padding-block-start: 15px;
-    }
-
     &-Images {
         border-radius: 15px;
         overflow: hidden;

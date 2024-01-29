@@ -1,6 +1,9 @@
 .FavoriteButton {
     position: absolute;
     z-index: 2;
+    align-self: flex-end;
+    padding-inline-end: 5px;
+    padding-block-start: 5px;
 
     &-Icon {
         height: 1.5em;
