@@ -1,4 +1,5 @@
 import { getCookie } from 'Util/Cookies';
+import { capitalize } from 'Util/General';
 import { getAuthTokens } from 'Util/Token';
 
 import {
@@ -134,8 +135,4 @@ function mapArgsValues(args) {
 
 export function formatAlias(alias) {
   return alias?? `${alias}:`;
-}
-
-function capitalize(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
 }

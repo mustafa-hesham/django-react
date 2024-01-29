@@ -1,5 +1,7 @@
 import './FilterComponent.styles.scss';
 
+import { capitalize } from 'Util/General';
+
 import { RESET } from './FilterComponent.config';
 
 export default function FilterComponent(props) {
@@ -47,7 +49,8 @@ function renderValueFilter(stateValues, value, updateValueFilter, dispatch, isVa
 
   if (isValueName) {
     const {
-      hexValue
+      hexValue,
+      name
     } = value;
 
     const className = stateValues.some((stateValue) => stateValue.name === value.name) ?
@@ -58,6 +61,10 @@ function renderValueFilter(stateValues, value, updateValueFilter, dispatch, isVa
       <div className={ className } key={ hexValue }>
         <div
           className='FilterComponent-Color'
+          data-tooltip-id="my-tooltip"
+          data-tooltip-content={ capitalize(name) }
+          data-tooltip-place="top"
+          data-tooltip-variant="light"
           style={ {
             backgroundColor: `${hexValue}`
           } }

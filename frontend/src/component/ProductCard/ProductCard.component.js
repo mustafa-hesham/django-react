@@ -5,6 +5,7 @@ import FavoriteButton from 'Component/FavoriteButton';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { capitalize } from 'Util/General';
 import {
   getMediaLink,
   getProductColors,
@@ -53,7 +54,9 @@ export default function ProductCard(props) {
     <div
       className='ProductCard'
     >
-      <FavoriteButton product={ product }/>
+      <div className='ProductCard-FavoriteButton'>
+        <FavoriteButton product={ product }/>
+      </div>
       { renderProductImages(
           getProductImages(variants),
           clickedColorIndex,
@@ -161,13 +164,18 @@ function renderProductColor(color, setClickedColorIndex) {
   }
 
   const {
-    hexValue
+    hexValue,
+    name
   } = color[0];
 
   return (
     <div
       key={ hexValue }
       className='ProductCard-Color'
+      data-tooltip-id="my-tooltip"
+      data-tooltip-content={ capitalize(name) }
+      data-tooltip-place="top"
+      data-tooltip-variant="info"
       style={ {
         backgroundColor: `${hexValue}`
       } }

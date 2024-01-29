@@ -27,7 +27,8 @@ module.exports = override(
             {
               loader: 'sass-loader',
               options: {
-                additionalData: '@import "./src/style/main.scss"; @import "react-notifications/lib/notifications.css";'
+                // eslint-disable-next-line max-len
+                additionalData: '@import "./src/style/main.scss"; @import "react-notifications/lib/notifications.css"; @import "react-tooltip/dist/react-tooltip.css";'
               }
             }
           ]
