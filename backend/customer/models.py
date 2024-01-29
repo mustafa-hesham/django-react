@@ -1,6 +1,10 @@
 from django.db import models
 from django_countries.fields import CountryField
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin,
+)
 from django.utils.timezone import now
 from django.core.validators import RegexValidator
 import datetime
@@ -51,7 +55,7 @@ class CustomUserManager(BaseUserManager):
         return user_obj
 
 
-class CustomUser(AbstractBaseUser):
+class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.CharField(
         verbose_name="email address",
         unique=True,
