@@ -1,5 +1,4 @@
 # type: ignore
-from email.policy import default
 from colorfield.fields import ColorField
 from django.db import models
 from django.utils.timezone import now
@@ -64,12 +63,13 @@ class ProductVariant(models.Model):
 
     def save(self, *args, **kwargs):
         self.quantity = 0
-        variantsSizes = self.sizes.all()
-        for variantsSize in variantsSizes:
-            sizeQuantity = ProductSizeCollection.objects.get(
-                variant=self, size=variantsSize
-            ).quantity
-            self.quantity += sizeQuantity
+        if self.id:
+            variantsSizes = self.sizes.all()
+            for variantsSize in variantsSizes:
+                sizeQuantity = ProductSizeCollection.objects.get(
+                    variant=self, size=variantsSize
+                ).quantity
+                self.quantity += sizeQuantity
         super(ProductVariant, self).save(*args, **kwargs)
 
 

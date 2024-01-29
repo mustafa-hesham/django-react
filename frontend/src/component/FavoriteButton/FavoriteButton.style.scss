@@ -1,0 +1,16 @@
+.FavoriteButton {
+    position: absolute;
+    z-index: 2;
+
+    &-Icon {
+        height: 20px;
+        width: 20px;
+        cursor: pointer;
+        filter: $primary-font-color-filter;
+
+        &:hover, &_IsFavorite {
+            filter: $red-filter;
+        }
+    }
+
+}

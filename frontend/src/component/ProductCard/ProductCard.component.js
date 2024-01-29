@@ -1,6 +1,7 @@
 import './ProductCard.style.scss';
 
 import AddToCart from 'Component/AddToCart';
+import FavoriteButton from 'Component/FavoriteButton';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -52,6 +53,7 @@ export default function ProductCard(props) {
     <div
       className='ProductCard'
     >
+      <FavoriteButton product={ product }/>
       { renderProductImages(
           getProductImages(variants),
           clickedColorIndex,
@@ -130,7 +132,11 @@ function renderAddToCart(product) {
     variants
   } = product;
 
-  const modifiedProduct = variants.length === 1 && productsizecollectionSet.length === 1 ? {
+  if (!variants) {
+    return;
+  }
+  console.log(Array.isArray(variants));
+  const modifiedProduct = variants.length === 1 && variants[0].productsizecollectionSet.length === 1 ? {
     ...product,
     variants: {
       ...variants[0],

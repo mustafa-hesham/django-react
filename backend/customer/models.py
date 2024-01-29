@@ -9,6 +9,7 @@ from django.utils.timezone import now
 from django.core.validators import RegexValidator
 import datetime
 from django.core.exceptions import ValidationError
+from product.models import Product
 
 alphaField = RegexValidator(r"[a-zA-Z\s\-\']+", "Enter a valid name")
 
@@ -128,3 +129,8 @@ class Address(models.Model):
 
     def isShippingAddress(self):
         return self.address_type == 2
+
+
+class Favorite(models.Model):
+    customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
