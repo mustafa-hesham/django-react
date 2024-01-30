@@ -1,4 +1,3 @@
-from pyexpat import model
 from graphene_django import DjangoObjectType
 import graphene
 
