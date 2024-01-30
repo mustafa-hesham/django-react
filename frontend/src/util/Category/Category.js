@@ -1,3 +1,5 @@
+import { MAX_VALUE } from 'Component/RangeFilter/RangerFilter.config';
+import { updateColorFilter, updatePriceFilter, updateSizesFilter } from 'Store/Category/CategoryReducer.reducer';
 import { getProductColors } from 'Util/Product';
 
 import { CATEGORY } from './Category.config';
@@ -60,4 +62,10 @@ export function getCategoryProductsUniqueSizes(categoryProducts) {
   );
 
   return sizes;
+}
+
+export function resetAllFilters(dispatch) {
+  dispatch(updateColorFilter([]));
+  dispatch(updateSizesFilter([]));
+  dispatch(updatePriceFilter([0, MAX_VALUE]));
 }

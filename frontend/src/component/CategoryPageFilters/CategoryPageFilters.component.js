@@ -13,6 +13,20 @@ export default function CategoryPageFilters(props) {
 
   const dispatch = useDispatch();
   const filters = useSelector((state) => state.CategoryReducer?.category.filters);
+  const categoryAndFilterColors = colors;
+  const categoryAndFilterSizes = sizes;
+
+  filters.colors.forEach((filterColor) => {
+    if (!categoryAndFilterColors.find((color) => color.name === filterColor.name)) {
+      categoryAndFilterColors.push(filterColor);
+    }
+  });
+
+  filters.sizes.forEach((filterSize) => {
+    if (!categoryAndFilterSizes.find((size) => size === filterSize)) {
+      categoryAndFilterSizes.push(filterSize);
+    }
+  });
 
   const {
     minPrice,
@@ -33,7 +47,7 @@ export default function CategoryPageFilters(props) {
         />
       </div>
       <FilterComponent
-        filterValues = { colors }
+        filterValues = { categoryAndFilterColors }
         dispatch = { dispatch }
         stateValues = { filters.colors }
         title = 'Colors'
@@ -41,7 +55,7 @@ export default function CategoryPageFilters(props) {
         updateValueFilter = { updateColorFilter }
       />
       <FilterComponent
-        filterValues = { sizes }
+        filterValues = { categoryAndFilterSizes }
         dispatch = { dispatch }
         stateValues = { filters.sizes }
         title = 'Sizes'

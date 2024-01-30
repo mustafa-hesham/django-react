@@ -14,6 +14,7 @@ import {
   getCategoryProductsUniqueSizes,
   updateCategoryLocalStorage } from 'Util/Category';
 import { getProductColors, getProductUniqueSizes } from 'Util/Product';
+import { showNotificationMessage } from 'Util/ShowNotification';
 
 export default function CategoryPage() {
   const { category } = useParams();
@@ -51,6 +52,12 @@ export default function CategoryPage() {
       dispatch(updateFilteredProducts(filteredCategoryProducts));
     }
   }, [filters]);
+
+  useEffect(() => {
+    if (categoryProducts.length && !filteredCategoryProducts.length) {
+      showNotificationMessage('info', 'Change filters to display more products');
+    }
+  }, [categoryProducts]);
 
   return (
     <div className='CategoryPage'>
