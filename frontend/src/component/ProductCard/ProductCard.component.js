@@ -102,11 +102,9 @@ function renderProductImages(variantsImages, clickedColorIndex, modifiedProductN
       className='ProductCard-Images'
       onClick={ ()=> navigate(`/${SKU}/${modifiedProductName}`) }
     >
-      <div
+      <img
         className='ProductCard-Image'
-        style={ {
-          backgroundImage: `url('${imageUrl}')`
-        } }
+        src={ imageUrl }
       />
     </div>
   );
@@ -136,7 +134,7 @@ function renderAddToCart(product) {
   if (!variants) {
     return;
   }
-  console.log(Array.isArray(variants));
+
   const modifiedProduct = variants.length === 1 && variants[0].productsizecollectionSet.length === 1 ? {
     ...product,
     variants: {

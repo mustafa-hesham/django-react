@@ -47,7 +47,8 @@ function addProduct(product, dispatch, isCartOverlayToggled, isAccountOverlayTog
     variants
   } = product;
 
-  if (Array.isArray(variants) && variants.length > 1) {
+  if (Array.isArray(variants) && variants.length > 1 ||
+  (Array.isArray(variants) && variants.length === 1 && variants[0].productsizecollectionSet.length > 1)) {
     const {
       SKU,
       name

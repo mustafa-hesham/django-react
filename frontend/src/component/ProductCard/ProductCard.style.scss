@@ -9,7 +9,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-height: auto;
+    max-height: 500px;
     margin-block-end: auto;
     user-select: none;
 
@@ -33,23 +33,18 @@
     &-Images {
         border-radius: 15px;
         overflow: hidden;
+        background-color: $white;
+        display: flex;
+        justify-content: center;
+
+        &:hover {
+            cursor: pointer;
+        }
     }
 
     &-Image {
-        min-width: 100%;
-        padding-block-start: 120%;
-        transition-property: transform, background-image;
-        background-size: cover;
-        background-repeat: no-repeat;
-        transition-duration: 500ms, 300ms;
-        transition-timing-function: ease-in-out;
-        overflow: hidden;
-        transform: scale(1.01);
-
-        &:hover {
-            transform: scale(1.2);
-            cursor: pointer;
-        }
+        height: 250px;
+        padding-inline-end: 0;
     }
 
     &-Name {

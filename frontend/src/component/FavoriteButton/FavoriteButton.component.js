@@ -1,6 +1,5 @@
 import './FavoriteButton.style.scss';
 
-// import { Tooltip } from 'react-tooltip';
 import FavoriteButtonIcon from 'Style/icons/Favorite/favorite_1.png';
 
 export default function FavoriteButton(props) {
