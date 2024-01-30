@@ -10,7 +10,18 @@ from product.models import Product
 
 
 class Query(graphene.ObjectType):
-    pass
+    get_customer_favorites = graphene.List(
+        FavoriteType, customer_email=graphene.String(required=True)
+    )
+
+    # @login_required
+    def resolve_get_customer_favorites(self, info, customer_email):
+        customerObject = CustomUser.objects.get(email=customer_email)
+
+        if not customerObject:
+            raise GraphQLError("Customer does not exist.")
+
+        return Favorite.objects.get(customer=customerObject)
 
 
 class CreateCustomer(graphene.Mutation):
@@ -119,29 +130,10 @@ class RemoveProductFromFavorites(graphene.Mutation):
             raise GraphQLError("No favorite with provided data.")
 
 
-class GetCustomerFavorites(graphene.Mutation):
-    class Arguments:
-        customer_email = graphene.String(required=True)
-
-    favorites = graphene.List(FavoriteType)
-
-    @login_required
-    def mutate(self, info, customer_email):
-        customerObject = CustomUser.objects.get(email=customer_email)
-
-        if not customerObject:
-            raise GraphQLError("Customer does not exist.")
-
-        customerFavorites = Favorite.objects.get(customer=customerObject)
-
-        return GetCustomerFavorites(favorites=customerFavorites)
-
-
 class Mutation(graphene.ObjectType):
     create_customer = CreateCustomer.Field()
     add_product_to_favorites = AddProductToFavorites.Field()
     remove_product_from_favorites = RemoveProductFromFavorites.Field()
-    get_customer_favorites = GetCustomerFavorites.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
