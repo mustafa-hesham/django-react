@@ -132,5 +132,8 @@ class Address(models.Model):
 
 
 class Favorite(models.Model):
+    class Meta:
+        unique_together = ("customer", "product")
+
     customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

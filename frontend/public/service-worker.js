@@ -61,5 +61,6 @@ const unCachedQueries = [
   'cartByUser',
   'tokenAuth',
   'createCartForCustomer',
-  'createCustomer'
+  'createCustomer',
+  'getCustomerFavorites'
 ];

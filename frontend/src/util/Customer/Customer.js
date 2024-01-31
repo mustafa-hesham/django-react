@@ -1,8 +1,11 @@
+import { addProductsToFavorites, getCustomerFavorites } from 'Query/Account.query';
 import { createCartForCustomer, getCartItemsByCustomer } from 'Query/Cart.query';
 import { getStore } from 'Store';
 import { updateCart } from 'Store/Cart/CartReducer.reducer';
+import { updateCustomerFavorites } from 'Store/Customer/CustomerReducer.reducer';
 import { getCart, mergeCarts, removeCart, setCart } from 'Util/Cart';
 import { removeCookie } from 'Util/Cookies';
+import { getGuestFavorites, removeGuestFavorites } from 'Util/Favorites';
 import { CSRF_TOKEN } from 'Util/Request';
 import { removeAuthTokens } from 'Util/Token';
 
@@ -10,33 +13,33 @@ import { CUSTOMER } from './Customer.config';
 
 export function setCustomerData(customer) {
   localStorage.setItem(CUSTOMER, JSON.stringify(customer));
-}
+};
 
 export function getCustomerData() {
   const customer = localStorage.getItem(CUSTOMER);
 
   return customer ? JSON.parse(customer) : null;
-}
+};
 
 export function removeCustomerData() {
   localStorage.removeItem(CUSTOMER);
-}
+};
 
 export function logOut() {
   removeAuthTokens();
   removeCustomerData();
   removeCookie(CSRF_TOKEN);
   removeCart();
-}
+};
 
 export function getUsernameFromState() {
   const customerUsername = getStore()?.getState()?.CustomerReducer?.customer?.email;
   return customerUsername || null;
-}
+};
 
-export function isSignIn() {
-  return !!getUsernameFromState();
-}
+export function isSignedIn() {
+  return !!getCustomerData();
+};
 
 export async function signInProcedure(dispatch) {
   const customerUsername = getCustomerData().email || getUsernameFromState();
@@ -94,5 +97,35 @@ export async function signInProcedure(dispatch) {
 
     setCart(newCartItems, cartId);
     dispatch(updateCart());
+    getCustomerFavoritesQuery(customerUsername, dispatch);
   }
-}
+};
+
+async function getCustomerFavoritesQuery(customerEmail, dispatch) {
+  const {
+    getCustomerFavorites: favorites
+  } = await getCustomerFavorites(customerEmail);
+
+  const guestFavorites = getGuestFavorites();
+  const productsFromFavorites = favorites.map((favorite) => favorite.product);
+
+  const uniqueGuestFavorites = guestFavorites.reduce((accumulator, guestFavorite) => {
+    if (!productsFromFavorites.find((customerFavorite) => customerFavorite.id === guestFavorite.id)) {
+      accumulator.push(guestFavorite);
+    }
+
+    return accumulator;
+  }, []);
+
+  const combinedFavorites = [...productsFromFavorites, ...uniqueGuestFavorites];
+
+  setCustomerData({ ...getCustomerData(), favorites: combinedFavorites });
+  dispatch(updateCustomerFavorites());
+
+  if (uniqueGuestFavorites.length) {
+    const uniqueGuestFavoritesSKUs = uniqueGuestFavorites.map((favorites) => favorites.SKU);
+    await addProductsToFavorites(uniqueGuestFavoritesSKUs, customerEmail);
+  }
+
+  removeGuestFavorites();
+};

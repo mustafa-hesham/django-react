@@ -14,14 +14,17 @@ class Query(graphene.ObjectType):
         FavoriteType, customer_email=graphene.String(required=True)
     )
 
-    @login_required
+    # @login_required
     def resolve_get_customer_favorites(self, info, customer_email):
         customerObject = CustomUser.objects.get(email=customer_email)
 
         if not customerObject:
             raise GraphQLError("Customer does not exist.")
 
-        return Favorite.objects.get(customer=customerObject)
+        try:
+            return Favorite.objects.filter(customer=customerObject)
+        except Favorite.DoesNotExist:
+            return []
 
 
 class CreateCustomer(graphene.Mutation):
@@ -75,66 +78,87 @@ class CreateCustomer(graphene.Mutation):
             raise GraphQLError("Non specific error occurred.")
 
 
-class AddProductToFavorites(graphene.Mutation):
+class AddProductsToFavorites(graphene.Mutation):
     class Arguments:
-        SKU = graphene.String(required=True)
+        SKUs = graphene.List(graphene.String, required=True)
         customer_email = graphene.String(required=True)
 
-    favorite_product = graphene.Field(lambda: FavoriteType)
+    is_product_added = graphene.Boolean()
 
     @login_required
-    def mutate(self, info, SKU, customer_email):
-        productObject = Product.objects.get(SKU=SKU)
-
-        if not productObject:
-            raise GraphQLError("No product with provided SKU.")
+    def mutate(self, info, SKUs, customer_email):
+        if not SKUs or not len(SKUs):
+            raise GraphQLError("Please provide a list SKUs.")
 
         customerObject = CustomUser.objects.get(email=customer_email)
 
         if not customerObject:
             raise GraphQLError("Customer does not exist.")
 
-        if productObject and customerObject:
+        customerFavoritesSKUs = []
+        customerFavorites = Favorite.objects.filter(customer=customerObject)
+
+        for customerFavorite in customerFavorites:
+            customerFavoritesSKUs.append(customerFavorite.product.SKU)
+
+        for SKU in SKUs:
+            if SKU in customerFavoritesSKUs:
+                continue
+
+            productObject = Product.objects.get(SKU=SKU)
+
+            if not productObject:
+                raise GraphQLError("No product with SKU: " + SKU + ".")
+
             favoriteObject = Favorite(product=productObject, customer=customerObject)
-            return AddProductToFavorites(favorite_product=favoriteObject)
-        else:
-            return None
+            favoriteObject.save()
+        return AddProductsToFavorites(is_product_added=True)
 
 
-class RemoveProductFromFavorites(graphene.Mutation):
+class RemoveProductsFromFavorites(graphene.Mutation):
     class Arguments:
-        SKU = graphene.String(required=True)
+        SKUs = graphene.List(graphene.String, required=True)
         customer_email = graphene.String(required=True)
 
     is_product_removed = graphene.Boolean()
 
     @login_required
-    def mutate(self, info, SKU, customer_email):
-        productObject = Product.objects.get(SKU=SKU)
-
-        if not productObject:
-            raise GraphQLError("No product with provided SKU.")
+    def mutate(self, info, SKUs, customer_email):
+        if not SKUs or not len(SKUs):
+            raise GraphQLError("Please provide a list SKUs.")
 
         customerObject = CustomUser.objects.get(email=customer_email)
 
         if not customerObject:
             raise GraphQLError("Customer does not exist.")
 
-        try:
+        customerFavoritesSKUs = []
+        customerFavorites = Favorite.objects.filter(customer=customerObject)
+
+        for customerFavorite in customerFavorites:
+            customerFavoritesSKUs.append(customerFavorite.product.SKU)
+
+        for SKU in SKUs:
+            if SKU not in customerFavoritesSKUs:
+                continue
+
+            productObject = Product.objects.get(SKU=SKU)
+
+            if not productObject:
+                raise GraphQLError("No product with provided SKU.")
+
             favoriteObject = Favorite.objects.get(
                 customer=customerObject, product=productObject
             )
             favoriteObject.delete()
 
-            return RemoveProductFromFavorites(is_product_removed=True)
-        except Favorite.DoesNotExist:
-            raise GraphQLError("No favorite with provided data.")
+        return RemoveProductsFromFavorites(is_product_removed=True)
 
 
 class Mutation(graphene.ObjectType):
     create_customer = CreateCustomer.Field()
-    add_product_to_favorites = AddProductToFavorites.Field()
-    remove_product_from_favorites = RemoveProductFromFavorites.Field()
+    add_products_to_favorites = AddProductsToFavorites.Field()
+    remove_products_from_favorites = RemoveProductsFromFavorites.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
