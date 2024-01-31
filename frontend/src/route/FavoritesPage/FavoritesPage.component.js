@@ -5,13 +5,13 @@ import ProductCard from 'Component/ProductCard';
 import { useSelector } from 'react-redux';
 
 export default function FavoritesPage() {
-  const categoryProducts = useSelector((state) => state.CategoryReducer?.category?.products);
+  const customerFavorites = useSelector((state) => state.CustomerReducer.customer.favorites);
 
   return (
     <div className='FavoritesPage'>
       <Header />
       <div className='FavoritesPage-Body'>
-        { renderProductListGrid(categoryProducts) }
+        { renderProductListGrid(customerFavorites) }
       </div>
     </div>
   );

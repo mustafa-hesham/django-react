@@ -17,7 +17,7 @@ export default function FavoriteButton(props) {
 
   useEffect(() => {
     setIsProductFavorite(isFavorite(product));
-  }, [customerFavorites]);
+  }, [customerFavorites, product]);
 
   const iconClassName = isProductFavorite ?
   'FavoriteButton-Icon FavoriteButton-Icon_IsFavorite' :
