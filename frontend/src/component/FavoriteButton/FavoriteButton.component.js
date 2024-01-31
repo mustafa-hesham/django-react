@@ -3,7 +3,7 @@ import './FavoriteButton.style.scss';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FavoriteButtonIcon from 'Style/icons/Favorite/favorite_1.png';
-import { addOrRemoveGuestFavorite, isFavorite } from 'Util/Favorites';
+import { addOrRemoveProductFromFavorites, isFavorite } from 'Util/Favorites';
 
 export default function FavoriteButton(props) {
   const {
@@ -41,6 +41,6 @@ export default function FavoriteButton(props) {
 };
 
 function addOrRemoveProductGuestFavorite(product, setIsProductFavorite, customerEmail, dispatch) {
-  addOrRemoveGuestFavorite(product, customerEmail, dispatch);
+  addOrRemoveProductFromFavorites(product, customerEmail, dispatch);
   setIsProductFavorite(isFavorite(product));
 };

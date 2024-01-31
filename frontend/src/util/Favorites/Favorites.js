@@ -17,7 +17,7 @@ export function removeGuestFavorites() {
   localStorage.removeItem(GUEST_FAVORITES);
 }
 
-export async function addOrRemoveGuestFavorite(product, customerEmail, dispatch) {
+export async function addOrRemoveProductFromFavorites(product, customerEmail, dispatch) {
   if (isSignedIn()) {
     if (!!getCustomerData().favorites.find((favorite) => favorite.id === product.id)) {
       setCustomerData({ ...getCustomerData(), favorites: getCustomerData().favorites.filter(
