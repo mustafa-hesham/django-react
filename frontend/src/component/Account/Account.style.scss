@@ -1,14 +1,3 @@
 .Account {
     display: flex;
-    gap: 15%;
-
-    &-Text, &-Logout {
-        font-size: $normal-font-size;
-        color: $primary-font-color;
-        font-family: $crima-regular;
-        cursor: pointer;
-        margin-block: auto;
-        user-select: none;
-        text-transform: capitalize;
-    }
 }

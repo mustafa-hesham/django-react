@@ -1,5 +1,6 @@
 import AccountCreated from 'Route/AccountCreated';
 import CategoryPage from 'Route/CategoryPage';
+import FavoritesPage from 'Route/FavoritesPage';
 import Home from 'Route/HomePage';
 import ProductPage from 'Route/ProductPage';
 
@@ -19,5 +20,9 @@ export const ROUTES = [
   {
     path: '/new_account/:firstName/:lastName/:email/:birthDate',
     element: <AccountCreated />
+  },
+  {
+    path: '/favorites',
+    element: <FavoritesPage />
   }
 ];

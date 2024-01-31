@@ -9,5 +9,21 @@
         display: flex;
         margin-block: auto;
         width: 100%;
+        justify-content: start;
+    }
+
+    &-Right {
+        justify-content: center;
+    }
+
+    &-Text {
+        font-size: $normal-font-size;
+        color: $primary-font-color;
+        font-family: $crima-regular;
+        cursor: pointer;
+        margin-block: auto;
+        user-select: none;
+        text-transform: capitalize;
+        margin-inline-end: 15px;
     }
 }

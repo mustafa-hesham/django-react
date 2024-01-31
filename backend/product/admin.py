@@ -32,6 +32,14 @@ class ProductSizeCollectionTabularInline(admin.TabularInline):
 class ProductVariantAdmin(admin.ModelAdmin):
     inlines = [ProductVariantImagesTabularInline, ProductSizeCollectionTabularInline]
 
+    def get_model_perms(self, request):
+        return {}
+
+
+class ProductSingleImageAdmin(admin.ModelAdmin):
+    def get_model_perms(self, request):
+        return {}
+
 
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductVariantsTabularInline]
@@ -49,4 +57,4 @@ admin.site.register(Product, ProductAdmin)
 admin.site.register(Category)
 admin.site.register(ProductVariant, ProductVariantAdmin)
 admin.site.register(ProductColor, ProductColorAdmin)
-admin.site.register(ProductSingleImage)
+admin.site.register(ProductSingleImage, ProductSingleImageAdmin)

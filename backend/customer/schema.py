@@ -14,7 +14,7 @@ class Query(graphene.ObjectType):
         FavoriteType, customer_email=graphene.String(required=True)
     )
 
-    # @login_required
+    @login_required
     def resolve_get_customer_favorites(self, info, customer_email):
         customerObject = CustomUser.objects.get(email=customer_email)
 
@@ -125,6 +125,7 @@ class RemoveProductFromFavorites(graphene.Mutation):
                 customer=customerObject, product=productObject
             )
             favoriteObject.delete()
+
             return RemoveProductFromFavorites(is_product_removed=True)
         except Favorite.DoesNotExist:
             raise GraphQLError("No favorite with provided data.")

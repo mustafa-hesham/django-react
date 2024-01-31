@@ -18,14 +18,14 @@ export default function Account() {
 
   return (
     <div className='Account'>
-      <p
-        className='Account-Text'
+      <div
+        className='Account-Text Header-Text'
         onClick={ () => dispatch(updateToggleAccountOverlay(!isOverlayToggled)) }
         role='Button'
         ref={ accountRef }
       >
         { customerName ? customerName : LOGIN }
-      </p>
+      </div>
       { renderLogOut() }
       <AccountOverlay
         isOverlayToggled={ isOverlayToggled }
@@ -44,13 +44,13 @@ function renderLogOut() {
 
   return (
     <div
-      className='Account-Logout'
+      className='Account-Logout Header-Text'
     >
-      <p
+      <div
         role='Button'
         onClick={ logoutCustomer }
       >Logout
-      </p>
+      </div>
     </div>
   );
 };
