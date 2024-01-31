@@ -137,3 +137,6 @@ class Favorite(models.Model):
 
     customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.customer) + ", " + str(self.product)
