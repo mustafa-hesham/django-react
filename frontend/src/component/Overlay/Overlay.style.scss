@@ -94,14 +94,9 @@
         font-family: Verdana, sans-serif;
         padding-block-end: 2px;
 
-        &::after {
-            content: " (Optional)";
-            color: grey;
-        }
-
         &_Required {
             &::after {
-                content:"*";
+                content:" *";
                 color: $red;
             }
         }
