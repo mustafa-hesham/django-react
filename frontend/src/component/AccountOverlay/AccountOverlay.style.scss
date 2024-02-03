@@ -1,4 +1,11 @@
 .AccountOverlay {
+    overflow: hidden;
+
+    &-Account {
+        height: 90%;
+        margin-block-start: 5%;
+    }
+
     &-Title {
         display: flex;
         justify-content: space-between;
@@ -35,5 +42,64 @@
             background-color: $primary-button-color-hover;
             border-width: 1px 1px 0;
         }
+    }
+
+    &-MyAccountItem {
+        font-size: smaller;
+        padding-block-start: 20px;
+        margin-inline-start: 20px;
+        transition-property: color, border-bottom;
+        transition-duration: 500ms;
+        width: fit-content;
+        position: relative;
+
+        &::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            inset-block-end: 0;
+            inset-inline-start: 0;
+            background-color: $primary-button-color;
+            transform-origin: bottom left;
+            transition: transform 500ms ease-out;
+        }
+
+        &:hover {
+            cursor: pointer;
+            color: $primary-button-color;
+
+            &::after {
+                transform: scaleX(1);
+                transform-origin: bottom left;
+            }
+        }
+    }
+
+    &-MyAccountPanel {
+        padding-block: 5%;
+        padding-inline: 5%;
+        margin-inline: 5%;
+        font-family: $Majestic-kingdome-Regular;
+        height: max-content;
+        user-select: none;
+        border-width: 0 1px 1px;
+        border-color: $light-border-color;
+        border-style: solid;
+        border-radius: 0 0 15px 15px;
+    }
+
+    &-Name {
+        user-select: none;
+        text-align: center;
+        font-family: $MRKMaston-Regular;
+        font-size: $large-font-size;
+        border-radius: 15px 15px 0 0;
+        background-color: $primary-button-color;
+        width: 90%;
+        margin-inline: auto;
+        color: $white;
+        padding-block: 2%;
     }
 }

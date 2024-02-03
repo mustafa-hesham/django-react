@@ -7,7 +7,8 @@ import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlayR
 import { logOut } from 'Util/Customer';
 
 import {
-  LOGIN
+  LOGIN,
+  LOGOUT
 } from './Account.config';
 
 export default function Account() {
@@ -49,7 +50,7 @@ function renderLogOut() {
       <div
         role='Button'
         onClick={ logoutCustomer }
-      >Logout
+      > { LOGOUT }
       </div>
     </div>
   );
