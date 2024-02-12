@@ -1,0 +1,31 @@
+.MyAccount {
+    &-TabsContent {
+        margin-inline: 120px;
+    }
+
+    &-Tabs {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-block-start: 60px;
+        background-color: $primary-button-color;
+        height: 3em;
+        width: auto;
+    }
+
+    &-Tab {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: $normal-font-size;
+        color: $primary-font-color;
+        font-family: $crima-regular;
+        cursor: pointer;
+        width: 20%;
+        height: 100%;
+
+        &_Active {
+            background-color: $primary-button-color-hover;
+        }
+    }
+}

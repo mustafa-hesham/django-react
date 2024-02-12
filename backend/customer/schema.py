@@ -14,7 +14,7 @@ class Query(graphene.ObjectType):
         FavoriteType, customer_email=graphene.String(required=True)
     )
 
-    # @login_required
+    @login_required
     def resolve_get_customer_favorites(self, info, customer_email):
         customerObject = CustomUser.objects.get(email=customer_email)
 

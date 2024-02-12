@@ -2,6 +2,7 @@ import AccountCreated from 'Route/AccountCreated';
 import CategoryPage from 'Route/CategoryPage';
 import FavoritesPage from 'Route/FavoritesPage';
 import Home from 'Route/HomePage';
+import MyAccount from 'Route/MyAccount';
 import ProductPage from 'Route/ProductPage';
 
 export const ROUTES = [
@@ -24,5 +25,9 @@ export const ROUTES = [
   {
     path: '/favorites',
     element: <FavoritesPage />
+  },
+  {
+    path: '/my_account/:tab',
+    element: <MyAccount />
   }
 ];

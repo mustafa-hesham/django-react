@@ -14,11 +14,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path
 from graphene_django.views import GraphQLView
 from django.views.generic import TemplateView
-from server.views import index, category, product_page
+from server.views import index, category, product_page, my_account_page
 from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
@@ -39,4 +40,5 @@ urlpatterns = [
     path("manifest.json", TemplateView.as_view(template_name="manifest.json")),
     path("robots.txt", TemplateView.as_view(template_name="robots.txt")),
     path("<SKU>/<productName>", product_page, name="PDP"),
+    path("my_account/<tab>", my_account_page, name="PDP"),
 ]

@@ -8,6 +8,7 @@ import AccountLogin from 'Component/AccountLogin';
 import Overlay from 'Component/Overlay';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlayReducer.reducer';
 import { logOut } from 'Util/Customer';
 
@@ -17,21 +18,22 @@ export default function AccountOverlay(props) {
   const { accountRef, isOverlayToggled } = props;
   const [toggledTab, setToggledTab] = useState(0);
   const customerName = useSelector((state) => state.CustomerReducer.customer.firstName);
+  const navigate = useNavigate();
 
   return (
     <Overlay
       buttonRef = { accountRef }
       isOverlayToggled = { isOverlayToggled }
       toggleFunction = { updateToggleAccountOverlay }
-      header = { () => renderTitle(setToggledTab, toggledTab, customerName) }
+      header = { () => renderTitle(setToggledTab, toggledTab, customerName, navigate) }
       body = { () => renderLogin(toggledTab, customerName) }
     />
   );
 };
 
-function renderTitle(setToggledTab, toggledTab, customerName) {
+function renderTitle(setToggledTab, toggledTab, customerName, navigate) {
   if (!!customerName) {
-    return renderAccountOptions(customerName);
+    return renderAccountOptions(customerName, navigate);
   }
 
   const loginTitleClassName = toggledTab === 0 ? 'AccountOverlay-LoginTitle AccountOverlay-LoginTitle_Clicked' :
@@ -75,15 +77,27 @@ function renderLogin(toggledTab, customerName) {
   );
 };
 
-function renderAccountOptions(customerName) {
+function renderAccountOptions(customerName, navigate) {
   return (
     <div className='AccountOverlay-Account'>
       <div className='AccountOverlay-Name'>{ `Hello, ${customerName}` }</div>
       <div className='AccountOverlay-MyAccountPanel'>
         <div className='AccountOverlay-MyAccount'>{ MY_ACCOUNT }</div>
-        <div className='AccountOverlay-MyAccountItem'>{ PERSONAL }</div>
-        <div className='AccountOverlay-MyAccountItem'>{ ADDRESSES }</div>
-        <div className='AccountOverlay-MyAccountItem'>{ ORDERS }</div>
+        <div
+          onClick={ () => navigateTo(navigate, PERSONAL) }
+          className='AccountOverlay-MyAccountItem'>
+          { PERSONAL }
+        </div>
+        <div
+          onClick={ () => navigateTo(navigate, ADDRESSES) }
+          className='AccountOverlay-MyAccountItem'>
+          { ADDRESSES }
+        </div>
+        <div
+          onClick={ () => navigateTo(navigate, ORDERS) }
+          className='AccountOverlay-MyAccountItem'>
+          { ORDERS }
+        </div>
         <div onClick={ () => logoutCustomer() } className='AccountOverlay-MyAccountItem'>{ LOGOUT }</div>
       </div>
     </div>
@@ -93,4 +107,12 @@ function renderAccountOptions(customerName) {
 function logoutCustomer() {
   logOut();
   location.reload();
+};
+
+function navigateTo(navigate, tabName) {
+  if (typeof tabName !== 'string' || !tabName.length) {
+    return;
+  }
+
+  navigate(`/my_account/${tabName.split(' ')[0].toLocaleLowerCase()}`);
 };
