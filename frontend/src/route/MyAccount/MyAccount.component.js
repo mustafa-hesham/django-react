@@ -3,7 +3,8 @@ import './MyAccount.style.scss';
 import Header from 'Component/Header';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { navigateTo } from 'Util/Customer';
 
 const renderMap = [
   'Personal', 'Addresses', 'Orders'
@@ -12,6 +13,9 @@ const renderMap = [
 export default function MyAccount() {
   const customerName= useSelector((state) => state.CustomerReducer.customer.firstName);
   const navigate = useNavigate();
+  const {
+    tab: activeTab
+  } = useParams();
 
   if (!customerName) {
     useEffect(() => navigate('/'), [customerName]);
@@ -21,27 +25,35 @@ export default function MyAccount() {
     <div className='MyAccount'>
       <Header />
       <div className='MyAccount-TabsContent'>
-        { renderTabsHeaders(renderMap) }
+        { renderTabsHeaders(renderMap, navigate, activeTab) }
       </div>
     </div>
   );
 }
 
-function renderTabsHeaders(tabs) {
+function renderTabsHeaders(tabs, navigate, activeTab) {
   if (!Array.isArray(tabs)) {
     return null;
   }
 
   return (
     <div className='MyAccount-Tabs'>
-      { tabs.map(renderTab) }
+      { tabs.map((tabName) => renderTab(tabName, navigate, activeTab)) }
     </div>
   );
 };
 
-function renderTab(tabName) {
+function renderTab(tabName, navigate, activeTab) {
+  const className = tabName.toLowerCase() === activeTab.toLowerCase() ?
+    'MyAccount-Tab MyAccount-Tab_Active' :
+    'MyAccount-Tab';
+
   return (
-    <div className='MyAccount-Tab'>
+    <div
+      key={ tabName }
+      className={ className }
+      onClick={ () => navigateTo(navigate, tabName) }
+    >
       { tabName }
     </div>
   );

@@ -8,9 +8,7 @@
         align-items: center;
         justify-content: center;
         margin-block-start: 60px;
-        background-color: $primary-button-color;
         height: 3em;
-        width: auto;
     }
 
     &-Tab {
@@ -20,9 +18,21 @@
         font-size: $normal-font-size;
         color: $primary-font-color;
         font-family: $crima-regular;
+        background-color: $primary-button-color;
         cursor: pointer;
         width: 20%;
         height: 100%;
+        transition-property: background-color;
+        transition-duration: 500ms;
+        transition-timing-function: ease-out;
+
+        &:first-of-type {
+            border-radius: 15px 0 0 15px;
+        }
+
+        &:last-of-type {
+            border-radius: 0 15px 15px 0;
+        }
 
         &_Active {
             background-color: $primary-button-color-hover;

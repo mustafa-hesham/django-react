@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlayReducer.reducer';
-import { logOut } from 'Util/Customer';
+import { logOut, navigateTo } from 'Util/Customer';
 
 import { ADDRESSES, MY_ACCOUNT, ORDERS, PERSONAL } from './AccountOverlay.config';
 
@@ -107,12 +107,4 @@ function renderAccountOptions(customerName, navigate) {
 function logoutCustomer() {
   logOut();
   location.reload();
-};
-
-function navigateTo(navigate, tabName) {
-  if (typeof tabName !== 'string' || !tabName.length) {
-    return;
-  }
-
-  navigate(`/my_account/${tabName.split(' ')[0].toLocaleLowerCase()}`);
 };

@@ -129,3 +129,11 @@ async function getCustomerFavoritesQuery(customerEmail, dispatch) {
 
   removeGuestFavorites();
 };
+
+export function navigateTo(navigate, tabName) {
+  if (typeof tabName !== 'string' || !tabName.length) {
+    return;
+  }
+
+  navigate(`/my_account/${tabName.split(' ')[0].toLocaleLowerCase()}`);
+};
