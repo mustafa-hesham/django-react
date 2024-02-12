@@ -96,7 +96,7 @@
 
         &_Required {
             &::after {
-                content:" *";
+                content: "*";
                 color: $red;
             }
         }
