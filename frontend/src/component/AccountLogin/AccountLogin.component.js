@@ -19,20 +19,26 @@ export default function AccountLogin() {
   return (
     <div className='AccountLogin'>
       <form className='AccountLogin-LoginForm OverlayForm' onSubmit={ (e) => handleSubmit(e, dispatch) }>
-        <input
-          type="text"
-          name="email"
-          placeholder='Email'
-          className='AccountLogin-LoginTextField OverlayForm-TextField'
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder='Password'
-          className='AccountLogin-LoginTextField OverlayForm-TextField'
-          required
-        />
+        <div className='AccountCreateAccount-TextFieldWrapper OverlayForm-TextFieldWrapper'>
+          <div className='OverlayForm-Label OverlayForm-Label_Required'>Email</div>
+          <input
+            type="text"
+            name="email"
+            placeholder='Email'
+            className='AccountLogin-LoginTextField OverlayForm-TextField'
+            required
+          />
+        </div>
+        <div className='AccountCreateAccount-TextFieldWrapper OverlayForm-TextFieldWrapper'>
+          <div className='OverlayForm-Label OverlayForm-Label_Required'>Password</div>
+          <input
+            type="password"
+            name="password"
+            placeholder='Password'
+            className='AccountLogin-LoginTextField OverlayForm-TextField'
+            required
+          />
+        </div>
         <input type="submit" value="Login" className='AccountLogin-LoginButton OverlayForm-SubmitButton'/>
       </form>
     </div>

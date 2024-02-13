@@ -1,0 +1,28 @@
+.Modal {
+    position: fixed;
+    height: 100vh;
+    width: 70vw;
+    background-color: $white;
+    z-index: -2;
+    inset-block-start: 10%;
+    inset-inline-start: 15%;
+    padding-block-start: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transition-property: opacity z-index;
+    transition-duration: 500ms;
+    transition-timing-function: ease-in-out;
+
+    &_Displayed {
+        z-index: 2;
+        opacity: 1;
+    }
+
+    &-ModalCloseButton {
+        display: flex;
+        justify-content: end;
+        width: 100%;
+    }
+}

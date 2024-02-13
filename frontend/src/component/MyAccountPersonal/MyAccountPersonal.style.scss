@@ -1,0 +1,55 @@
+/* stylelint-disable number-max-precision */
+
+.MyAccountPersonal {
+    width: 50%;
+    margin-inline: auto;
+
+    &-TextFieldWrapper {
+        &:not(:last-of-type) {
+            padding-block-end: 20px;
+        }
+    }
+
+    &-TextField {
+        font-size: 1vw;
+    }
+
+    &-EditIconWrapper {
+        display: flex;
+        justify-content: end;
+        padding-block-end: 20px;
+    }
+
+    &-EditIcon {
+        width: 1.5vw;
+        filter: $primary-button-color-svg-filter;
+
+        &:hover {
+            filter: $primary-button-color-hover-svg-filter;
+        }
+    }
+
+    &-Modal {
+        padding-block-start: 2%;
+        height: 50%;
+        width: 80%;
+        background-color: whitesmoke;
+        border-radius: 0 0 15px 15px;
+    }
+
+    &-ModalHeader {
+        background-color: whitesmoke;
+        width: 80%;
+        text-align: center;
+        font-family: Verdana, sans-serif;
+        padding-block: 3%;
+    }
+
+    .Modal {
+        &-ModalCloseButton {
+            background-color: whitesmoke;
+            width: 80%;
+            border-radius: 15px 15px 0 0;
+        }
+    }
+}
