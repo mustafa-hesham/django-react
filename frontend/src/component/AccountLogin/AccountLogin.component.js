@@ -62,7 +62,9 @@ async function handleSubmit(event, dispatch) {
       } = {},
       user: {
         firstName = '',
-        lastName = ''
+        lastName = '',
+        birthDate = '1971-01-01',
+        id
       } = {}
     } = {}
   } = await getAuthToken(emailValue, passwordValue);
@@ -70,8 +72,8 @@ async function handleSubmit(event, dispatch) {
   if (token) {
     setAuthTokens(token, refreshToken);
     dispatch(updateToggleAccountOverlay(false));
-    dispatch(customerSignIn({ email: email, firstName: firstName, lastName: lastName }));
-    setCustomerData({ email: email, firstName: firstName, lastName: lastName });
+    dispatch(customerSignIn({ email: email, firstName: firstName, lastName: lastName, birthDate: birthDate, id: id }));
+    setCustomerData({ email: email, firstName: firstName, lastName: lastName, birthDate: birthDate, id: id });
     signInProcedure(dispatch);
     refreshAuthTokensTimeout();
   }

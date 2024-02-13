@@ -14,7 +14,9 @@ export function getAuthToken(email, password) {
 function getUserData() {
   return new Field('user')
       .addField('firstName')
-      .addField('lastName');
+      .addField('lastName')
+      .addField('id')
+      .addField('birthDate');
 }
 
 export function refreshAuthToken(refreshToken) {

@@ -10,7 +10,7 @@ export default function PasswordField(props) {
     isRequired = true,
     placeholder = 'Password',
     fieldName = 'password',
-    value = '',
+    value,
     onChange = noopFn,
     label = 'Password'
   } = props;

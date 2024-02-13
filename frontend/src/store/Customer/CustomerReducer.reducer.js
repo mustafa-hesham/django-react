@@ -8,7 +8,9 @@ const getInitialState = () => ({
     email: getCustomerData() ? getCustomerData().email : '',
     firstName: getCustomerData() ? getCustomerData().firstName : '',
     lastName: getCustomerData() ? getCustomerData().lastName : '',
-    favorites: getCustomerData() ? getCustomerData().favorites : []
+    favorites: getCustomerData() ? getCustomerData().favorites : [],
+    id: getCustomerData() ? getCustomerData().id : '',
+    birthDate: getCustomerData() ? getCustomerData().birthDate : '1971-01-01'
   }
 });
 
