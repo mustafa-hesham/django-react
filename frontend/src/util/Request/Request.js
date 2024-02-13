@@ -1,12 +1,11 @@
 import { getCookie } from 'Util/Cookies';
 import { capitalize } from 'Util/General';
-import { getAuthTokens } from 'Util/Token';
-
 import {
-  CONTENT_TYPE,
+  AUTH, CONTENT_TYPE,
   CSRF_TOKEN, GRAPHQL_URI,
   MUTATION_TYPE, QUERY_TYPE,
-  REQUEST_METHOD_POST } from './Request.config';
+  REQUEST_METHOD_POST } from 'Util/Request';
+import { getAuthTokens } from 'Util/Token';
 
 export function getGraphqlURI() {
   const {
@@ -15,7 +14,7 @@ export function getGraphqlURI() {
 
   // Replace port number during development.
   return `${origin.replace('3', '8')}${GRAPHQL_URI}`;
-}
+};
 
 export const fetchQuery = (query) => {
   return fetchRequest(query, QUERY_TYPE);
@@ -25,7 +24,7 @@ export const fetchMutation = (mutation) => {
   return fetchRequest(mutation, MUTATION_TYPE);
 };
 
-export const fetchRequest = async (request, requestType) => {
+const fetchRequest = async (request, requestType) => {
   const {
     token
   } = getAuthTokens();
@@ -51,11 +50,16 @@ export const fetchRequest = async (request, requestType) => {
   });
 
   const { data, errors } = await response.json();
+  const { logOut, isSignedIn } = require('Util/Customer');
+
+  if (isSignedIn() && errors && AUTH.includes(errors[0].message)) {
+    logOut(errors[0].message);
+  }
 
   return errors? errors[0] : data;
 };
 
-export function composeRequest(request, requestType) {
+function composeRequest(request, requestType) {
   const {
     alias: operationAlias,
     name: operationName,
@@ -72,13 +76,13 @@ export function composeRequest(request, requestType) {
     )}}`,
     variables: mapArgsValues(operationArgs)
   };
-}
+};
 
-export function formatRequest(alias, name, args, formattedFields) {
+function formatRequest(alias, name, args, formattedFields) {
   return `${formatAlias(alias)}${name} ${mapArgs(args)}{${formattedFields}}`;
-}
+};
 
-export function extractFields(fields) {
+function extractFields(fields) {
   return fields.map((field) => {
     const {
       alias,
@@ -91,9 +95,9 @@ export function extractFields(fields) {
     formatRequest(alias, name, args, extractFields(fields).join(' ')) :
     name;
   });
-}
+};
 
-export function mapArgs(args) {
+function mapArgs(args) {
   const extractedArgs = args.map((arg) => {
     const {
       name
@@ -103,9 +107,9 @@ export function mapArgs(args) {
   });
 
   return extractedArgs.length ? `(${extractedArgs.join(', ')})` : '';
-}
+};
 
-export function mapArgsTypes(args) {
+function mapArgsTypes(args) {
   const extractedArgsTypes= args.map((arg) => {
     const {
       name,
@@ -116,7 +120,7 @@ export function mapArgsTypes(args) {
   });
 
   return extractedArgsTypes.length ? `(${extractedArgsTypes.join(', ')})` : '';
-}
+};
 
 function mapArgsValues(args) {
   const values = {};
@@ -131,8 +135,8 @@ function mapArgsValues(args) {
   });
 
   return values;
-}
+};
 
-export function formatAlias(alias) {
+function formatAlias(alias) {
   return alias?? `${alias}:`;
-}
+};

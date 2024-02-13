@@ -98,13 +98,8 @@ function renderAccountOptions(customerName, navigate) {
           className='AccountOverlay-MyAccountItem'>
           { ORDERS }
         </div>
-        <div onClick={ () => logoutCustomer() } className='AccountOverlay-MyAccountItem'>{ LOGOUT }</div>
+        <div onClick={ () => logOut() } className='AccountOverlay-MyAccountItem'>{ LOGOUT }</div>
       </div>
     </div>
   );
-};
-
-function logoutCustomer() {
-  logOut();
-  location.reload();
 };

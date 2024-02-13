@@ -1,13 +1,26 @@
 import './MyAccount.style.scss';
 
+import { ADDRESSES, ORDERS, PERSONAL } from 'Component/AccountOverlay/AccountOverlay.config';
 import Header from 'Component/Header';
+import MyAccountPersonal from 'Component/MyAccountPersonal';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { navigateTo } from 'Util/Customer';
 
 const renderMap = [
-  'Personal', 'Addresses', 'Orders'
+  {
+    title: PERSONAL,
+    component: <MyAccountPersonal />
+  },
+  {
+    title: ADDRESSES,
+    component: <></>
+  },
+  {
+    title: ORDERS,
+    component: <></>
+  }
 ];
 
 export default function MyAccount() {
@@ -21,15 +34,22 @@ export default function MyAccount() {
     useEffect(() => navigate('/'), [customerName]);
   }
 
+  const {
+    component: activeTabComponent
+  } = renderMap.find((tab) => tab.title.replace(' ', '_').toLowerCase() === activeTab);
+
   return (
     <div className='MyAccount'>
       <Header />
       <div className='MyAccount-TabsContent'>
         { renderTabsHeaders(renderMap, navigate, activeTab) }
+        <div className='MyAccount-TabComponent'>
+          { activeTabComponent }
+        </div>
       </div>
     </div>
   );
-}
+};
 
 function renderTabsHeaders(tabs, navigate, activeTab) {
   if (!Array.isArray(tabs)) {
@@ -38,23 +58,27 @@ function renderTabsHeaders(tabs, navigate, activeTab) {
 
   return (
     <div className='MyAccount-Tabs'>
-      { tabs.map((tabName) => renderTab(tabName, navigate, activeTab)) }
+      { tabs.map((tab) => renderTab(tab, navigate, activeTab)) }
     </div>
   );
 };
 
-function renderTab(tabName, navigate, activeTab) {
-  const className = tabName.toLowerCase() === activeTab.toLowerCase() ?
+function renderTab(tab, navigate, activeTab) {
+  const {
+    title
+  } = tab;
+
+  const className = title.replace(' ', '_').toLowerCase() === activeTab.toLowerCase() ?
     'MyAccount-Tab MyAccount-Tab_Active' :
     'MyAccount-Tab';
 
   return (
     <div
-      key={ tabName }
+      key={ title }
       className={ className }
-      onClick={ () => navigateTo(navigate, tabName) }
+      onClick={ () => navigateTo(navigate, title) }
     >
-      { tabName }
+      { title }
     </div>
   );
 };

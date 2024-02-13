@@ -7,6 +7,7 @@ import { getCart, mergeCarts, removeCart, setCart } from 'Util/Cart';
 import { removeCookie } from 'Util/Cookies';
 import { getGuestFavorites, removeGuestFavorites } from 'Util/Favorites';
 import { CSRF_TOKEN } from 'Util/Request';
+import { showNotificationMessage } from 'Util/ShowNotification';
 import { removeAuthTokens } from 'Util/Token';
 
 import { CUSTOMER } from './Customer.config';
@@ -25,11 +26,16 @@ export function removeCustomerData() {
   localStorage.removeItem(CUSTOMER);
 };
 
-export function logOut() {
+export function logOut(errorMessage = null) {
+  if (errorMessage) {
+    showNotificationMessage('error', errorMessage);
+  }
+
   removeAuthTokens();
   removeCustomerData();
   removeCookie(CSRF_TOKEN);
   removeCart();
+  location.reload();
 };
 
 export function getUsernameFromState() {
@@ -101,6 +107,15 @@ export async function signInProcedure(dispatch) {
   }
 };
 
+export function navigateTo(navigate, tabName) {
+  if (typeof tabName !== 'string' || !tabName.length || typeof navigate !== 'function') {
+    return;
+  }
+  const modifiedTabName = tabName.replace(' ', '_').toLowerCase();
+
+  return navigate(`/my_account/${modifiedTabName}`);
+};
+
 async function getCustomerFavoritesQuery(customerEmail, dispatch) {
   const {
     getCustomerFavorites: favorites
@@ -128,12 +143,4 @@ async function getCustomerFavoritesQuery(customerEmail, dispatch) {
   }
 
   removeGuestFavorites();
-};
-
-export function navigateTo(navigate, tabName) {
-  if (typeof tabName !== 'string' || !tabName.length) {
-    return;
-  }
-
-  navigate(`/my_account/${tabName.split(' ')[0].toLocaleLowerCase()}`);
 };
