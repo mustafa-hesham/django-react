@@ -59,7 +59,8 @@ export default function MyAccountPersonal() {
       <div className='MyAccountPersonal-TextFieldWrapper OverlayForm-TextFieldWrapper'>
         <div className='OverlayForm-Label'>Birthday</div>
         <FormDatePicker
-          currentDate = { new Date('1971-01-01') }
+          currentDate = { new Date(customer.birthDate || '1971-01-01') }
+          disabled={ true }
         />
       </div>
       { <Modal
@@ -123,7 +124,7 @@ function editPersonalInfo(customer) {
       <div className='MyAccountPersonal-TextFieldWrapper OverlayForm-TextFieldWrapper'>
         <div className='OverlayForm-Label'>Birthday</div>
         <FormDatePicker
-          currentDate = { new Date('1971-01-01') }
+          currentDate = { new Date(customer.birthDate || '1971-01-01') }
         />
       </div>
     </div>

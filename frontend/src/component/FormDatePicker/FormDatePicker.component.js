@@ -8,7 +8,8 @@ export default function FormDatePicker(props) {
   const {
     currentDate,
     setCurrentDate,
-    validationFunction = noopFn
+    validationFunction = noopFn,
+    disabled = false
   } = props;
 
   return (
@@ -20,6 +21,7 @@ export default function FormDatePicker(props) {
         className='FormDatePicker-DatePicker'
         name='DatePicker'
         dateFormat='yyyy-MM-dd'
+        disabled={ disabled }
       />
     </div>
   );
