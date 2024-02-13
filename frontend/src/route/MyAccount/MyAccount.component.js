@@ -1,6 +1,6 @@
 import './MyAccount.style.scss';
 
-import { ADDRESSES, ORDERS, PERSONAL } from 'Component/AccountOverlay/AccountOverlay.config';
+import { ADDRESSES, ORDERS, PERSONAL_INFORMATION } from 'Component/AccountOverlay/AccountOverlay.config';
 import Header from 'Component/Header';
 import MyAccountPersonal from 'Component/MyAccountPersonal';
 import { useEffect } from 'react';
@@ -10,7 +10,7 @@ import { navigateTo } from 'Util/Customer';
 
 const renderMap = [
   {
-    title: PERSONAL,
+    title: PERSONAL_INFORMATION,
     component: <MyAccountPersonal />
   },
   {

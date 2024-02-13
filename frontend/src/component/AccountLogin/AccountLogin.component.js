@@ -1,5 +1,6 @@
 import './AccountLogin.style.scss';
 
+import PasswordField from 'Component/PasswordField';
 import { getAuthToken } from 'Query/Token.query';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlayReducer.reducer';
@@ -30,14 +31,7 @@ export default function AccountLogin() {
           />
         </div>
         <div className='AccountCreateAccount-TextFieldWrapper OverlayForm-TextFieldWrapper'>
-          <div className='OverlayForm-Label OverlayForm-Label_Required'>Password</div>
-          <input
-            type="password"
-            name="password"
-            placeholder='Password'
-            className='AccountLogin-LoginTextField OverlayForm-TextField'
-            required
-          />
+          <PasswordField />
         </div>
         <input type="submit" value="Login" className='AccountLogin-LoginButton OverlayForm-SubmitButton'/>
       </form>

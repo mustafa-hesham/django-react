@@ -1,6 +1,7 @@
 import './AccountCreateAccount.style.scss';
 
 import FormDatePicker from 'Component/FormDatePicker';
+import PasswordField from 'Component/PasswordField';
 import { createNewCustomer } from 'Query/Account.query';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -54,29 +55,20 @@ export default function AccountCreateAccount() {
         error.email && <div className='AccountCreateAccount-Error OverlayForm-Error'>{ error.email }</div> }
         </div>
         <div className='AccountCreateAccount-TextFieldWrapper OverlayForm-TextFieldWrapper'>
-          <div className='OverlayForm-Label OverlayForm-Label_Required'>Password</div>
-          <input
-            type="password"
-            name="password"
-            placeholder='Password'
+          <PasswordField
             value={ input.password }
             onChange={ (e) => onInputChange(e, input, error, setError, setInput) }
-            className='AccountCreateAccount-TextField OverlayForm-TextField'
-            required
           />
           { isFormSubmitted &&
         error.password && <div className='AccountCreateAccount-Error OverlayForm-Error'>{ error.password }</div> }
         </div>
         <div className='AccountCreateAccount-TextFieldWrapper OverlayForm-TextFieldWrapper'>
-          <div className='OverlayForm-Label OverlayForm-Label_Required'>Confirm Password</div>
-          <input
-            type="password"
-            name="password2"
+          <PasswordField
+            fieldName="password2"
             placeholder='Confirm password'
             value={ input.password2 }
             onChange={ (e) => onInputChange(e, input, error, setError, setInput) }
-            className='AccountCreateAccount-TextField OverlayForm-TextField'
-            required
+            label='Confirm Password'
           />
           { isFormSubmitted &&
         error.password2 && <div className='AccountCreateAccount-Error OverlayForm-Error'>{ error.password2 }</div> }

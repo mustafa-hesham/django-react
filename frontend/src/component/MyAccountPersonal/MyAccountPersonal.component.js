@@ -1,6 +1,6 @@
 import './MyAccountPersonal.style.scss';
 
-import { PERSONAL } from 'Component/AccountOverlay/AccountOverlay.config';
+import { PERSONAL_INFORMATION } from 'Component/AccountOverlay/AccountOverlay.config';
 import FormDatePicker from 'Component/FormDatePicker';
 import Modal from 'Component/Modal';
 import { useState } from 'react';
@@ -77,7 +77,7 @@ function modalHeader() {
     <div
       className='MyAccountPersonal-ModalHeader'
     >
-      { `Edit ${PERSONAL.toLowerCase()}` }
+      { `Edit ${PERSONAL_INFORMATION.toLowerCase()}` }
     </div>
   );
 }

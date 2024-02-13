@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlayReducer.reducer';
 import { logOut, navigateTo } from 'Util/Customer';
 
-import { ADDRESSES, MY_ACCOUNT, ORDERS, PERSONAL } from './AccountOverlay.config';
+import { ADDRESSES, MY_ACCOUNT, ORDERS, PERSONAL_INFORMATION } from './AccountOverlay.config';
 
 export default function AccountOverlay(props) {
   const { accountRef, isOverlayToggled } = props;
@@ -84,9 +84,9 @@ function renderAccountOptions(customerName, navigate) {
       <div className='AccountOverlay-MyAccountPanel'>
         <div className='AccountOverlay-MyAccount'>{ MY_ACCOUNT }</div>
         <div
-          onClick={ () => navigateTo(navigate, PERSONAL) }
+          onClick={ () => navigateTo(navigate, PERSONAL_INFORMATION) }
           className='AccountOverlay-MyAccountItem'>
-          { PERSONAL }
+          { PERSONAL_INFORMATION }
         </div>
         <div
           onClick={ () => navigateTo(navigate, ADDRESSES) }
