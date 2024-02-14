@@ -1,4 +1,5 @@
 import { getCookie } from 'Util/Cookies';
+import { isSignedIn, logOut } from 'Util/Customer';
 import { capitalize } from 'Util/General';
 import {
   AUTH, CONTENT_TYPE,
@@ -50,7 +51,6 @@ const fetchRequest = async (request, requestType) => {
   });
 
   const { data, errors } = await response.json();
-  const { logOut, isSignedIn } = require('Util/Customer');
 
   if (isSignedIn() && errors && AUTH.includes(errors[0].message)) {
     logOut(errors[0].message);

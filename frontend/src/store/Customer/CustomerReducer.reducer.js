@@ -1,7 +1,12 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
-import { getCustomerData } from 'Util/Customer';
 
 import { CUSTOMER_SIGN_IN, UPDATE_CUSTOMER_FAVORITES } from './CustomerReducer.config';
+
+function getCustomerData() {
+  const customer = localStorage.getItem('customer');
+
+  return customer ? JSON.parse(customer) : null;
+};
 
 const getInitialState = () => ({
   customer: {
