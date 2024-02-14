@@ -16,10 +16,8 @@ export default function MyAccountPersonal() {
   const [input, setInput] = useState({
     email: customer.email,
     firstName: customer.firstName,
-    lastName: customer.lastName,
-    birthDate: customer.birthDate
+    lastName: customer.lastName
   });
-
   const [error, setError] = useState({
     email: '',
     firstName: '',
@@ -33,7 +31,14 @@ export default function MyAccountPersonal() {
         <img
           className='MyAccountPersonal-EditIcon'
           src={ EditIcon }
-          onClick={ () => setIsDisplayModal(!isDisplayModal) }
+          onClick={ () => onModalOpenFunction(
+              isDisplayModal,
+              setIsDisplayModal,
+              customer,
+              setInput,
+              setError,
+              setCurrentDate
+          ) }
         />
       </div>
       <div className='MyAccountPersonal-TextFieldWrapper OverlayForm-TextFieldWrapper'>
@@ -189,4 +194,23 @@ function editPersonalInfo(
       </form>
     </div>
   );
+};
+
+function onModalOpenFunction(isDisplayModal, setIsDisplayModal, customer, setInput, setError, setCurrentDate) {
+  setIsDisplayModal(!isDisplayModal);
+  setInput({
+    email: customer.email,
+    firstName: customer.firstName,
+    lastName: customer.lastName,
+    birthDate: customer.birthDate
+  });
+
+  setError({
+    email: '',
+    firstName: '',
+    lastName: '',
+    birthDate: ''
+  });
+
+  setCurrentDate(new Date(customer.birthDate || '1971-01-01'));
 };

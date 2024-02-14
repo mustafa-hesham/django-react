@@ -9,7 +9,8 @@ export default function Modal(props) {
     body,
     footer,
     isDisplayModal,
-    setIsDisplayModal = noopFn
+    setIsDisplayModal = noopFn,
+    onCloseFunction = noopFn
   } = props;
 
   const className = isDisplayModal ? 'Modal Modal_Displayed' : 'Modal';
@@ -17,11 +18,20 @@ export default function Modal(props) {
   return (
     <div className={ className }>
       <div className='Modal-ModalCloseButton'>
-        <CloseButton Click={ () => setIsDisplayModal(!isDisplayModal) }/>
+        <CloseButton
+          Click={ () => {
+            onModalCloseFunction(setIsDisplayModal, onCloseFunction);
+          } }
+        />
       </div>
       { header && header() }
       { body && body() }
       { footer && footer() }
     </div>
   );
+};
+
+function onModalCloseFunction(setIsDisplayModal, onCloseFunction) {
+  setIsDisplayModal(false);
+  onCloseFunction();
 };
