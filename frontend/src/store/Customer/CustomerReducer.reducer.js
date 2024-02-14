@@ -1,6 +1,6 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
 
-import { CUSTOMER_SIGN_IN, UPDATE_CUSTOMER_FAVORITES } from './CustomerReducer.config';
+import { UPDATE_CUSTOMER_FAVORITES, UPDATE_CUSTOMER_STATE } from './CustomerReducer.config';
 
 function getCustomerData() {
   const customer = localStorage.getItem('customer');
@@ -19,7 +19,7 @@ const getInitialState = () => ({
   }
 });
 
-export const customerSignIn = createAction(CUSTOMER_SIGN_IN);
+export const updateCustomerState = createAction(UPDATE_CUSTOMER_STATE);
 export const updateCustomerFavorites = createAction(UPDATE_CUSTOMER_FAVORITES);
 
 export const CustomerSlice = createSlice({
@@ -27,7 +27,7 @@ export const CustomerSlice = createSlice({
   initialState: getInitialState(),
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(customerSignIn, (state, action) => {
+    builder.addCase(updateCustomerState, (state, action) => {
       const {
         payload
       } = action;

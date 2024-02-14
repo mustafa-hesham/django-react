@@ -4,8 +4,9 @@ import PasswordField from 'Component/PasswordField';
 import { getAuthToken } from 'Query/Token.query';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlayReducer.reducer';
-import { customerSignIn } from 'Store/Customer/CustomerReducer.reducer';
+import { updateCustomerState } from 'Store/Customer/CustomerReducer.reducer';
 import { setCustomerData, signInProcedure } from 'Util/Customer';
+import { showNotificationMessage } from 'Util/ShowNotification';
 import { refreshAuthTokensTimeout, setAuthTokens } from 'Util/Token';
 
 export default function AccountLogin() {
@@ -66,15 +67,20 @@ async function handleSubmit(event, dispatch) {
         birthDate = '1971-01-01',
         id
       } = {}
-    } = {}
+    } = {},
+    message: errorMessage
   } = await getAuthToken(emailValue, passwordValue);
 
-  if (token) {
+  if (token && !errorMessage) {
     setAuthTokens(token, refreshToken);
     dispatch(updateToggleAccountOverlay(false));
-    dispatch(customerSignIn({ email: email, firstName: firstName, lastName: lastName, birthDate: birthDate, id: id }));
+    dispatch(
+        updateCustomerState({ email: email, firstName: firstName, lastName: lastName, birthDate: birthDate, id: id })
+    );
     setCustomerData({ email: email, firstName: firstName, lastName: lastName, birthDate: birthDate, id: id });
     signInProcedure(dispatch);
     refreshAuthTokensTimeout();
+  } else {
+    showNotificationMessage('error', errorMessage);
   }
 };

@@ -7,7 +7,7 @@ import Modal from 'Component/Modal';
 import { updateCustomer } from 'Query/Account.query';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { customerSignIn } from 'Store/Customer/CustomerReducer.reducer';
+import { updateCustomerState } from 'Store/Customer/CustomerReducer.reducer';
 import EditIcon from 'Style/icons/Edit/edit.png';
 import { setCustomerData } from 'Util/Customer';
 import { onInputChange, validateBirthDate } from 'Util/General';
@@ -266,7 +266,9 @@ async function handleUpdateCustomer(event, customer, error, isFormSubmitted, dis
         { ...customer, email: email, firstName: firstName, lastName: lastName, birthDate: birthDate }
     );
     dispatch(
-        customerSignIn({ ...customer, email: email, firstName: firstName, lastName: lastName, birthDate: birthDate })
+        updateCustomerState(
+            { ...customer, email: email, firstName: firstName, lastName: lastName, birthDate: birthDate }
+        )
     );
     showNotificationMessage('warning', 'Personal information is updated successfully');
   } else {
