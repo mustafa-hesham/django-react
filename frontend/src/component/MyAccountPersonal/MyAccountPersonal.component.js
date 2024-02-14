@@ -1,12 +1,17 @@
 import './MyAccountPersonal.style.scss';
 
+import { INITIAL_CUSTOMER_VALUES } from 'Component/AccountCreateAccount/AccountCreateAccount.config';
 import { PERSONAL_INFORMATION } from 'Component/AccountOverlay/AccountOverlay.config';
 import FormDatePicker from 'Component/FormDatePicker';
 import Modal from 'Component/Modal';
+import { updateCustomer } from 'Query/Account.query';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { customerSignIn } from 'Store/Customer/CustomerReducer.reducer';
 import EditIcon from 'Style/icons/Edit/edit.png';
+import { setCustomerData } from 'Util/Customer';
 import { onInputChange, validateBirthDate } from 'Util/General';
+import { showNotificationMessage } from 'Util/ShowNotification';
 
 export default function MyAccountPersonal() {
   const customer = useSelector((state) => state.CustomerReducer.customer);
@@ -24,6 +29,7 @@ export default function MyAccountPersonal() {
     lastName: '',
     birthDate: ''
   });
+  const dispatch = useDispatch();
 
   return (
     <div className='MyAccountPersonal'>
@@ -87,6 +93,7 @@ export default function MyAccountPersonal() {
       { <Modal
         header = { () => modalHeader() }
         body={ () => editPersonalInfo(
+            customer,
             input,
             error,
             setError,
@@ -94,7 +101,8 @@ export default function MyAccountPersonal() {
             isFormSubmitted,
             setIsFormSubmitted,
             currentDate,
-            setCurrentDate
+            setCurrentDate,
+            dispatch
         ) }
         isDisplayModal={ isDisplayModal }
         setIsDisplayModal={ setIsDisplayModal }
@@ -114,6 +122,7 @@ function modalHeader() {
 }
 
 function editPersonalInfo(
+    customer,
     input,
     error,
     setError,
@@ -121,7 +130,8 @@ function editPersonalInfo(
     isFormSubmitted,
     setIsFormSubmitted,
     currentDate,
-    setCurrentDate
+    setCurrentDate,
+    dispatch
 ) {
   return (
     <div
@@ -129,7 +139,7 @@ function editPersonalInfo(
     >
       <form
         className='MyAccountPersonal-EditForm'
-        onSubmit={ (e) => e.preventDefault() }
+        onSubmit={ (event) => handleUpdateCustomer(event, customer, error, isFormSubmitted, dispatch) }
       >
         <div className='MyAccountPersonal-TextFieldWrapper OverlayForm-TextFieldWrapper'>
           <div className='OverlayForm-Label'>Email</div>
@@ -214,3 +224,52 @@ function onModalOpenFunction(isDisplayModal, setIsDisplayModal, customer, setInp
 
   setCurrentDate(new Date(customer.birthDate || '1971-01-01'));
 };
+
+async function handleUpdateCustomer(event, customer, error, isFormSubmitted, dispatch) {
+  event.preventDefault();
+
+  const {
+    target: {
+      email: {
+        value: emailValue
+      },
+      firstName: {
+        value: firstNameValue
+      },
+      lastName: {
+        value: lastNameValue
+      },
+      DatePicker: {
+        value: datePickerValue
+      }
+    }
+  } = event;
+  console.log(datePickerValue);
+  if (isFormSubmitted && !!Object.values(error).find((value) => !!value)) {
+    return;
+  }
+
+  const {
+    updateCustomer: {
+      customer: {
+        email,
+        firstName,
+        lastName,
+        birthDate
+      }
+    } = INITIAL_CUSTOMER_VALUES,
+    message: errorMessage
+  } = await updateCustomer(customer.id, emailValue, firstNameValue, lastNameValue, datePickerValue);
+
+  if (!errorMessage && email) {
+    setCustomerData(
+        { ...customer, email: email, firstName: firstName, lastName: lastName, birthDate: birthDate }
+    );
+    dispatch(
+        customerSignIn({ ...customer, email: email, firstName: firstName, lastName: lastName, birthDate: birthDate })
+    );
+    showNotificationMessage('warning', 'Personal information is updated successfully');
+  } else {
+    showNotificationMessage('error', errorMessage);
+  }
+}

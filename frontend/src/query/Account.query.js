@@ -53,3 +53,15 @@ export function removeProductsFromFavorites(SKUs, customerEmail) {
 
   return fetchMutation(mutation);
 };
+
+export function updateCustomer(id, email, firstName, lastName, birthDate) {
+  const mutation = new Field('updateCustomer')
+      .addArgument('id', id, 'String!')
+      .addArgument('email', email, 'String!')
+      .addArgument('firstName', firstName, 'String!')
+      .addArgument('lastName', lastName, 'String!')
+      .addArgument('birthDate', birthDate, 'String')
+      .addField(getNewCustomer());
+
+  return fetchMutation(mutation);
+}

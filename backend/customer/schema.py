@@ -155,10 +155,57 @@ class RemoveProductsFromFavorites(graphene.Mutation):
         return RemoveProductsFromFavorites(is_product_removed=True)
 
 
+class UpdateCustomer(graphene.Mutation):
+    class Arguments:
+        id = graphene.String(required=True)
+        email = graphene.String(required=True)
+        first_name = graphene.String(required=True)
+        last_name = graphene.String(required=True)
+        birth_date = graphene.String(required=False)
+
+    customer = graphene.Field(lambda: CustomerType)
+
+    @login_required
+    def mutate(self, info, id, email, first_name, last_name, birth_date):
+        emailPattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+        normalizedEmail = CustomUserManager.normalize_email(email)
+        birth_date_obj = None
+
+        if birth_date:
+            splitted_birth_date = birth_date.split("-")
+            birth_date_obj = date(
+                int(splitted_birth_date[0]),
+                int(splitted_birth_date[1]),
+                int(splitted_birth_date[2]),
+            )
+
+            if birth_date_obj == date(1971, 1, 1):
+                birth_date_obj = None
+
+        if not re.match(emailPattern, normalizedEmail):
+            raise GraphQLError("Enter a valid email address.")
+
+        try:
+            if info.context.user.id == int(id):
+                customerObj = CustomUser.objects.get(pk=int(id))
+                customerObj.email = email
+                customerObj.first_name = first_name
+                customerObj.last_name = last_name
+                customerObj.birth_date = birth_date_obj
+                customerObj.save()
+                return UpdateCustomer(customer=customerObj)
+            else:
+                return None
+
+        except CustomUser.DoesNotExist:
+            raise GraphQLError("Customer does not exist.")
+
+
 class Mutation(graphene.ObjectType):
     create_customer = CreateCustomer.Field()
     add_products_to_favorites = AddProductsToFavorites.Field()
     remove_products_from_favorites = RemoveProductsFromFavorites.Field()
+    update_customer = UpdateCustomer.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

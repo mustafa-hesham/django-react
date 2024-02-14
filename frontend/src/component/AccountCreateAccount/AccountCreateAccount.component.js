@@ -10,6 +10,8 @@ import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlayR
 import { onInputChange, validateBirthDate } from 'Util/General';
 import { showNotificationMessage } from 'Util/ShowNotification';
 
+import { INITIAL_CUSTOMER_VALUES } from './AccountCreateAccount.config';
+
 export default function AccountCreateAccount() {
   const [currentDate, setCurrentDate] = useState(new Date('1971-01-01'));
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
@@ -152,15 +154,6 @@ async function handleCreateAccount(event, isFormSubmitted, error, navigate, isOv
     return;
   }
 
-  const initialCustomerValues = {
-    customer: {
-      email: undefined,
-      firstName: undefined,
-      lastName: undefined,
-      birthDate: undefined
-    }
-  };
-
   const {
     createCustomer: {
       customer: {
@@ -169,7 +162,7 @@ async function handleCreateAccount(event, isFormSubmitted, error, navigate, isOv
         lastName,
         birthDate
       }
-    } = initialCustomerValues,
+    } = INITIAL_CUSTOMER_VALUES,
     message: errorMessage
   } = await createNewCustomer(
       emailValue,
