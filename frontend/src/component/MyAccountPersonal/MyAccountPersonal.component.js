@@ -244,7 +244,7 @@ async function handleUpdateCustomer(event, customer, error, isFormSubmitted, dis
       }
     }
   } = event;
-  console.log(datePickerValue);
+
   if (isFormSubmitted && !!Object.values(error).find((value) => !!value)) {
     return;
   }
