@@ -6,7 +6,7 @@ import MyAccountPersonal from 'Component/MyAccountPersonal';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { navigateTo } from 'Util/Customer';
+import { navigateTo } from 'Util/General';
 
 const renderMap = [
   {

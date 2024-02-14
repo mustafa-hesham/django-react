@@ -52,4 +52,15 @@
             border-radius: 15px 15px 0 0;
         }
     }
+
+    &-SubmitButtonWrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    &-SubmitButton {
+        margin-block-start: 5%;
+        margin-inline: auto;
+    }
 }

@@ -107,15 +107,6 @@ export async function signInProcedure(dispatch) {
   }
 };
 
-export function navigateTo(navigate, tabName) {
-  if (typeof tabName !== 'string' || !tabName.length || typeof navigate !== 'function') {
-    return;
-  }
-  const modifiedTabName = tabName.replace(' ', '_').toLowerCase();
-
-  return navigate(`/my_account/${modifiedTabName}`);
-};
-
 async function getCustomerFavoritesQuery(customerEmail, dispatch) {
   const {
     getCustomerFavorites: favorites

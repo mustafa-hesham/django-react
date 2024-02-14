@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlayReducer.reducer';
+import { onInputChange, validateBirthDate } from 'Util/General';
 import { showNotificationMessage } from 'Util/ShowNotification';
 
 export default function AccountCreateAccount() {
@@ -187,75 +188,5 @@ async function handleCreateAccount(event, isFormSubmitted, error, navigate, isOv
     }
   } else {
     showNotificationMessage('error', errorMessage);
-  }
-};
-
-function validateInput(e, input, error, setError) {
-  const { name, value } = e.target;
-  setError((prev) => {
-    const stateObj = { ...prev, [name]: '' };
-
-    switch (name) {
-      case 'email':
-        if (!value) {
-          stateObj[name] = 'Please enter email.';
-        } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
-          stateObj[name] = 'Please enter a valid email.';
-        }
-        break;
-
-      case 'password':
-        if (!value) {
-          stateObj[name] = 'Please enter Password.';
-        } else if (input.password2 && value !== input.password2) {
-          stateObj['password2'] = 'Password and confirm password does not match.';
-        } else {
-          stateObj['password2'] = input.password2 ? '' : error.password2;
-        }
-        break;
-
-      case 'password2':
-        if (!value) {
-          stateObj[name] = 'Please enter Confirm Password.';
-        } else if (input.password && value !== input.password) {
-          stateObj[name] = 'Password and confirm password does not match.';
-        }
-        break;
-
-      case 'firstName':
-        if (!value) {
-          stateObj[name] = 'Please enter first name.';
-        }
-        break;
-
-      case 'lastName':
-        if (!value) {
-          stateObj[name] = 'Please enter first name.';
-        }
-        break;
-
-      default:
-        break;
-    }
-
-    return stateObj;
-  });
-};
-
-function onInputChange(e, input, error, setError, setInput) {
-  const { name, value } = e.target;
-  setInput((prev) => ({
-    ...prev,
-    [name]: value
-  }));
-  validateInput(e, input, error, setError);
-};
-
-function validateBirthDate(currentDate, setError) {
-  if (currentDate > new Date()) {
-    setError((prev) => ({
-      ...prev,
-      birthDate: 'Birthday cannot be a future date.'
-    }));
   }
 };

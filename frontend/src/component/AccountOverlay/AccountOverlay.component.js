@@ -10,7 +10,8 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { updateToggleAccountOverlay } from 'Store/AccountOverlay/AccountOverlayReducer.reducer';
-import { logOut, navigateTo } from 'Util/Customer';
+import { logOut } from 'Util/Customer';
+import { navigateTo } from 'Util/General';
 
 import { ADDRESSES, MY_ACCOUNT, ORDERS, PERSONAL_INFORMATION } from './AccountOverlay.config';
 
