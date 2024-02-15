@@ -19,12 +19,19 @@ import { showNotificationMessage } from 'Util/ShowNotification';
 export default function CategoryPage() {
   const { category } = useParams();
   const dispatch = useDispatch();
+  const filters = useSelector((state) => state.CategoryReducer?.category?.filters);
+
+  useEffect(() => {
+    getCategoryProducts(category, filters, dispatch);
+    return () => {
+      dispatch(updateCategoryProducts({ name: '', products: [] }));
+    };
+  }, [category]);
 
   const categoryProducts = useSelector((state) => state.CategoryReducer?.category?.products);
   const uniqueProductsColors = getCategoryProductsUniqueColors(categoryProducts);
   const uniqueProductsSizes = getCategoryProductsUniqueSizes(categoryProducts);
 
-  const filters = useSelector((state) => state.CategoryReducer?.category?.filters);
   const filteredCategoryProducts = categoryProducts.filter((product) => {
     const uniqueProductColors = getProductColors(product.variants).map((color) => color[0]);
     const uniqueProductSizes = getProductUniqueSizes(product);
@@ -43,10 +50,6 @@ export default function CategoryPage() {
   };
 
   useEffect(() => {
-    getCategoryProducts(category, filters, dispatch);
-  }, [category]);
-
-  useEffect(() => {
     updateCategoryLocalStorage(category, categoryProducts, modifiedFilters);
     if (JSON.stringify(filters.filteredProducts) !== JSON.stringify(filteredCategoryProducts)) {
       dispatch(updateFilteredProducts(filteredCategoryProducts));
@@ -55,7 +58,7 @@ export default function CategoryPage() {
 
   useEffect(() => {
     if (categoryProducts.length && !filteredCategoryProducts.length) {
-      showNotificationMessage('info', 'Change filters to display more products');
+      showNotificationMessage('warning', 'Change filters to display more products');
     }
   }, [categoryProducts]);
 

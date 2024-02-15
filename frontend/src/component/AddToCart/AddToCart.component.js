@@ -55,7 +55,7 @@ function addProduct(product, dispatch, isCartOverlayToggled, isAccountOverlayTog
     } = product;
 
     const modifiedProductName = name.replaceAll(' ', '-');
-    showNotificationMessage('info', 'Please select product options');
+    showNotificationMessage('warning', 'Please select product options');
     navigate(`/${SKU}/${modifiedProductName}`);
   } else {
     const {
