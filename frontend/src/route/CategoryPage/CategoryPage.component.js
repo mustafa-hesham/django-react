@@ -21,13 +21,6 @@ export default function CategoryPage() {
   const dispatch = useDispatch();
   const filters = useSelector((state) => state.CategoryReducer?.category?.filters);
 
-  useEffect(() => {
-    getCategoryProducts(category, filters, dispatch);
-    return () => {
-      dispatch(updateCategoryProducts({ name: '', products: [] }));
-    };
-  }, [category]);
-
   const categoryProducts = useSelector((state) => state.CategoryReducer?.category?.products);
   const uniqueProductsColors = getCategoryProductsUniqueColors(categoryProducts);
   const uniqueProductsSizes = getCategoryProductsUniqueSizes(categoryProducts);
@@ -48,6 +41,14 @@ export default function CategoryPage() {
     ...filters,
     filteredProducts: filteredCategoryProducts
   };
+
+  useEffect(() => {
+    getCategoryProducts(category, filters, dispatch);
+    return () => {
+      dispatch(updateCategoryProducts({ name: '', products: [] }));
+      updateCategoryLocalStorage('', [], filters);
+    };
+  }, [category]);
 
   useEffect(() => {
     updateCategoryLocalStorage(category, categoryProducts, modifiedFilters);

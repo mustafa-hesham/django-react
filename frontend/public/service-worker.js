@@ -60,6 +60,7 @@ self.addEventListener('fetch', async (event) => {
 const unCachedQueries = [
   'cartByUser',
   'tokenAuth',
+  'refreshToken',
   'createCartForCustomer',
   'createCustomer',
   'getCustomerFavorites'
